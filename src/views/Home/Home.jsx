@@ -12,12 +12,14 @@ const Home = () => {
         "./img2.jpg"
     ]
 
+    const imgsComponent = imgs.map(
+        (img, idx) => <img key={idx} className="home-carousel-img" src={img}/>
+    )
+
     return (
         <div className="mhs-home">
             <Carousel autoplay className="home-carousel">
-                {
-                    imgs.map((img, idx) => <img key={idx} className="home-carousel-img" src={img}/>)
-                }
+                {imgsComponent}
             </Carousel>
             <div>
                 这里放介绍

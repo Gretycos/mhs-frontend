@@ -33,28 +33,54 @@ const TopBar = () => {
     ]
 
     const LoginComponent = () => {
-        const token = store.getState()?.globalSlice.token
-        if (token) {
+        const loggedIn = (token) => {
             // TODO: 用token找用户信息
+
             return (
                 <div className="top-bar-user">
                     User Info
                 </div>
             )
         }
-        return (
-            <div className="top-bar-user">
-                <UserOutlined />
-                <Dropdown
-                    menu={{
-                        items: dropdownItems,
-                    }}
-                    placement="bottom"
-                >
-                    <Button className="top-bar-user">Login</Button>
-                </Dropdown>
-            </div>
-        )
+        const notLoggedIn = () => {
+            return (
+                <div className="top-bar-user">
+                    <UserOutlined />
+                    <Dropdown
+                        menu={{
+                            items: dropdownItems,
+                        }}
+                        placement="bottom"
+                    >
+                        <Button className="top-bar-user">Login</Button>
+                    </Dropdown>
+                </div>
+            )
+        }
+        const token = store.getState()?.globalSlice.token
+        return token ? loggedIn(token) : notLoggedIn()
+
+        // if (token) {
+        //     // TODO: 用token找用户信息
+        //     return (
+        //         <div className="top-bar-user">
+        //             User Info
+        //         </div>
+        //     )
+        // }
+        // return (
+        //     <div className="top-bar-user">
+        //         <UserOutlined />
+        //         <Dropdown
+        //             menu={{
+        //                 items: dropdownItems,
+        //             }}
+        //             placement="bottom"
+        //         >
+        //             <Button className="top-bar-user">Login</Button>
+        //         </Dropdown>
+        //     </div>
+        // )
     }
 
     return (
