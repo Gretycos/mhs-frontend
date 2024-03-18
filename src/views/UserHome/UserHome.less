@@ -2,3 +2,29 @@
  * author: Tsong
  * time: 18/03/2024 14:41
  */
+@import "@/common/style/custom-style.less";
+
+.user-home-menu{
+  padding: 30px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .menu-item{
+    cursor: pointer;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+  }
+  .menu-icon-style{
+    font-size: 50px !important;
+    color: @mhs-color;
+  }
+  .menu-name {
+    text-align: center;
+    width: 100px;
+  }
+}
