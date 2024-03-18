@@ -3,7 +3,6 @@
  * time: 18/03/2024 14:41
  */
 import "./UserHome.less"
-import EditCalendarOutlinedIcon from '@mui/icons-material/EditCalendarOutlined';
 import {useNavigate} from "react-router-dom";
 import {Assignment, CalendarMonth, EditCalendar, FactCheck, MedicalInformation, Summarize} from "@mui/icons-material";
 
