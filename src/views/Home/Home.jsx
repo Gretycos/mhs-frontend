@@ -14,9 +14,9 @@ const Home = () => {
 
     return (
         <div className="mhs-home">
-            <Carousel className="home-carousel">
+            <Carousel autoplay className="home-carousel">
                 {
-                    imgs.map((img) => <img className="home-carousel-img" src={img}/>)
+                    imgs.map((img, idx) => <img key={idx} className="home-carousel-img" src={img}/>)
                 }
             </Carousel>
             <div>
