@@ -4,225 +4,253 @@
  */
 import "./Timetable.less"
 import dayjs from 'dayjs';
-import {Alert, Badge, Calendar, Modal, Typography} from 'antd';
-import { useState } from "react";
+import {Alert, Badge, Calendar, Select, Typography} from 'antd';
+import { useState, useRef, useEffect } from "react";
 import DoctorMenu from "@/component/Menu/DoctorMenu.jsx";
+import { DayPilot, DayPilotCalendar, DayPilotNavigator } from "@daypilot/daypilot-lite-react";
+
 
 const Timetable = () => {
-    const [value, setValue] = useState(() => dayjs('2024-03-18'));
-    const [selectedValue, setSelectedValue] = useState(() => dayjs('2024-03-18'));
-    const getListData = (value) => {
-        let listData;
-        switch (value.date()) {
-            case 8:
-                listData = [
-                    {
-                        color: 'red',
-                        content: 'Morning',
-                    },
-                    {
-                        color: 'yellow',
-                        content: 'Afternoon',
-                    },
-                ];
-                break;
-            case 10:
-                listData = [
-                    {
-                        color: 'green',
-                        content: 'Morning',
-                    },
-                    {
-                        color: 'red',
-                        content: 'Afternoon',
-                    },
-                ];
-                break;
-            default:
-        }
-        return listData || [];
-    };
+    let date = new Date();
+    const currentDate = date.toISOString().split('T')[0];
 
-    let listData2 = [
-        {
-            color: 'red',
-            content: '9:00 ~ 9:15',
-        },
-        {
-            color: 'red',
-            content: '9:15 ~ 9:30',
-        },
-        {
-            color: 'red',
-            content: '9:30 ~ 9:45',
-        },
-        {
-            color: 'red',
-            content: '9:45 ~ 10:00',
-        },
-        {
-            color: 'red',
-            content: '10:15 ~ 10:30',
-        },
-        {
-            color: 'red',
-            content: '10:30 ~ 10:45',
-        },
-        {
-            color: 'red',
-            content: '10:45 ~ 11:00',
-        },
-        {
-            color: 'red',
-            content: '11:00 ~ 11:15',
-        },
-        {
-            color: 'red',
-            content: '11:15 ~ 11:30',
-        },
-        {
-            color: 'red',
-            content: '11:30 ~ 11:45',
-        },
-        {
-            color: 'red',
-            content: '11:45 ~ 12:00',
-        },
-        {
-            color: 'red',
-            content: '13:00 ~ 13:15',
-        },
-        {
-            color: 'red',
-            content: '13:15 ~ 13:30',
-        },
-        {
-            color: 'red',
-            content: '13:30 ~ 13:45',
-        },
-        {
-            color: 'red',
-            content: '13:45 ~ 14:00',
-        },
-        {
-            color: 'red',
-            content: '14:00 ~ 14:15',
-        },
-        {
-            color: 'red',
-            content: '14:15 ~ 14:30',
-        },
-        {
-            color: 'red',
-            content: '14:30 ~ 14:45',
-        },
-        {
-            color: 'red',
-            content: '14:45 ~ 15:00',
-        },
-        {
-            color: 'red',
-            content: '15:00 ~ 15:15',
-        },
-        {
-            color: 'red',
-            content: '15:15 ~ 15:30',
-        },
-        {
-            color: 'red',
-            content: '15:30 ~ 15:45',
-        },
-        {
-            color: 'red',
-            content: '15:45 ~ 16:00',
-        },
-        {
-            color: 'red',
-            content: '16:00 ~ 16:15',
-        },
-        {
-            color: 'red',
-            content: '16:15 ~ 16:30',
-        },
-        {
-            color: 'red',
-            content: '16:30 ~ 16:45',
-        },
-        {
-            color: 'red',
-            content: '16:45 ~ 17:00',
-        },
-    ]
+    const [calendarConfig, setCalendarConfig] = useState({
+        viewType: "Week",
+        durationBarVisible: false,
+    })
 
-    const info = (day) => {
-        Modal.info({
-            title: {day},
-            content: (
-                <ul className="events">
-                    {listData.map((item) => (
-                        <li>
-                            <Badge color={item.color} text={item.content}/>
-                        </li>
+    const calendarRef = useRef();
 
-                    ))}
-                </ul>
-            ),
-            onOk() {
-            },
+    const handleTimeRangeSelected = args => {
+        calendarRef.current.control.update({
+            startDate: args.day
         });
-    };
+    }
 
-    const getMonthData = (value) => {
-        if (value.month() === 8) {
-            return 1394;
-        }
-    };
-    const monthCellRender = (value) => {
-        const num = getMonthData(value);
-        return num ? (
-            <div className="notes-month">
-                <section>{num}</section>
-                <span>Backlog number</span>
-            </div>
-        ) : null;
-    };
-    const dateCellRender = (value) => {
-        const listData = getListData(value);
-        return (
-            <ul className="events">
-                {listData.map((item) => (
-                    <li>
-                        <Badge color={item.color} text={item.content} />
-                    </li>
+    useEffect(() => {
+        const events = [
+            {
+                id: 1,
+                text: "Busy",
+                start: "2024-03-19T09:00:00",
+                end: "2024-03-19T09:15:00",
+                backColor: "#cc4125",
+                bubbleHtml: "09:00 ~ 09:15",
+            },
+            {
+                id: 2,
+                text: "Spare",
+                start: "2024-03-19T09:15:00",
+                end: "2024-03-19T09:30:00",
+                backColor: "#f1c232",
+            },
+            {
+                id: 3,
+                text: "Busy",
+                start: "2024-03-19T09:30:00",
+                end: "2024-03-19T09:45:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 4,
+                text: "Busy",
+                start: "2024-03-19T09:45:00",
+                end: "2024-03-19T10:00:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 5,
+                text: "Busy",
+                start: "2024-03-19T10:00:00",
+                end: "2024-03-19T10:15:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 6,
+                text: "Busy",
+                start: "2024-03-19T10:15:00",
+                end: "2024-03-19T10:30:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 7,
+                text: "Busy",
+                start: "2024-03-19T10:30:00",
+                end: "2024-03-19T10:45:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 8,
+                text: "Busy",
+                start: "2024-03-19T10:45:00",
+                end: "2024-03-19T11:00:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 9,
+                text: "Busy",
+                start: "2024-03-19T11:00:00",
+                end: "2024-03-19T11:15:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 10,
+                text: "Busy",
+                start: "2024-03-19T11:15:00",
+                end: "2024-03-19T11:30:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 11,
+                text: "Busy",
+                start: "2024-03-19T11:30:00",
+                end: "2024-03-19T11:45:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 12,
+                text: "Busy",
+                start: "2024-03-19T11:45:00",
+                end: "2024-03-19T12:00:00",
+                backColor: "#cc4125",
+            },
+            {
+                id: 13,
+                text: "Free",
+                start: "2024-03-19T13:00:00",
+                end: "2024-03-19T13:15:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 14,
+                text: "Free",
+                start: "2024-03-19T13:15:00",
+                end: "2024-03-19T13:30:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 15,
+                text: "Free",
+                start: "2024-03-19T13:30:00",
+                end: "2024-03-19T13:45:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 16,
+                text: "Free",
+                start: "2024-03-19T13:45:00",
+                end: "2024-03-19T14:00:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 17,
+                text: "Free",
+                start: "2024-03-19T14:00:00",
+                end: "2024-03-19T14:15:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 18,
+                text: "Free",
+                start: "2024-03-19T14:15:00",
+                end: "2024-03-19T14:30:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 19,
+                text: "Free",
+                start: "2024-03-19T14:30:00",
+                end: "2024-03-19T14:45:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 20,
+                text: "Free",
+                start: "2024-03-19T14:45:00",
+                end: "2024-03-19T15:00:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 21,
+                text: "Free",
+                start: "2024-03-19T15:00:00",
+                end: "2024-03-19T15:15:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 22,
+                text: "Free",
+                start: "2024-03-19T15:15:00",
+                end: "2024-03-19T15:30:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 23,
+                text: "Free",
+                start: "2024-03-19T15:30:00",
+                end: "2024-03-19T15:45:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 24,
+                text: "Free",
+                start: "2024-03-19T15:45:00",
+                end: "2024-03-19T16:00:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 25,
+                text: "Free",
+                start: "2024-03-19T16:00:00",
+                end: "2024-03-19T16:15:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 26,
+                text: "Free",
+                start: "2024-03-19T16:15:00",
+                end: "2024-03-19T16:30:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 27,
+                text: "Free",
+                start: "2024-03-19T16:30:00",
+                end: "2024-03-19T16:45:00",
+                backColor: "#6aa84f",
+            },
+            {
+                id: 28,
+                text: "Free",
+                start: "2024-03-19T16:45:00",
+                end: "2024-03-19T17:00:00",
+                backColor: "#6aa84f",
+            },
+        ];
 
-                ))}
-            </ul>
-        );
-    };
-    const cellRender = (current, info) => {
-        if (info.type === 'date') return dateCellRender(current);
-        if (info.type === 'month') return monthCellRender(current);
-        return info.originNode;
-    };
+        const startDate = currentDate;
 
-    const onSelect = (newValue) => {
-        setValue(newValue);
-        setSelectedValue(newValue);
-        info(newValue)
-    };
-    const onPanelChange = (newValue) => {
-        setValue(newValue);
-    };
-
+        calendarRef.current.control.update({startDate, events});
+    }, []);
 
     return (
         <>
-            <DoctorMenu />
+            <DoctorMenu/>
             <div className="timetable-container">
-                <Typography.Title level={10}>Timetable</Typography.Title>
-                <Calendar cellRender={cellRender} onSelect={onSelect} onPanelChange={onPanelChange} />
+                <Typography.Title level={1}>Timetable</Typography.Title>
+                <div className="calendar-container">
+                    <DayPilotNavigator
+                        selectMode={"Week"}
+                        showMonths={1}
+                        skipMonths={1}
+                        startDate={currentDate}
+                        onTimeRangeSelected={handleTimeRangeSelected}
+                    />
+                    <div style={{flexGrow: 1}}>
+                        <DayPilotCalendar {...calendarConfig} ref={calendarRef}/>
+                    </div>
+                </div>
             </div>
-
         </>
     )
 }
