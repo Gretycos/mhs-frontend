@@ -1,0 +1,41 @@
+/**
+ * author: Tsong
+ * time: 16/03/2024 19:41
+ */
+@import "@/common/style/custom-style.less";
+.doctor-home-countup{
+  display:flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content:space-around;
+  padding-left:100px;
+  padding-right:100px;
+  background-color: white;
+}
+.countup-value-style{
+  fontSize:40
+}
+.doctor-home-menu{
+  padding: 30px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .menu-item{
+    cursor: pointer;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+  }
+  .menu-icon-style{
+    font-size: 50px !important;
+    color: @mhs-color;
+  }
+  .menu-name {
+    text-align: center;
+    width: 100px;
+  }
+}
