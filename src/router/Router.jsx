@@ -14,6 +14,9 @@ import Timetable from "@/views/Timetable/Timetable.jsx";
 import Pending from "@/views/Pending/Pending.jsx";
 import Ongoing from "@/views/Ongoing/Ongoing.jsx";
 import Completed from "@/views/Completed/Completed.jsx";
+import Register from "@/views/Register/Register.jsx";
+import ForgotPsw from "@/views/ForgotPsw/ForgotPsw.jsx";
+import ResetPsw from "@/views/ResetPsw/ResetPsw.jsx";
 
 const router = createBrowserRouter([
     {
@@ -73,6 +76,19 @@ const router = createBrowserRouter([
     },
 
 
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
+        path: "/forgot",
+        element: <ForgotPsw />
+    },
+    {
+        path: "/reset",
+        element: <ResetPsw />
+    },
 ])
 
 export default router
