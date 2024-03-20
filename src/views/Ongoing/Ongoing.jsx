@@ -13,7 +13,6 @@ const Ongoing = () => {
 
     return (
         <>
-            <DoctorMenu />
         </>
     )
 }

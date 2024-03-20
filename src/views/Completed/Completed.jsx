@@ -13,7 +13,6 @@ const Completed = () => {
 
     return (
         <>
-            <DoctorMenu />
         </>
     )
 }

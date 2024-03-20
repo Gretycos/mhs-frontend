@@ -19,22 +19,22 @@ const DoctorHome = () => {
         {
             name: "Timetable",
             icon: <CalendarMonthIcon className="menu-icon-style"/>,
-            url: "/doctor-timetable"
+            url: "/doctor/timetable"
         },
         {
             name: "Pending Request",
             icon: <EditCalendarIcon className="menu-icon-style"/>,
-            url: "/doctor-pending"
+            url: "/doctor/pending"
         },
         {
             name: "Ongoing Request",
             icon: <EventIcon className="menu-icon-style"/>,
-            url: "/doctor-ongoing"
+            url: "/doctor/ongoing"
         },
         {
             name: "Completed Request",
             icon: <EventAvailableIcon className="menu-icon-style"/>,
-            url: "/doctor-completed"
+            url: "/doctor/completed"
         },
     ]
 

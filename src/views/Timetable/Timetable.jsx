@@ -19,17 +19,13 @@ const Timetable = () => {
         hourWidth: 120,
         headerHeight: 60,
         timeHeaderCellDuration: 30,
+        dayBeginsHour: 7,
+        dayEndsHour: 19,
 
         durationBarVisible: false,
         theme:"mhs-calender-style",
         onBeforeHeaderRender: args => {
             args.header.html = args.column.start.toString("MM-dd-yyyy");
-        },
-
-        onBeforeTimeHeaderRender: args => {
-            const hour = DayPilot.Date.today().addTime(args.header.time);
-            args.header.html = hour.toString("hh:mm tt");
-            args.header.cssClass = "hourheader";
         },
     })
 
@@ -416,7 +412,6 @@ const Timetable = () => {
 
     return (
         <>
-            <DoctorMenu/>
             <div className="timetable-page-container">
                 <div>
                     <Typography.Title level={1}>Timetable</Typography.Title>

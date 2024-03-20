@@ -13,7 +13,6 @@ const Pending = () => {
 
     return (
         <>
-            <DoctorMenu />
         </>
     )
 }

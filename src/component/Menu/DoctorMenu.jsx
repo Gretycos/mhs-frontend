@@ -4,17 +4,24 @@
  */
 import "./DoctorMenu.less"
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import DoctorHome from "@/views/DoctorHome/DoctorHome.jsx";
+import Timetable from "@/views/Timetable/Timetable.jsx";
+import Pending from "@/views/Pending/Pending.jsx";
+import Ongoing from "@/views/Ongoing/Ongoing.jsx";
+import Completed from "@/views/Completed/Completed.jsx";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventIcon from '@mui/icons-material/Event';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import {Layout} from "antd";
 import { Menu } from 'antd';
 
 const DoctorMenu = () => {
     const items = [
         {
             label: (
-                <a href="/doctor-timetable">
+                <a href="/doctor/timetable">
                     Timetable
                 </a>
             ),
@@ -23,7 +30,7 @@ const DoctorMenu = () => {
         },
         {
             label: (
-                <a href="/doctor-pending">
+                <a href="/doctor/pending">
                     Pending Request
                 </a>
             ),
@@ -32,7 +39,7 @@ const DoctorMenu = () => {
         },
         {
             label: (
-                <a href="/doctor-ongoing">
+                <a href="/doctor/ongoing">
                     Ongoing Request
                 </a>
             ),
@@ -41,7 +48,7 @@ const DoctorMenu = () => {
         },
         {
             label: (
-                <a href="/doctor-completed">
+                <a href="/doctor/completed">
                     Completed Request
                 </a>
             ),

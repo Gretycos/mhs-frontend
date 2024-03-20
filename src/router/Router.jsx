@@ -9,6 +9,7 @@ import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
 import UserHome from "@/views/UserHome/UserHome.jsx";
 import DoctorHome from "@/views/DoctorHome/DoctorHome.jsx";
+import Doctor from "@/views/Doctor/Doctor.jsx";
 import Timetable from "@/views/Timetable/Timetable.jsx";
 import Pending from "@/views/Pending/Pending.jsx";
 import Ongoing from "@/views/Ongoing/Ongoing.jsx";
@@ -33,31 +34,44 @@ const router = createBrowserRouter([
                 element: <UserHome/>
             },
             {
-                path: "/doctor-home",
+                path:"/doctor",
+                element: <Navigate to="/doctor/home"/>
+            },
+            {
+                path: "/doctor/home",
                 element: <DoctorHome />
             },
             {
-                path: "/doctor-timetable",
-                element: <Timetable />
+                path:"/doctor",
+                element:<Doctor />,
+                children: [
+                    {
+                        path: "timetable",
+                        element: <Timetable />
+                    },
+                    {
+                        path: "pending",
+                        element: <Pending />
+                    },
+                    {
+                        path: "ongoing",
+                        element: <Ongoing />
+                    },
+                    {
+                        path: "completed",
+                        element: <Completed />
+                    }
+                ]
             },
-            {
-                path: "/doctor-pending",
-                element: <Pending />
-            },
-            {
-                path: "/doctor-ongoing",
-                element: <Ongoing />
-            },
-            {
-                path: "/doctor-completed",
-                element: <Completed />
-            }
+
         ]
     },
     {
         path: "/login",
         element: <Login />
-    }
+    },
+
+
 ])
 
 export default router
