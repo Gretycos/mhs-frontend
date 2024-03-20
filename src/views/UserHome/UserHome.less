@@ -4,6 +4,11 @@
  */
 @import "@/common/style/custom-style.less";
 
+.user-home-recent{
+  padding: 30px;
+  width: 100%;
+}
+
 .user-home-menu{
   padding: 30px;
   display: flex;
@@ -21,10 +26,32 @@
   }
   .menu-icon-style{
     font-size: 50px !important;
-    color: @mhs-color;
   }
   .menu-name {
     text-align: center;
     width: 100px;
+  }
+}
+
+.user-home-menu-sm{
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 40%;
+  line-height: normal;
+  .menu-icon-selected{
+    color: @mhs-color;
+  }
+  .menu-item{
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu-icon-style{
+    font-size: 30px !important;
   }
 }

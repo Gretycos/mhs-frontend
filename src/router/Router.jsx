@@ -11,6 +11,12 @@ import UserHome from "@/views/UserHome/UserHome.jsx";
 import Register from "@/views/Register/Register.jsx";
 import ForgotPsw from "@/views/ForgotPsw/ForgotPsw.jsx";
 import ResetPsw from "@/views/ResetPsw/ResetPsw.jsx";
+import BookAppointment from "@/views/UserHome/BookAppointment/BookAppointment.jsx";
+import MyAppointment from "@/views/UserHome/MyAppointment/MyAppointment.jsx";
+import MedicalHistory from "@/views/UserHome/MedicalHistory/MedicalHistory.jsx";
+import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/PrescriptionHistory.jsx";
+import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
+import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
 
 const router = createBrowserRouter([
     {
@@ -26,10 +32,36 @@ const router = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: "/user-home",
+                path: "/user",
                 // element: <RouteGuard><UserHome/></RouteGuard>
-                element: <UserHome/>
-            }
+                element: <UserHome/>,
+                children:[
+                    {
+                        path: "book-appointment",
+                        element: <BookAppointment/>
+                    },
+                    {
+                        path: "my-appointment",
+                        element: <MyAppointment/>
+                    },
+                    {
+                        path: "medical-history",
+                        element: <MedicalHistory/>
+                    },
+                    {
+                        path: "prescription-history",
+                        element: <PrescriptionHistory/>
+                    },
+                    {
+                        path: "book-test",
+                        element: <BookTest/>
+                    },
+                    {
+                        path: "test-report",
+                        element: <TestReport/>
+                    },
+                ]
+            },
         ]
     },
     {
