@@ -6,9 +6,11 @@ import "./TopBar.less"
 import {Layout, Input, Button, Dropdown} from "antd";
 import {store} from "@/redux/store.js";
 import {UserOutlined} from "@ant-design/icons";
+import {useNavigate} from "react-router-dom";
 const {Header} = Layout
 const {Search} = Input
 const TopBar = () => {
+    const navigate = useNavigate()
     const onSearch = () => {
 
     }
@@ -17,17 +19,17 @@ const TopBar = () => {
         {
             key: '0',
             label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                <div className="top-bar-login-dropdown">
                     User Login
-                </a>
+                </div>
             ),
         },
         {
             key: '1',
             label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                <div className="top-bar-login-dropdown">
                     Doctor Login
-                </a>
+                </div>
             ),
         },
     ]
@@ -42,6 +44,19 @@ const TopBar = () => {
                 </div>
             )
         }
+
+        const onLogin = (e) => {
+            console.log(e.key)
+            if (e.key === "0") {
+                navigate("/login")
+            }else{
+                navigate("/login", {
+                    state:{
+                        role: 1
+                    }
+                })
+            }
+        }
         const notLoggedIn = () => {
             return (
                 <div className="top-bar-user">
@@ -49,10 +64,11 @@ const TopBar = () => {
                     <Dropdown
                         menu={{
                             items: dropdownItems,
+                            onClick: onLogin
                         }}
                         placement="bottom"
                     >
-                        <Button className="top-bar-user">Login</Button>
+                        <Button className="top-bar-user" onClick={(e) => onLogin(e)}>Login</Button>
                     </Dropdown>
                 </div>
             )

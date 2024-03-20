@@ -8,6 +8,7 @@ import Home from "@/views/Home/Home.jsx";
 import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
 import UserHome from "@/views/UserHome/UserHome.jsx";
+import Register from "@/views/Register/Register.jsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/register",
+        element: <Register />
     }
 ])
 
