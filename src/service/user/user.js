@@ -17,3 +17,11 @@ export const logout = () => {
 export const register = (params) => {
     return axios.post(PREFIX + '/register', params)
 }
+
+export const forgot = (params) => {
+    return axios.post(PREFIX + '/forgot', params)
+}
+
+export const reset = (params) => {
+    return axios.post(PREFIX + '/reset', params)
+}

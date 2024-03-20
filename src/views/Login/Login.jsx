@@ -22,14 +22,6 @@ const Login = () => {
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
 
-    // const validatePassword = async (_, value) => {
-    //     console.log(value.length)
-    //     if (value && value.length < 10){
-    //         return Promise.resolve()
-    //     }
-    //     return Promise.reject(new Error('The length of the password must be less than 10'))
-    // }
-
     // 表单规则
     const rules = {
         email: [
@@ -64,7 +56,7 @@ const Login = () => {
         // 回主页
         state ? navigate('/doctor-home'): navigate('/user-home')
         setLoading(false)
-    };
+    }
 
     return (
         <Layout className="login-page-content">
@@ -110,7 +102,7 @@ const Login = () => {
                                     </NavLink>
                                 )
                         }
-                        <NavLink to="/forgot-password" className="login-form-forgot">
+                        <NavLink to="/forgot" className="login-form-forgot">
                             Forgot password
                         </NavLink>
                     </Form.Item>

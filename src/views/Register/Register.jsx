@@ -90,7 +90,7 @@ const Register = () => {
                 message: 'Please select your date of birth',
             },
         ],
-        street: [
+        address1: [
             {
                 required: true,
                 message: 'Please input your street',
@@ -100,7 +100,7 @@ const Register = () => {
                 message: 'The length should be less than 30',
             },
         ],
-        flat: [
+        address2: [
             {
                 required: false
             },
@@ -159,11 +159,18 @@ const Register = () => {
         console.log('Received values of form: ', values);
         setLoading(true)
         const params = {
+            lastName: values.lastName,
+            firstName: values.firstName,
+            dateOfBirth: values.dateOfBirth,
+            address1: values.address1,
+            address2: values.address2,
+            city: values.city,
+            postcode: values.postcode,
             email: values.email,
             password: values.password
         }
         const {data} = await register(params)
-        message.success('register request', 2)
+        message.success('Successfully sending register request', 2)
         // 回主页
         navigate('/user-home')
         setLoading(false)
@@ -239,8 +246,8 @@ const Register = () => {
 
                     <Form.Item
                         className="register-form-item"
-                        name="street"
-                        rules={rules.street}
+                        name="address1"
+                        rules={rules.address1}
                         validateTrigger="onBlur"
                         label="Address 1"
                     >
@@ -251,8 +258,8 @@ const Register = () => {
 
                     <Form.Item
                         className="register-form-item"
-                        name="flat"
-                        rules={rules.flat}
+                        name="adress2"
+                        rules={rules.address2}
                         validateTrigger="onBlur"
                         label="Address 2"
                     >
@@ -351,7 +358,7 @@ const Register = () => {
                         <Button type="primary" htmlType="submit" loading={loading} className="register-form-button">
                             Sign up
                         </Button>
-                        <NavLink to="/login" state={{role: 0}} className="register-form-register">
+                        <NavLink to="/login" className="register-form-register">
                             Already have an account? Sign in
                         </NavLink>
                     </Form.Item>

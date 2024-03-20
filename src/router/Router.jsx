@@ -9,6 +9,8 @@ import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
 import UserHome from "@/views/UserHome/UserHome.jsx";
 import Register from "@/views/Register/Register.jsx";
+import ForgotPsw from "@/views/ForgotPsw/ForgotPsw.jsx";
+import ResetPsw from "@/views/ResetPsw/ResetPsw.jsx";
 
 const router = createBrowserRouter([
     {
@@ -37,7 +39,15 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <Register />
-    }
+    },
+    {
+        path: "/forgot",
+        element: <ForgotPsw />
+    },
+    {
+        path: "/reset",
+        element: <ResetPsw />
+    },
 ])
 
 export default router
