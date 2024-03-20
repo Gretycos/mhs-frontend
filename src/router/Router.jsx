@@ -34,41 +34,42 @@ const router = createBrowserRouter([
                 element: <UserHome/>
             },
             {
-                path:"/doctor",
-                element: <Navigate to="/doctor/home"/>
-            },
-            {
                 path: "/doctor/home",
                 element: <DoctorHome />
             },
-            {
-                path:"/doctor",
-                element:<Doctor />,
-                children: [
-                    {
-                        path: "timetable",
-                        element: <Timetable />
-                    },
-                    {
-                        path: "pending",
-                        element: <Pending />
-                    },
-                    {
-                        path: "ongoing",
-                        element: <Ongoing />
-                    },
-                    {
-                        path: "completed",
-                        element: <Completed />
-                    }
-                ]
-            },
+
 
         ]
     },
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path:"/doctor",
+        element: <Navigate to="/doctor/home"/>
+    },
+    {
+        path:"/doctor",
+        element:<Doctor />,
+        children: [
+            {
+                path: "timetable",
+                element: <Timetable />
+            },
+            {
+                path: "pending",
+                element: <Pending />
+            },
+            {
+                path: "ongoing",
+                element: <Ongoing />
+            },
+            {
+                path: "completed",
+                element: <Completed />
+            }
+        ]
     },
 
 
