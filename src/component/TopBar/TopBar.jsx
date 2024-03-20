@@ -99,10 +99,14 @@ const TopBar = () => {
             <div className="top-bar-right">
                 <Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>
                 <div className="top-bar-user">
-                    <UserOutlined/>
                     {
                         token ?
-                            "I'm a user"
+                            (
+                                <div className="top-bar-user-info">
+                                    <UserOutlined/>
+                                    user information
+                                </div>
+                            )
                             :
                             (
                                 <Dropdown

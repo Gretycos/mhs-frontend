@@ -150,6 +150,7 @@ const ResetPsw = () => {
                                     rules={rules.password}
                                     validateTrigger="onBlur"
                                     label="Password"
+                                    validateFirst={true}
                                 >
                                     <Input
                                         type="password"
@@ -163,6 +164,7 @@ const ResetPsw = () => {
                                     rules={rules.confirmPassword}
                                     validateTrigger="onBlur"
                                     label="Confirm Password"
+                                    validateFirst={true}
                                 >
                                     <Input
                                         type="password"

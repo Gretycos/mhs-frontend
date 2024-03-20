@@ -210,6 +210,7 @@ const Register = () => {
                                 rules={rules.lastName}
                                 validateTrigger="onBlur"
                                 label="Last Name"
+                                validateFirst={true}
                             >
                                 <Input
                                        placeholder="Last Name"
@@ -223,6 +224,7 @@ const Register = () => {
                                 rules={rules.firstName}
                                 validateTrigger="onBlur"
                                 label="First Name"
+                                validateFirst={true}
                             >
                                 <Input
                                        placeholder="First Name"
@@ -250,6 +252,7 @@ const Register = () => {
                         rules={rules.address1}
                         validateTrigger="onBlur"
                         label="Address 1"
+                        validateFirst={true}
                     >
                         <Input
                                placeholder="Your street"
@@ -306,6 +309,7 @@ const Register = () => {
                                 rules={rules.postcode}
                                 validateTrigger="onBlur"
                                 label="Postcode"
+                                validateFirst={true}
                             >
                                 <Input
                                        placeholder="Postcode"
@@ -320,6 +324,7 @@ const Register = () => {
                         rules={rules.email}
                         validateTrigger="onBlur"
                         label="Email"
+                        validateFirst={true}
                     >
                         <Input
                                placeholder="Email"
@@ -332,6 +337,7 @@ const Register = () => {
                         rules={rules.password}
                         validateTrigger="onBlur"
                         label="Password"
+                        validateFirst={true}
                     >
                         <Input
                             type="password"
@@ -345,6 +351,7 @@ const Register = () => {
                         rules={rules.confirmPassword}
                         validateTrigger="onBlur"
                         label="Confirm Password"
+                        validateFirst={true}
                     >
                         <Input
                             type="password"

@@ -102,7 +102,7 @@ const Login = () => {
                                     </NavLink>
                                 )
                         }
-                        <NavLink to="/forgot" className="login-form-forgot">
+                        <NavLink to="/forgot" state={{state: state.role}} className="login-form-forgot">
                             Forgot password
                         </NavLink>
                     </Form.Item>

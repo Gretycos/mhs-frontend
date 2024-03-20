@@ -100,6 +100,7 @@ const ForgotPsw = () => {
                                     name="email"
                                     rules={rules.email}
                                     validateTrigger="onBlur"
+                                    validateFirst={true}
                                 >
                                     <Input prefix={<UserOutlined className="site-form-item-icon" />}
                                            placeholder="Email"
