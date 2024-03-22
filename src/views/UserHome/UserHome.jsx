@@ -99,10 +99,10 @@ const UserHome = () => {
                                 }}
                             >
                                 <Col span={12}>
-                                    <RecentCard kind={0}/>
+                                    <RecentCard type={0}/>
                                 </Col>
                                 <Col span={12}>
-                                    <RecentCard kind={1}/>
+                                    <RecentCard type={1}/>
                                 </Col>
                             </Row>
                         </div>
