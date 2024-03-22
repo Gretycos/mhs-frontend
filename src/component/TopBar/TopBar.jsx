@@ -37,7 +37,8 @@ const TopBar = () => {
     ]
 
     const onLogin = (e) => {
-        console.log(e.key)
+        // console.log(e.key)
+        // console.log(typeof e.key)
         if (e.key === "0") {
             navigate("/login")
         }else{
@@ -118,7 +119,7 @@ const TopBar = () => {
                                     }
                                     placement="bottom"
                                 >
-                                    <Button className="top-bar-user" onClick={(e) => onLogin(e)}>Login</Button>
+                                    <Button className="top-bar-user" disabled>Login</Button>
                                 </Dropdown>
                             )
                     }
