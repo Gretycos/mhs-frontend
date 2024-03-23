@@ -14,25 +14,25 @@ const RecentCard = (props) => {
         // 获取数据
         const appointmentList = [
             {
-                kind: "clinic",
+                type: "clinic",
                 title: "Meeting with DR.Foo",
-                time: "22/03/2024 15:00",
+                time: "22-03-2024 15:00",
             },
             {
-                kind: "test",
+                type: "test",
                 title: "Blood Test",
-                time: "22/03/2024 16:00",
+                time: "22-03-2024 16:00",
             },
         ]
 
         const reportList = [
             {
                 title: "CT Report",
-                time: "22/03/2024 17:00",
+                time: "22-03-2024 17:00",
             },
             {
                 title: "Blood Report",
-                time: "22/03/2024 18:00",
+                time: "22-03-2024 18:00",
             },
         ]
         if (type === 0) {
@@ -64,7 +64,7 @@ const RecentCard = (props) => {
                                 <List.Item>
                                     <List.Item.Meta
                                         key={index}
-                                        className={`recent-card-item${item.kind ? (item.kind === "clinic" ? "-b" : "-o") : "-p"}`}
+                                        className={`recent-card-item${item.type ? (item.type === "clinic" ? "-b" : "-o") : "-p"}`}
                                         title={item.title}
                                         description={item.time}
                                     />
