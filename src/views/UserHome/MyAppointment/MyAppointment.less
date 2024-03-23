@@ -2,23 +2,46 @@
  * author: Tsong
  * time: 20/03/2024 19:23
  */
-@import "@/common/style/custom-style.less";
-
-.my-appointment{
-
-  .my-appointment-title{
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 100%;
-    border-bottom: @mhs-color 2px solid;
-    font-size: 24px;
-    font-weight: 600;
-    color: @mhs-color;
+.detail-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .detail-card{
+    width: 75%;
   }
-
-  .back-icon{
-    color: @mhs-color;
-    font-size: 40px !important;
-    cursor: pointer;
+  .detail-title{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    .detail-title-name{
+      font-size: 26px;
+    }
+    .detail-title-info{
+      display: flex;
+      font-size: 16px;
+      .detail-title-info-tag{
+        margin-right: 10px;
+      }
+      .detail-title-info-val{
+        font-weight: normal;
+      }
+    }
+  }
+  .detail-content{
+    display: flex;
+    flex-direction: column;
+    .detail-item{
+      padding: 10px;
+      display: flex;
+      .detail-item-title{
+        font-size: 16px;
+        font-weight: 600;
+        margin-right: 10px;
+      }
+      .detail-item-content{
+        font-size: 16px;
+      }
+    }
   }
 }
+

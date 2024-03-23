@@ -41,14 +41,6 @@ const router = createBrowserRouter([
                         element: <BookAppointment/>
                     },
                     {
-                        path: "my-appointment",
-                        element: <MyAppointment/>
-                    },
-                    {
-                        path: "medical-history",
-                        element: <MedicalHistory/>
-                    },
-                    {
                         path: "prescription-history",
                         element: <PrescriptionHistory/>
                     },
@@ -57,7 +49,27 @@ const router = createBrowserRouter([
                         element: <BookTest/>
                     },
                     {
+                        path: "my-appointment",
+                        element: <MyAppointment/>
+                    },
+                    {
+                        path: "my-appointment/:id",
+                        element: <MyAppointment/>
+                    },
+                    {
+                        path: "medical-history",
+                        element: <MedicalHistory/>
+                    },
+                    {
+                        path: "medical-history/:id",
+                        element: <MedicalHistory/>
+                    },
+                    {
                         path: "test-report",
+                        element: <TestReport/>
+                    },
+                    {
+                        path: "test-report/:id",
                         element: <TestReport/>
                     },
                 ]

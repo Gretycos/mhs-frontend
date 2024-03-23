@@ -6,9 +6,11 @@ import "./DataList.less"
 import {useEffect, useState} from "react";
 import {Card, List, Pagination} from "antd";
 import Selector from "@/component/Selector/Selector.jsx";
+import {useNavigate} from "react-router-dom";
 
 const DataList = (props) => {
-    const {getData, selectors} = props
+    const {selectors, getData, path, state} = props
+    const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
     selectors.map(selector => {
@@ -83,6 +85,11 @@ const DataList = (props) => {
         return <Selector key={idx} title={item.title} onChange={(val) => onOptionChange(val, item.key)} options={item.options}/>
     })
 
+    const onClickItem = (id) => {
+        console.log(`${path}/${id}`)
+        navigate(`${path}/${id}`, {state: state})
+    }
+
     return (
         <div className="data-component-content">
             <div className="data-component-control">
@@ -94,7 +101,11 @@ const DataList = (props) => {
                 dataSource={dataState.dataList}
                 split={false}
                 renderItem={(item, index) => (
-                    <Card key={index} title={item.time}>
+                    <Card
+                        className="data-component-list-item"
+                        key={index}
+                        title={item.time}
+                        onClick={() => onClickItem(item.id)}>
                         <p>{item.title}</p>
                     </Card>
                 )}
