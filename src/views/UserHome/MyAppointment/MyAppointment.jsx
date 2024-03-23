@@ -107,8 +107,7 @@ const MyAppointment = () => {
 }
 
 const MyAppointmentDetail = (props) => {
-    const {params, state} = props
-    const {title} = state
+    const {params} = props
     const {id} = params
     const [aptData, setAptData] = useState(
         {
@@ -136,39 +135,43 @@ const MyAppointmentDetail = (props) => {
         })
     }, []);
     return (
-        <div className="detail-container">
+        <div className="aptmt-container">
             <Card
-                className="detail-card"
+                className="aptmt-card"
                 title={
-                    <div className="detail-title">
-                        <div className="detail-title-info">
-                            <div className="detail-title-info-tag">Time:</div>
-                            <div className="detail-title-info-val">{aptData.time}</div>
+                    <div className="aptmt-title">
+                        <div className="aptmt-title-row aptmt-title-row-1">
+                            <div className="aptmt-title-name">Appointment Record</div>
                         </div>
-                        <div className="detail-title-name">{title}</div>
-                        <div className="detail-title-info">
-                            <div className="detail-title-info-tag">Ref:</div>
-                            <div className="detail-title-info-val">{aptData.ref}</div>
+                        <div className="aptmt-title-row aptmt-title-row-2">
+                            <div className="aptmt-title-info">
+                                <div className="aptmt-title-info-tag">Time:</div>
+                                <div className="aptmt-title-info-val">{aptData.time}</div>
+                            </div>
+                            <div className="aptmt-title-info">
+                                <div className="aptmt-title-info-tag">Ref:</div>
+                                <div className="aptmt-title-info-val">{aptData.ref}</div>
+                            </div>
                         </div>
                     </div>
                 }
             >
-                <div className="detail-content">
-                    <div className="detail-item">
-                        <div className="detail-item-title">Name:</div>
-                        <div className="detail-item-content">{`${aptData.firstName} ${aptData.lastName}`}</div>
+                <div className="aptmt-content">
+                    <div className="aptmt-item">
+                        <div className="aptmt-item-title">Name:</div>
+                        <div className="aptmt-item-content">{`${aptData.firstName} ${aptData.lastName}`}</div>
                     </div>
-                    <div className="detail-item">
-                        <div className="detail-item-title">Type:</div>
-                        <div className="detail-item-content">{aptData.type}</div>
+                    <div className="aptmt-item">
+                        <div className="aptmt-item-title">Type:</div>
+                        <div className="aptmt-item-content">{aptData.type}</div>
                     </div>
-                    <div className="detail-item">
-                        <div className="detail-item-title">Doctor:</div>
-                        <div className="detail-item-content">{aptData.doctor}</div>
+                    <div className="aptmt-item">
+                        <div className="aptmt-item-title">Doctor:</div>
+                        <div className="aptmt-item-content">{aptData.doctor}</div>
                     </div>
-                    <div className="detail-item">
-                        <div className="detail-item-title">Location:</div>
-                        <div className="detail-item-content">{aptData.location}</div>
+                    <div className="aptmt-item">
+                        <div className="aptmt-item-title">Location:</div>
+                        <div className="aptmt-item-content">{aptData.location}</div>
                     </div>
                 </div>
             </Card>

@@ -2,3 +2,66 @@
  * author: Tsong
  * time: 20/03/2024 19:24
  */
+.medhis-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .medhis-card{
+    width: 75%;
+  }
+
+  .medhis-title{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+    .medhis-title-row-1{
+      justify-content: center;
+    }
+    .medhis-title-row-2{
+      justify-content: space-between;
+    }
+    .medhis-title-row-3{
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .medhis-title-row{
+      display: flex;
+      align-items: center;
+
+      .medhis-title-name{
+        font-size: 26px;
+      }
+
+      .medhis-title-info{
+        display: flex;
+        font-size: 16px;
+        .medhis-title-info-tag{
+          margin-right: 10px;
+        }
+        .medhis-title-info-val{
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
+  .medhis-content{
+    display: flex;
+    flex-direction: column;
+
+    .medhis-content-block{
+      display: flex;
+      flex-direction: column;
+      .medhis-content-block-title{
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .medhis-content-block-text{
+        min-height: 200px;
+      }
+    }
+  }
+}

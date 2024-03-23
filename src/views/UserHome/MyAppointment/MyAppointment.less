@@ -2,43 +2,55 @@
  * author: Tsong
  * time: 20/03/2024 19:23
  */
-.detail-container{
+.aptmt-container{
   display: flex;
   justify-content: center;
   align-items: center;
-  .detail-card{
+  .aptmt-card{
     width: 75%;
   }
-  .detail-title{
+  .aptmt-title{
     padding: 10px;
     display: flex;
-    justify-content: space-between;
-    .detail-title-name{
+    flex-direction: column;
+
+    .aptmt-title-row{
+      display: flex;
+    }
+    .aptmt-title-row-1{
+      justify-content: center;
+    }
+    .aptmt-title-row-2{
+      justify-content: space-between;
+    }
+
+
+    .aptmt-title-name{
       font-size: 26px;
     }
-    .detail-title-info{
+    .aptmt-title-info{
       display: flex;
       font-size: 16px;
-      .detail-title-info-tag{
+      .aptmt-title-info-tag{
         margin-right: 10px;
       }
-      .detail-title-info-val{
+      .aptmt-title-info-val{
         font-weight: normal;
       }
     }
   }
-  .detail-content{
+  .aptmt-content{
     display: flex;
     flex-direction: column;
-    .detail-item{
+    .aptmt-item{
       padding: 10px;
       display: flex;
-      .detail-item-title{
+      .aptmt-item-title{
         font-size: 16px;
         font-weight: 600;
         margin-right: 10px;
       }
-      .detail-item-content{
+      .aptmt-item-content{
         font-size: 16px;
       }
     }
