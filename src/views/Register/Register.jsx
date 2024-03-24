@@ -9,6 +9,7 @@ import {register} from "@/service/user/user.js";
 import {useState} from "react";
 import dayjs from "dayjs";
 import {ukCity} from "@/common/js/utils.js"
+import {validateConfirmPassword, validatePassword, validatePostcode} from "@/common/js/formValidator/validator.js";
 const {Meta} = Card
 
 const Register = () => {
@@ -25,42 +26,6 @@ const Register = () => {
             value: city,
         }
     });
-
-    // 表单验证器
-    const validatePostcode = async (_, value) => {
-        if (!value){
-            return Promise.reject(new Error("Please input your postcode"))
-        }
-        if (value.match(/^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/) == null){
-            return Promise.reject(new Error("Please input valid postcode"))
-        }
-        return Promise.resolve()
-    }
-    const validatePassword = async (_, value) => {
-        if (!value){
-            return Promise.reject(new Error("Please input your password"))
-        }
-        if (value.length < 8){
-            return Promise.reject(new Error("The length must be longer than 8"))
-        }
-        if (value.length > 16){
-            return Promise.reject(new Error("The length must be shorter than 16"))
-        }
-        if (value.match(/^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$/) == null) {
-            return Promise.reject(
-                new Error("The password must contain at least 3 kinds of characters: " +
-                    "[Uppercase letters, Lowercase letters, Symbols, Numbers]"
-                )
-            )
-        }
-        return Promise.resolve()
-    }
-    const validateConfirmPassword = async (_, value) => {
-        if (value && value === form.getFieldsValue().password){
-            return Promise.resolve()
-        }
-        return Promise.reject(new Error('Please confirm your password'))
-    }
 
     // 表单规则
     const rules = {
@@ -149,7 +114,7 @@ const Register = () => {
                 message: 'Please input your password',
             },
             {
-                validator: validateConfirmPassword
+                validator: (_, value) => validateConfirmPassword(_, value, form.getFieldValue("password"))
             }
         ],
     }
@@ -159,20 +124,13 @@ const Register = () => {
         console.log('Received values of form: ', values);
         setLoading(true)
         const params = {
-            lastName: values.lastName,
-            firstName: values.firstName,
-            dateOfBirth: values.dateOfBirth,
-            address1: values.address1,
-            address2: values.address2,
-            city: values.city,
-            postcode: values.postcode,
-            email: values.email,
-            password: values.password
+            ...values,
+            dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
         }
         const {data} = await register(params)
         message.success('Successfully sending register request', 2)
         // 回主页
-        navigate('/user-home')
+        navigate('/')
         setLoading(false)
     }
 
@@ -261,7 +219,7 @@ const Register = () => {
 
                     <Form.Item
                         className="register-form-item"
-                        name="adress2"
+                        name="address2"
                         rules={rules.address2}
                         validateTrigger="onBlur"
                         label="Address 2"

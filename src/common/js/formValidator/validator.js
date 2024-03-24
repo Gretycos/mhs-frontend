@@ -31,8 +31,8 @@ export const validatePassword = async (_, value) => {
     }
     return Promise.resolve()
 }
-export const validateConfirmPassword = async (_, value) => {
-    if (value && value === form.getFieldsValue().password){
+export const validateConfirmPassword = async (_, value, firstPassword) => {
+    if (value && value === firstPassword){
         return Promise.resolve()
     }
     return Promise.reject(new Error('Please confirm your password'))

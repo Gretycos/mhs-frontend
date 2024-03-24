@@ -3,11 +3,12 @@
  * time: 20/03/2024 13:56
  */
 import "./ResetPsw.less"
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
 import {useState} from "react";
 import {UserOutlined} from "@ant-design/icons";
 import {reset} from "@/service/user/user.js";
+import {validateConfirmPassword, validatePassword} from "@/common/js/formValidator/validator.js";
 const {Meta} = Card
 
 const ResetPsw = () => {
@@ -22,32 +23,6 @@ const ResetPsw = () => {
     const [isReset, setIsReset] = useState(false)
     const [navigating, setNavigating] = useState(false)
 
-    // 验证器
-    const validatePassword = async (_, value) => {
-        if (!value){
-            return Promise.reject(new Error("Please input your password"))
-        }
-        if (value.length < 8){
-            return Promise.reject(new Error("The length must be longer than 8"))
-        }
-        if (value.length > 16){
-            return Promise.reject(new Error("The length must be shorter than 16"))
-        }
-        if (value.match(/^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$/) == null) {
-            return Promise.reject(
-                new Error("The password must contain at least 3 kinds of characters: " +
-                    "[Uppercase letters, Lowercase letters, Symbols, Numbers]"
-                )
-            )
-        }
-        return Promise.resolve()
-    }
-    const validateConfirmPassword = async (_, value) => {
-        if (value && value === form.getFieldsValue().password){
-            return Promise.resolve()
-        }
-        return Promise.reject(new Error('Please confirm your password'))
-    }
 
     // 表单规则
     const rules = {
@@ -66,7 +41,7 @@ const ResetPsw = () => {
                 message: 'Please input your password',
             },
             {
-                validator: validateConfirmPassword
+                validator: (_, value) => validateConfirmPassword(_, value, form.getFieldValue("password"))
             }
         ],
     }
