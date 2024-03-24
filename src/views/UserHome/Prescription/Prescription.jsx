@@ -1,14 +1,20 @@
-/**
- * author: Tsong
- * time: 20/03/2024 18:25
- */
-import "./BookAppointment.less";
-import { Form, Select, Input, Space, Button, DatePicker, Table } from "antd";
+import {
+  Form,
+  Select,
+  Input,
+  Space,
+  Button,
+  DatePicker,
+  TimePicker,
+  Table,
+} from "antd";
 import { useState } from "react";
+import "./Prescription.less";
 const { Option } = Select;
 const { TextArea } = Input;
 
-// dataSource
+// dataSource and columns for table
+
 const layout = {
   labelCol: {
     span: 8,
@@ -22,25 +28,10 @@ const tailLayout = {
   },
 };
 
-const doctorOptions = [
-  {
-    value: "John Doe",
-    label: "John Doe",
-  },
-  {
-    value: "Jane Doe",
-    label: "Jane Doe",
-  },
-  {
-    value: "Jim Doe",
-    label: "Jim Doe",
-  },
-];
-
 const typeOptions = [
-  { value: "Face to Face", label: "Face to Face" },
-  { value: "Phone call", label: "Phone call" },
-  { value: "Video call", label: "Video call" },
+  { value: "Surgery", label: "surgery" },
+  { value: "test", label: "test" },
+  { value: "vaccine", label: "vaccine" },
 ];
 
 const availableTime = [
@@ -48,28 +39,28 @@ const availableTime = [
     date: "2024-04-03",
     time: "10:00",
     doctor: "John Doe",
-    type: "Face to Face",
+    type: "test",
     key: "1",
   },
   {
     date: "2024-04-05",
     time: "11:00",
     doctor: "Jane Doe",
-    type: "Face to Face",
+    type: "test",
     key: "2",
   },
   {
     date: "2024-04-05",
     time: "12:00",
     doctor: "Jim Doe",
-    type: "Face to Face",
+    type: "test",
     key: "3",
   },
   {
     date: "2024-04-06",
     time: "12:00",
     doctor: "Jim Doe",
-    type: "Face to Face",
+    type: "test",
     key: "4",
   },
 ];
@@ -80,12 +71,12 @@ const confirmData = {
   time: "10:00",
   type: "Face to Face",
   location: `SO17 1BJ. University Health Service. 
-Building 48, University of Southampton.`,
+  Building 48, University of Southampton.`,
   userID: "U123456",
   note: "",
 };
 
-const BookAppointment = () => {
+const Prescription = () => {
   const [form] = Form.useForm();
   const [searchRes, setSearchRes] = useState(false);
   const [confirm, setConfirm] = useState(null);
@@ -176,7 +167,7 @@ const BookAppointment = () => {
   if (confirm) {
     return (
       <div className="book-appointment-page">
-        <p className="title">Book for a doctor Appointment</p>
+        <p className="title">Book for a surgery, test or vaccine</p>
         <p className="description"> Please check before booking.</p>
         <div className="box">
           <div className="item">
@@ -218,7 +209,7 @@ const BookAppointment = () => {
   } else {
     return (
       <div className="book-appointment-page">
-        <p className="title">Book for a doctor Appointment</p>
+        <p className="title">Book for a surgery, test or vaccine</p>
         <p className="description"> Please select your requirements:</p>
         <div className="content">
           <Form
@@ -230,7 +221,7 @@ const BookAppointment = () => {
           >
             <Form.Item name="type" label="Type" rules={[]}>
               <Select
-                placeholder="Select appointment type"
+                placeholder="Select type"
                 onChange={onDateChange}
                 allowClear
               >
@@ -243,29 +234,10 @@ const BookAppointment = () => {
                 })}
               </Select>
             </Form.Item>
-
-            <Form.Item name="doctor" label="Doctor" rules={[]}>
-              <Select
-                placeholder="Select a doctor"
-                onChange={onDoctorChange}
-                allowClear
-              >
-                {doctorOptions.map((doctor) => {
-                  return (
-                    <Option key={doctor.value} value={doctor.value}>
-                      Dr. {doctor.value}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
             <Form.Item name="date" label="Date" rules={[{ required: true }]}>
               <DatePicker />
               {/* <TimePicker /> */}
             </Form.Item>
-            {/* <Form.Item name="note" label="Note">
-                <Input placeholder="What else do you want to say" />
-              </Form.Item> */}
             <Form.Item {...tailLayout} className="btn-group">
               <Space>
                 <Button type="primary" htmlType="submit">
@@ -290,4 +262,4 @@ const BookAppointment = () => {
   }
 };
 
-export default BookAppointment;
+export default Prescription;
