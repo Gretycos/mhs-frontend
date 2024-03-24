@@ -301,7 +301,7 @@ const UserInfo = () => {
 
                 <Row>
                     <Col span={24} className="userinfo-form-reset">
-                        <Button type="primary" danger onClick={() => navigate("/reset", {state:{email: form.getFieldValue("email")}})}>
+                        <Button type="primary" danger onClick={() => navigate("/reset/user", {state:{email: form.getFieldValue("email")}})}>
                             Reset Password
                         </Button>
                     </Col>
