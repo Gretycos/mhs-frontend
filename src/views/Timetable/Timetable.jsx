@@ -3,10 +3,8 @@
  * time: 16/03/2024 19:37
  */
 import "./Timetable.less"
-import { Typography } from 'antd';
 import { useState, useRef, useEffect } from "react";
-import DoctorMenu from "@/component/Menu/DoctorMenu.jsx";
-import { DayPilot, DayPilotCalendar, DayPilotNavigator } from "daypilot-pro-react";
+import { DayPilotCalendar, DayPilotNavigator } from "daypilot-pro-react";
 
 const Timetable = () => {
     let date = new Date();
@@ -413,8 +411,9 @@ const Timetable = () => {
     return (
         <>
             <div className="timetable-page-container">
-                <div>
-                    <Typography.Title level={1}>Timetable</Typography.Title>
+                <div className="timetable-head-container">
+                    <p className="timetable-head-font">Timetable</p>
+                    <div className="timetable-head-line"/>
                 </div>
                 <div className="timetable-container">
                     <div className="timetable-navigator-container">

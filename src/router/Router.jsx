@@ -5,18 +5,16 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import App from "@/App.jsx";
 import Home from "@/views/Home/Home.jsx";
-import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
-import UserHome from "@/views/UserHome/UserHome.jsx";
 import DoctorHome from "@/views/DoctorHome/DoctorHome.jsx";
 import Doctor from "@/views/Doctor/Doctor.jsx";
 import Timetable from "@/views/Timetable/Timetable.jsx";
 import Pending from "@/views/Pending/Pending.jsx";
 import Ongoing from "@/views/Ongoing/Ongoing.jsx";
 import Completed from "@/views/Completed/Completed.jsx";
-import Register from "@/views/Register/Register.jsx";
-import ForgotPsw from "@/views/ForgotPsw/ForgotPsw.jsx";
-import ResetPsw from "@/views/ResetPsw/ResetPsw.jsx";
+import PendingDetail from "@/views/PendingDetail/PendingDetail.jsx";
+import OngoingDetail from "@/views/OngoingDetail/OngoingDetail.jsx";
+import CompletedDetail from "@/views/CompletedDetail/CompletedDetail.jsx";
 
 const router = createBrowserRouter([
     {
@@ -32,21 +30,12 @@ const router = createBrowserRouter([
                 element: <Home/>
             },
             {
-                path: "/user-home",
-                // element: <RouteGuard><UserHome/></RouteGuard>
-                element: <UserHome/>
-            },
-            {
                 path: "/doctor/home",
                 element: <DoctorHome />
             },
 
 
         ]
-    },
-    {
-        path: "/login",
-        element: <Login />
     },
     {
         path:"/doctor",
@@ -71,21 +60,21 @@ const router = createBrowserRouter([
             {
                 path: "completed",
                 element: <Completed />
+            },
+            {
+                path: "pending/details/:id",
+                element:<PendingDetail />
+            },
+            {
+                path: "ongoing/details/:id",
+                element:<OngoingDetail />
+            },
+            {
+                path: "completed/details/:id",
+                element:<CompletedDetail />
             }
         ]
-    },
-    {
-        path: "/register",
-        element: <Register />
-    },
-    {
-        path: "/forgot",
-        element: <ForgotPsw />
-    },
-    {
-        path: "/reset",
-        element: <ResetPsw />
-    },
+    }
 ])
 
 export default router

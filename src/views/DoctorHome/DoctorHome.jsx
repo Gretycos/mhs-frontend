@@ -5,7 +5,7 @@
 import "./DoctorHome.less"
 import {useNavigate} from "react-router-dom";
 import CountUp from 'react-countup';
-import { Col, Row, Statistic } from 'antd';
+import { Statistic } from 'antd';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventIcon from '@mui/icons-material/Event';
