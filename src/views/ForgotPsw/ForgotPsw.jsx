@@ -5,7 +5,7 @@
 import "./ForgotPsw.less"
 import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
 import {UserOutlined} from "@ant-design/icons";
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
 import {forgot} from "@/service/user/user.js";
 const {Meta} = Card
@@ -13,9 +13,8 @@ const {Meta} = Card
 const ForgotPsw = () => {
     const navigate = useNavigate()
     const {message} = App.useApp()
-    const location = useLocation()
-
-    const {state} = location
+    const params = useParams()
+    const {role} = params
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
     const [hasAccount, setHasAccount] = useState(false)
@@ -89,7 +88,7 @@ const ForgotPsw = () => {
                     :
                     (
                         <Card bordered={false} className="forgot-card">
-                            <Meta title={`MHS ${state? "Doctor" : ""}`} className="forgot-title"></Meta>
+                            <Meta title={`MHS ${role === "user" ? "" : "Doctor"}`} className="forgot-title"></Meta>
                             <Form
                                 form={form}
                                 name="normal_forgot"
@@ -111,7 +110,7 @@ const ForgotPsw = () => {
                                     <Button type="primary" htmlType="submit" loading={loading} className="forgot-form-button">
                                         Forgot Password
                                     </Button>
-                                    <NavLink to="/login" state={state? {role: state.role}: null} className="forgot-form-login">
+                                    <NavLink to={`/login/${role}`}  className="forgot-form-login">
                                         Sign in
                                     </NavLink>
                                 </Form.Item>

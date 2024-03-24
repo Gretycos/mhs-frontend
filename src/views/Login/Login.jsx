@@ -6,7 +6,7 @@
 import {App, Button, Card, Form, Input, Layout} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {useState} from "react";
-import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {login} from "@/service/user/user.js";
 import {useDispatch} from "react-redux";
 import {save} from "@/redux/slice/globalSlice.js";
@@ -16,9 +16,9 @@ const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {message} = App.useApp()
-    const location = useLocation()
+    const params = useParams()
 
-    const {state} = location
+    const {role} = params
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
 
@@ -54,14 +54,14 @@ const Login = () => {
         dispatch(save({ token: data.token }))
         message.success('login succeeded', 2)
         // 回主页
-        state ? navigate('/doctor-home'): navigate('/user-home')
+        role === "user" ? navigate('/user') : navigate('/doctor-home')
         setLoading(false)
     }
 
     return (
         <Layout className="login-page-content">
             <Card bordered={false} className="login-card">
-                <Meta title={`MHS ${state? "Doctor" : ""}`} className="login-title"></Meta>
+                <Meta title={`MHS ${role === "user" ? "" : "Doctor"}`} className="login-title"></Meta>
                 <Form
                     form={form}
                     name="normal_login"
@@ -95,15 +95,16 @@ const Login = () => {
                             Sign in
                         </Button>
                         {
-                            state ?
-                                null:
+                            role === "user" ?
                                 (
                                     <NavLink to="/register" className="login-form-register">
                                         Sign up
                                     </NavLink>
                                 )
+                                :
+                                null
                         }
-                        <NavLink to="/forgot" state={state? {state: state.role} : null} className="login-form-forgot">
+                        <NavLink to={`/forgot/${role}`} className="login-form-forgot">
                             Forgot password
                         </NavLink>
                     </Form.Item>

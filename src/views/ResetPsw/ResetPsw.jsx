@@ -3,7 +3,7 @@
  * time: 20/03/2024 13:56
  */
 import "./ResetPsw.less"
-import { useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
 import {useState} from "react";
 import {UserOutlined} from "@ant-design/icons";
@@ -16,8 +16,10 @@ const ResetPsw = () => {
     const navigate = useNavigate()
     const {message} = App.useApp()
     const location = useLocation()
-
     const {state} = location
+
+    const params = useParams()
+    const {role} = params
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
     const [isReset, setIsReset] = useState(false)
@@ -101,7 +103,7 @@ const ResetPsw = () => {
                     :
                     (
                         <Card bordered={false} className="reset-card">
-                            <Meta title={`MHS ${state? "Doctor" : ""}`} className="reset-title"></Meta>
+                            <Meta title={`MHS ${role==="user" ? "" : "Doctor"}`} className="reset-title"></Meta>
                             <Form
                                 form={form}
                                 name="normal_reset"

@@ -130,7 +130,7 @@ const Register = () => {
         const {data} = await register(params)
         message.success('Successfully sending register request', 2)
         // 回主页
-        navigate('/')
+        navigate('/', {replace: true})
         setLoading(false)
     }
 

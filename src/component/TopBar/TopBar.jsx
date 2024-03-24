@@ -40,13 +40,9 @@ const TopBar = () => {
         // console.log(e.key)
         // console.log(typeof e.key)
         if (e.key === "0") {
-            navigate("/login")
+            navigate("/login/user")
         }else{
-            navigate("/login", {
-                state:{
-                    role: 1
-                }
-            })
+            navigate("/login/doctor")
         }
     }
 
