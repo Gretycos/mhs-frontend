@@ -2,7 +2,7 @@
  * author: Tsong
  * time: 16/03/2024 16:32
  */
-import {createBrowserRouter, Navigate} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "@/App.jsx";
 import Home from "@/views/Home/Home.jsx";
 import Login from "@/views/Login/Login.jsx";
@@ -18,85 +18,90 @@ import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/Prescripti
 import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
 import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
 import UserInfo from "@/views/UserHome/UserInfo/UserInfo.jsx";
+import Prescription from "@/views/UserHome/Prescription/Prescription.jsx";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navigate to="/home"/>
-    },
-    {
-        path: "/",
-        element: <App />,
+  {
+    path: "/",
+    element: <Navigate to="/home" />,
+  },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/user",
+        // element: <RouteGuard><UserHome/></RouteGuard>
+        element: <UserHome />,
         children: [
-            {
-                path: "/home",
-                element: <Home/>
-            },
-            {
-                path: "/user",
-                // element: <RouteGuard><UserHome/></RouteGuard>
-                element: <UserHome/>,
-                children:[
-                    {
-                        path: "info",
-                        element: <UserInfo/>
-                    },
-                    {
-                        path: "book-appointment",
-                        element: <BookAppointment/>
-                    },
-                    {
-                        path: "prescription-history",
-                        element: <PrescriptionHistory/>
-                    },
-                    {
-                        path: "book-test",
-                        element: <BookTest/>
-                    },
-                    {
-                        path: "my-appointment",
-                        element: <MyAppointment/>
-                    },
-                    {
-                        path: "my-appointment/:id",
-                        element: <MyAppointment/>
-                    },
-                    {
-                        path: "medical-history",
-                        element: <MedicalHistory/>
-                    },
-                    {
-                        path: "medical-history/:id",
-                        element: <MedicalHistory/>
-                    },
-                    {
-                        path: "test-report",
-                        element: <TestReport/>
-                    },
-                    {
-                        path: "test-report/:id",
-                        element: <TestReport/>
-                    },
-                ]
-            },
-        ]
-    },
-    {
-        path: "/login/:role",
-        element: <Login />
-    },
-    {
-        path: "/register",
-        element: <Register />
-    },
-    {
-        path: "/forgot/:role",
-        element: <ForgotPsw />
-    },
-    {
-        path: "/reset/:role",
-        element: <ResetPsw />
-    },
-])
+          {
+            path: "info",
+            element: <UserInfo />,
+          },
+          {
+            path: "book-appointment",
+            element: <BookAppointment />,
+          },
+          {
+            path: "prescription-history",
+            element: <PrescriptionHistory />,
+          },
+          {
+            path: "book-test",
+            element: <BookTest />,
+          },
+          {
+            path: "my-appointment",
+            element: <MyAppointment />,
+          },
+          {
+            path: "my-appointment/:id",
+            element: <MyAppointment />,
+          },
+          {
+            path: "medical-history",
+            element: <MedicalHistory />,
+          },
+          {
+            path: "medical-history/:id",
+            element: <MedicalHistory />,
+          },
+          {
+            path: "test-report",
+            element: <TestReport />,
+          },
+          {
+            path: "test-report/:id",
+            element: <TestReport />,
+          },
+        ],
+      },
+      {
+        path: "prescription-history",
+        element: <Prescription />,
+      },
+    ],
+  },
+  {
+    path: "/login/:role",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/forgot/:role",
+    element: <ForgotPsw />,
+  },
+  {
+    path: "/reset/:role",
+    element: <ResetPsw />,
+  },
+]);
 
-export default router
+export default router;
