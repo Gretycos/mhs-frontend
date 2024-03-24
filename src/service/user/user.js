@@ -25,3 +25,7 @@ export const forgot = (params) => {
 export const reset = (params) => {
     return axios.post(PREFIX + '/reset', params)
 }
+
+export const updateInfo = (params) => {
+    return axios.post(PREFIX + '/register', params)
+}

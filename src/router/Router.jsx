@@ -17,6 +17,7 @@ import MedicalHistory from "@/views/UserHome/MedicalHistory/MedicalHistory.jsx";
 import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/PrescriptionHistory.jsx";
 import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
 import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
+import UserInfo from "@/views/UserHome/UserInfo/UserInfo.jsx";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
                 // element: <RouteGuard><UserHome/></RouteGuard>
                 element: <UserHome/>,
                 children:[
+                    {
+                        path: "info",
+                        element: <UserInfo/>
+                    },
                     {
                         path: "book-appointment",
                         element: <BookAppointment/>
