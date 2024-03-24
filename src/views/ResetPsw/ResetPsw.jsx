@@ -112,6 +112,7 @@ const ResetPsw = () => {
                                     name="email"
                                     rules={rules.email}
                                     validateTrigger="onBlur"
+                                    initialValue={ state && state.email ? state.email : ""}
                                 >
                                     <Input prefix={<UserOutlined className="site-form-item-icon" />}
                                            placeholder="Email"
