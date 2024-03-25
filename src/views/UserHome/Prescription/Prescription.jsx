@@ -69,7 +69,7 @@ const confirmData = {
   doctor: "John Doe",
   date: "2024-04-03",
   time: "10:00",
-  type: "Face to Face",
+  type: "test",
   location: `SO17 1BJ. University Health Service. 
   Building 48, University of Southampton.`,
   userID: "U123456",
