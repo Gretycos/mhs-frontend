@@ -1,8 +1,3 @@
-/**
- * author: Tsong
- * time: 20/03/2024 19:25
- */
-import "./BookTest.less";
 import {
   Form,
   Select,
@@ -14,8 +9,11 @@ import {
   Table,
 } from "antd";
 import { useState } from "react";
+import "./Prescription.less";
 const { Option } = Select;
 const { TextArea } = Input;
+
+// dataSource and columns for table
 
 const layout = {
   labelCol: {
@@ -73,12 +71,12 @@ const confirmData = {
   time: "10:00",
   type: "test",
   location: `SO17 1BJ. University Health Service. 
-    Building 48, University of Southampton.`,
+  Building 48, University of Southampton.`,
   userID: "U123456",
   note: "",
 };
 
-const BookTest = () => {
+const Prescription = () => {
   const [form] = Form.useForm();
   const [searchRes, setSearchRes] = useState(false);
   const [confirm, setConfirm] = useState(null);
@@ -131,6 +129,27 @@ const BookTest = () => {
     // console.log(value);
   };
 
+  const onDoctorChange = (value) => {
+    // switch (value) {
+    //   case "male":
+    //     form.setFieldsValue({
+    //       note: "Hi, man!",
+    //     });
+    //     break;
+    //   case "female":
+    //     form.setFieldsValue({
+    //       note: "Hi, lady!",
+    //     });
+    //     break;
+    //   case "other":
+    //     form.setFieldsValue({
+    //       note: "Hi there!",
+    //     });
+    //     break;
+    //   default:
+    // }
+  };
+
   const onFinish = (values) => {
     console.log(values);
     setSearchRes(true);
@@ -147,7 +166,7 @@ const BookTest = () => {
 
   if (confirm) {
     return (
-      <div className="book-test-page">
+      <div className="book-appointment-page">
         <p className="title">Book for a surgery, test or vaccine</p>
         <p className="description"> Please check before booking.</p>
         <div className="box">
@@ -243,4 +262,4 @@ const BookTest = () => {
   }
 };
 
-export default BookTest;
+export default Prescription;
