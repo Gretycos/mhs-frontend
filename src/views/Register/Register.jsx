@@ -8,7 +8,7 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {register} from "@/service/user/user.js";
 import {useState} from "react";
 import dayjs from "dayjs";
-import {ukCity} from "@/common/js/utils.js"
+import {sexList, ukCity} from "@/common/js/utils.js"
 import {validateConfirmPassword, validatePassword, validatePostcode} from "@/common/js/formValidator/validator.js";
 const {Meta} = Card
 
@@ -47,6 +47,12 @@ const Register = () => {
             {
                 max: 20,
                 message: 'The length should be less than 20',
+            },
+        ],
+        sex: [
+            {
+                required: true,
+                message: 'Please select your gender',
             },
         ],
         dateOfBirth: [
@@ -97,6 +103,15 @@ const Register = () => {
             {
                 type: 'email',
                 message: 'The input is not valid email'
+            }
+        ],
+        mobileNum: [
+            {
+                required: false,
+            },
+            {
+                max: 15,
+                message: 'The input is not valid mobile number'
             }
         ],
         password: [
@@ -190,19 +205,45 @@ const Register = () => {
                             </Form.Item>
                         </Col>
                     </Row>
-
-                    <Form.Item
-                        className="register-form-item"
-                        name="dateOfBirth"
-                        rules={rules.dateOfBirth}
-                        validateTrigger="onBlur"
-                        label="Date of Birth"
+                    <Row
+                        justify="space-between"
+                        gutter={{
+                            xs: 8,
+                            sm: 16,
+                            md: 24,
+                            lg: 32,
+                        }}
                     >
-                        <DatePicker
-                            className="register-form-picker"
-                            maxDate={dayjs(today(), "YYYY-MM-DD")}
-                        />
-                    </Form.Item>
+                        <Col span={12}>
+                            <Form.Item
+                                className="register-form-item"
+                                name="sex"
+                                rules={rules.sex}
+                                validateTrigger="onBlur"
+                                label="Biological Gender"
+                            >
+                                <Select
+                                    placeholder="Select gender"
+                                    className="register-form-picker"
+                                    options={sexList}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                            <Form.Item
+                                className="register-form-item"
+                                name="dateOfBirth"
+                                rules={rules.dateOfBirth}
+                                validateTrigger="onBlur"
+                                label="Date of Birth"
+                            >
+                                <DatePicker
+                                    className="register-form-picker"
+                                    maxDate={dayjs(today(), "YYYY-MM-DD")}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
                     <Form.Item
                         className="register-form-item"
@@ -238,7 +279,7 @@ const Register = () => {
                             lg: 32,
                         }}
                     >
-                        <Col>
+                        <Col span={12}>
                             <Form.Item
                                 className="register-form-item-2"
                                 name="city"
@@ -260,7 +301,7 @@ const Register = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col>
+                        <Col span={12}>
                             <Form.Item
                                 className="register-form-item-2"
                                 name="postcode"
@@ -286,6 +327,19 @@ const Register = () => {
                     >
                         <Input
                                placeholder="Email"
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        className="register-form-item"
+                        name="mobileNum"
+                        rules={rules.mobileNum}
+                        validateTrigger="onBlur"
+                        label="Mobile Number"
+                        validateFirst={true}
+                    >
+                        <Input
+                            placeholder="Mobile Number (Example:+44 1231231234)"
                         />
                     </Form.Item>
 

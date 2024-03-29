@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import {useNavigate} from "react-router-dom";
 import {updateInfo} from "@/service/user/user.js";
 import {useEffect, useState} from "react";
-import {today, ukCity} from "@/common/js/utils.js";
+import {sexList, today, ukCity} from "@/common/js/utils.js";
 import {validatePostcode} from "@/common/js/formValidator/validator.js";
 
 const UserInfo = () => {
@@ -21,12 +21,14 @@ const UserInfo = () => {
     const [iniValues, setIniValues] = useState({
         lastName: "",
         firstName: "",
+        sex: 0,
         dateOfBirth: "",
         address1: "",
         address2: "",
         city: "",
         postcode: "",
         email: "",
+        mobileNum: "",
     })
 
     useEffect(() => {
@@ -34,12 +36,14 @@ const UserInfo = () => {
         const values = {
             lastName: "Yaocong",
             firstName: "Huang",
+            sex: 0,
             dateOfBirth: dayjs("2022-01-01", "YYYY-MM-DD"),
             address1: "West Park Road",
             address2: "Mayflower A",
             city: "Southampton",
             postcode: "SO15 1DP",
             email: "yh25n23@soton.ac.uk",
+            mobileNum: "+44 7551261618",
         }
         form.setFieldsValue(values)
         setIniValues({
@@ -76,6 +80,12 @@ const UserInfo = () => {
             {
                 max: 20,
                 message: 'The length should be less than 20',
+            },
+        ],
+        sex: [
+            {
+                required: true,
+                message: 'Please select your gender',
             },
         ],
         dateOfBirth: [
@@ -126,6 +136,15 @@ const UserInfo = () => {
             {
                 type: 'email',
                 message: 'The input is not valid email'
+            }
+        ],
+        mobileNum: [
+            {
+                required: false,
+            },
+            {
+                max: 15,
+                message: 'The input is not valid mobile number'
             }
         ],
     }
@@ -214,6 +233,20 @@ const UserInfo = () => {
                         </Form.Item>
 
                         <Form.Item
+                            className="register-form-item"
+                            name="sex"
+                            rules={rules.sex}
+                            validateTrigger="onBlur"
+                            label="Biological Gender"
+                        >
+                            <Select
+                                placeholder="Select gender"
+                                className="register-form-picker"
+                                options={sexList}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
                             className="userinfo-form-item"
                             name="dateOfBirth"
                             rules={rules.dateOfBirth}
@@ -240,6 +273,19 @@ const UserInfo = () => {
                         </Form.Item>
                     </Col>
                     <Col span={12}>
+                        <Form.Item
+                            className="register-form-item"
+                            name="mobileNum"
+                            rules={rules.mobileNum}
+                            validateTrigger="onBlur"
+                            label="Mobile Number"
+                            validateFirst={true}
+                        >
+                            <Input
+                                placeholder="Mobile Number (Example:+44 1231231234)"
+                            />
+                        </Form.Item>
+
                         <Form.Item
                             className="userinfo-form-item"
                             name="address1"

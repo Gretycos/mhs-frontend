@@ -10,6 +10,16 @@ export const today = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+export const sexList = [
+    {
+        label: "Male",
+        value: 0,
+    },
+    {
+        label: "Female",
+        value: 1,
+    },
+]
 
 export const ukCity = [
     "Bath",
