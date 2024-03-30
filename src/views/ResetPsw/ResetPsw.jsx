@@ -3,16 +3,18 @@
  * time: 20/03/2024 13:56
  */
 import "./ResetPsw.less"
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {UserOutlined} from "@ant-design/icons";
-import {reset} from "@/service/user/user.js";
+import {reset, validateReset} from "@/service/user/user.js";
 import {validateConfirmPassword, validatePassword} from "@/common/js/formValidator/validator.js";
 const {Meta} = Card
 
 const ResetPsw = () => {
 
+    const [searchParams] = useSearchParams();
+    const resetToken = searchParams.get("token")
     const navigate = useNavigate()
     const {message} = App.useApp()
     const location = useLocation()
@@ -48,44 +50,54 @@ const ResetPsw = () => {
         ],
     }
 
-    // 表单提交
-    // const onFinish = async values => {
-    //     console.log('Received values of form: ', values);
-    //     setLoading(true)
-    //     const params = {
-    //         email: values.email,
-    //         password: values.password,
-    //     }
-    //     const {data} = await reset(params)
-    //     if (data === ""){
-    //         message.error('could not find your account', 2)
-    //     }else{
-    //         setIsReset(true)
-    //         // 回首页
-    //         setTimeout(()=>{
-    //             setNavigating(true)
-    //             setTimeout( () => {
-    //                 navigate("/")
-    //                 setNavigating(false)
-    //             }, 1000)
-    //         }, 2000)
-    //     }
-    //     setLoading(false)
-    // }
+    useEffect(async () => {
+        if (resetToken !== null){
+            const {data} = await validateReset(resetToken)
+            form.setFieldValue("email", data)
+        }else{
+            navigate("/")
+        }
+    }, []);
 
+    // 表单提交
     const onFinish = async values => {
         console.log('Received values of form: ', values);
         setLoading(true)
-        setIsReset(true)
-        setTimeout(()=>{
-            setNavigating(true)
-            setTimeout( () => {
-                navigate("/")
-                setNavigating(false)
-            }, 1000)
-        }, 2000)
+        const params = {
+            email: values.email,
+            newPassword: values.password,
+            token: resetToken,
+        }
+        const {data} = await reset(params)
+        if (data === ""){
+            message.error('could not find your account', 2)
+        }else{
+            setIsReset(true)
+            // 回首页
+            setTimeout(()=>{
+                setNavigating(true)
+                setTimeout( () => {
+                    navigate("/")
+                    setNavigating(false)
+                }, 1000)
+            }, 2000)
+        }
         setLoading(false)
     }
+
+    // const onFinish = async values => {
+    //     console.log('Received values of form: ', values);
+    //     setLoading(true)
+    //     setIsReset(true)
+    //     setTimeout(()=>{
+    //         setNavigating(true)
+    //         setTimeout( () => {
+    //             navigate("/")
+    //             setNavigating(false)
+    //         }, 1000)
+    //     }, 2000)
+    //     setLoading(false)
+    // }
 
     return (
         <Layout className="reset-page-content">
