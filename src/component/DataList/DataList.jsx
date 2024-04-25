@@ -85,9 +85,9 @@ const DataList = (props) => {
         return <Selector key={idx} title={item.title} onChange={(val) => onOptionChange(val, item.key)} options={item.options}/>
     })
 
-    const onClickItem = (id) => {
+    const onClickItem = (id, type) => {
         console.log(`${path}/${id}`)
-        navigate(`${path}/${id}`, {state: state})
+        navigate(`${path}/${id}`, {state: {...state, type: type}})
     }
 
     return (
@@ -105,7 +105,7 @@ const DataList = (props) => {
                         className="data-component-list-item"
                         key={index}
                         title={item.time}
-                        onClick={() => onClickItem(item.id)}>
+                        onClick={() => onClickItem(item.id, item.type)}>
                         <p>{item.title}</p>
                     </Card>
                 )}

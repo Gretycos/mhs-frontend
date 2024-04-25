@@ -22,7 +22,7 @@ const Home = () => {
                 {imgsComponent}
             </Carousel>
             <div>
-                这里放介绍
+                Introduction
             </div>
         </div>
     )
