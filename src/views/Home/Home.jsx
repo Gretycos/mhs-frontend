@@ -30,7 +30,7 @@ const Home = () => {
         },
         {
             url: "./doctor/doctor3.JPG",
-            name: "Dr. Jason Roberts",
+            name: "Dr. Emily Patel",
             category: "Internal Medicine",
         },
         {
@@ -45,7 +45,7 @@ const Home = () => {
         },
         {
             url: "./doctor/doctor6.JPG",
-            name: "Dr. Emily Patel",
+            name: "Dr. Jason Roberts",
             category: "Ophthalmology",
         },
         {
