@@ -8,7 +8,7 @@ import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import {Card} from "antd";
 import {useEffect, useState} from "react";
 import {store} from "@/redux/store.js";
-import {getMyAppointment, getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
+import {getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
 import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
 
 const MyAppointment = () => {
