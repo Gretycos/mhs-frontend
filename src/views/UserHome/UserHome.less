@@ -1,0 +1,68 @@
+/**
+ * author: Tsong
+ * time: 18/03/2024 14:41
+ */
+@import "@/common/style/custom-style.less";
+
+.user-home{
+  padding: 30px
+}
+
+.user-home-recent{
+  width: 100%;
+}
+
+.user-home-menu{
+  padding: 30px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .menu-item{
+    cursor: pointer;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+  }
+  .menu-icon-style{
+    font-size: 50px !important;
+  }
+  .menu-name {
+    text-align: center;
+    width: 100px;
+  }
+}
+
+//.user-home-menu-sm{
+//  display: flex;
+//  align-items: center;
+//  justify-content: space-between;
+//  flex-direction: row;
+//  width: 40%;
+//  line-height: normal;
+//  .menu-icon-selected{
+//    color: @mhs-color;
+//  }
+//  .menu-item{
+//    cursor: pointer;
+//    display: flex;
+//    flex-direction: column;
+//    justify-content: center;
+//    align-items: center;
+//  }
+//  .menu-icon-style{
+//    font-size: 30px !important;
+//  }
+//}
+
+.user-home-title{
+  margin-top: 30px;
+  width: 100%;
+  border-bottom: @mhs-color 2px solid;
+  font-size: 20px;
+  font-weight: 600;
+  color: @mhs-color;
+}
