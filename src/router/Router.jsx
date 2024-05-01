@@ -33,9 +33,74 @@ const router = createBrowserRouter([
                 path: "/doctor/home",
                 element: <DoctorHome />
             },
-
-
+            {
+                path: "/user",
+                // element: <RouteGuard><UserHome/></RouteGuard>
+                element: <UserHome />,
+                children: [
+                    {
+                        path: "info",
+                        element: <UserInfo />,
+                    },
+                    {
+                        path: "book-appointment",
+                        element: <BookAppointment />,
+                    },
+                    {
+                        path: "prescription-history",
+                        element: <PrescriptionHistory />,
+                    },
+                    {
+                        path: "book-test",
+                        element: <BookTest />,
+                    },
+                    {
+                        path: "my-appointment",
+                        element: <MyAppointment />,
+                    },
+                    {
+                        path: "my-appointment/:id",
+                        element: <MyAppointment />,
+                    },
+                    {
+                        path: "medical-history",
+                        element: <MedicalHistory />,
+                    },
+                    {
+                        path: "medical-history/:id",
+                        element: <MedicalHistory />,
+                    },
+                    {
+                        path: "test-report",
+                        element: <TestReport />,
+                    },
+                    {
+                        path: "test-report/:id",
+                        element: <TestReport />,
+                    },
+                ],
+            },
+            {
+                path: "prescription-history",
+                element: <Prescription />,
+            },
         ]
+    },
+    {
+        path: "/login/:role",
+        element: <Login />,
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
+    {
+        path: "/forgot/:role",
+        element: <ForgotPsw />,
+    },
+    {
+        path: "/reset/:role",
+        element: <ResetPsw />,
     },
     {
         path:"/doctor",
