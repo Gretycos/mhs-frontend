@@ -37,15 +37,12 @@ const TopBar = () => {
     ]
 
     const onLogin = (e) => {
-        console.log(e.key)
+        // console.log(e.key)
+        // console.log(typeof e.key)
         if (e.key === "0") {
-            navigate("/login")
+            navigate("/login/user")
         }else{
-            navigate("/login", {
-                state:{
-                    role: 1
-                }
-            })
+            navigate("/login/doctor")
         }
     }
 
@@ -99,10 +96,14 @@ const TopBar = () => {
             <div className="top-bar-right">
                 <Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>
                 <div className="top-bar-user">
-                    <UserOutlined/>
                     {
                         token ?
-                            "I'm a user"
+                            (
+                                <div className="top-bar-user-info">
+                                    <UserOutlined/>
+                                    user information
+                                </div>
+                            )
                             :
                             (
                                 <Dropdown
@@ -114,7 +115,7 @@ const TopBar = () => {
                                     }
                                     placement="bottom"
                                 >
-                                    <Button className="top-bar-user" onClick={(e) => onLogin(e)}>Login</Button>
+                                    <Button className="top-bar-user" disabled>Login</Button>
                                 </Dropdown>
                             )
                     }

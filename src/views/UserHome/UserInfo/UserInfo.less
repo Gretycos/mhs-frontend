@@ -1,0 +1,54 @@
+/**
+ * author: Tsong
+ * time: 23/03/2024 23:19
+ */
+@import "@/common/style/custom-style.less";
+
+.userinfo-container{
+
+  .userinfo-title{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    border-bottom: @mhs-color 2px solid;
+    font-size: 24px;
+    font-weight: 600;
+    color: @mhs-color;
+  }
+
+  .back-icon{
+    color: @mhs-color;
+    font-size: 40px !important;
+    cursor: pointer;
+  }
+}
+
+.userinfo-form {
+  margin-top: 20px;
+  min-width: 500px;
+  justify-content: center;
+  .ant-col-rtl {
+    float: left;
+  }
+  .userinfo-form-picker{
+    width: 100%;
+  }
+  .userinfo-form-item{
+    flex-wrap: wrap;
+    .ant-form-item-label {
+      min-width: 20%;
+    }
+  }
+
+  .userinfo-form-reset{
+    display: flex;
+    justify-content: start;
+  }
+  .userinfo-form-update{
+    display: flex;
+    justify-content: center;
+  }
+  .userinfo-form-button {
+    background-color: @mhs-color;
+  }
+}

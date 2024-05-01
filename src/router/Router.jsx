@@ -2,7 +2,7 @@
  * author: Tsong
  * time: 16/03/2024 16:32
  */
-import {createBrowserRouter, Navigate} from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "@/App.jsx";
 import Home from "@/views/Home/Home.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
@@ -15,6 +15,18 @@ import Completed from "@/views/Completed/Completed.jsx";
 import PendingDetail from "@/views/PendingDetail/PendingDetail.jsx";
 import OngoingDetail from "@/views/OngoingDetail/OngoingDetail.jsx";
 import CompletedDetail from "@/views/CompletedDetail/CompletedDetail.jsx";
+import UserHome from "@/views/UserHome/UserHome.jsx";
+import Register from "@/views/Register/Register.jsx";
+import ForgotPsw from "@/views/ForgotPsw/ForgotPsw.jsx";
+import ResetPsw from "@/views/ResetPsw/ResetPsw.jsx";
+import BookAppointment from "@/views/UserHome/BookAppointment/BookAppointment.jsx";
+import MyAppointment from "@/views/UserHome/MyAppointment/MyAppointment.jsx";
+import MedicalHistory from "@/views/UserHome/MedicalHistory/MedicalHistory.jsx";
+import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/PrescriptionHistory.jsx";
+import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
+import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
+import UserInfo from "@/views/UserHome/UserInfo/UserInfo.jsx";
+import Prescription from "@/views/UserHome/Prescription/Prescription.jsx";
 
 const router = createBrowserRouter([
     {
@@ -142,4 +154,4 @@ const router = createBrowserRouter([
     }
 ])
 
-export default router
+export default router;
