@@ -5,6 +5,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "@/App.jsx";
 import Home from "@/views/Home/Home.jsx";
+import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
 import DoctorHome from "@/views/DoctorHome/DoctorHome.jsx";
 import Doctor from "@/views/Doctor/Doctor.jsx";
