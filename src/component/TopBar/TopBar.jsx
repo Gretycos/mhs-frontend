@@ -94,7 +94,7 @@ const TopBar = () => {
         <Header className="top-bar">
             <div className="top-bar-logo">MHS</div>
             <div className="top-bar-right">
-                <Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>
+                {/*<Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>*/}
                 <div className="top-bar-user">
                     {
                         token ?

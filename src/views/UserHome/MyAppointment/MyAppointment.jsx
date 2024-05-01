@@ -7,6 +7,9 @@ import {useLocation, useParams} from "react-router-dom";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import {Card} from "antd";
 import {useEffect, useState} from "react";
+import {store} from "@/redux/store.js";
+import {getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
+import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
 
 const MyAppointment = () => {
     const location = useLocation();
@@ -18,19 +21,19 @@ const MyAppointment = () => {
     const dateOptions = [
         {
             value: 0,
-            label: "Today",
+            label: "On Coming",
         },
         {
             value: 1,
-            label: "This Week",
+            label: "7 Days",
         },
         {
             value: 2,
-            label: "This Month",
+            label: "30 Days",
         },
         {
             value: 3,
-            label: "3 Months",
+            label: "90 Days",
         },
         {
             value: 4,
@@ -76,18 +79,21 @@ const MyAppointment = () => {
                         type: "clinic",
                         title: "Meeting with DR.Foo",
                         time: "22-03-2024 15:00",
+                        status: 0,
                     },
                     {
                         id: 1,
                         type: "clinic",
                         title: "Meeting with DR.Foo",
                         time: "22-03-2024 15:00",
+                        status: 1,
                     },
                     {
                         id: 2,
                         type: "clinic",
                         title: "Meeting with DR.Foo",
                         time: "22-03-2024 15:00",
+                        status: 2,
                     },
                 ],
             }
@@ -107,7 +113,7 @@ const MyAppointment = () => {
 }
 
 const MyAppointmentDetail = (props) => {
-    const {params} = props
+    const {params, state} = props
     const {id} = params
     const [aptData, setAptData] = useState(
         {
@@ -117,13 +123,47 @@ const MyAppointmentDetail = (props) => {
             lastName: "",
             type: "",
             doctor: "",
-            location: ""
         }
     )
 
-    useEffect(() => {
-        console.log("onMounted", id)
+    const parseType = (first, second) => {
+        let type = ""
+        if (first === "clinic"){
+            type += "CLINIC - "
+            switch (second) {
+                case 0: type += "FACE-TO-FACE"; break;
+                case 1: type += "TELEPHONE"; break;
+            }
+        } else {
+            type += "TEST - "
+            switch (second) {
+                case 0: type += "SURGERY"; break;
+                case 1: type += "REGULAR"; break;
+                case 2: type += "VACCINE"; break;
+            }
+        }
+        return type
+    }
+
+    useEffect(async () => {
+        console.log("onMounted", id, state.type)
         // 用id去查数据
+        // const params = {
+        //     appointId: id,
+        //     patientId: store.getState()?.globalSlice.userId,
+        // }
+        // console.log(params)
+        // const {data} = state.type === "clinic" ?
+        //     await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
+        // console.log(data)
+        // setAptData({
+        //     time: data.time,
+        //     ref: data.appointmentId,
+        //     firstName: data.firstName,
+        //     lastName: data.lastName,
+        //     type: parseType(state.type, data.type),
+        //     doctor: data.doctor,
+        // })
         setAptData({
             time: "23-03-2024 15:15",
             ref: "C3221982",
@@ -131,7 +171,6 @@ const MyAppointmentDetail = (props) => {
             lastName: "Huang",
             type: "Clinic, face-to-face",
             doctor: "DR. FOO",
-            location: "XXX Street, Southampton, SO17 1BJ"
         })
     }, []);
     return (
@@ -168,10 +207,6 @@ const MyAppointmentDetail = (props) => {
                     <div className="aptmt-item">
                         <div className="aptmt-item-title">Doctor:</div>
                         <div className="aptmt-item-content">{aptData.doctor}</div>
-                    </div>
-                    <div className="aptmt-item">
-                        <div className="aptmt-item-title">Location:</div>
-                        <div className="aptmt-item-content">{aptData.location}</div>
                     </div>
                 </div>
             </Card>

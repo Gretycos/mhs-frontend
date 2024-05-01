@@ -30,6 +30,10 @@ export const validateReset = (token) => {
     return axios.get(PREFIX + `/validateReset/${token}`)
 }
 
+export const getInfo = (params) => {
+    return axios.get(PREFIX + '/info', {params})
+}
+
 export const updateInfo = (params) => {
-    return axios.post(PREFIX + '/register', params)
+    return axios.put(PREFIX + '/info/update', params)
 }

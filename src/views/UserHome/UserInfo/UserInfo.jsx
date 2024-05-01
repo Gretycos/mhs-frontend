@@ -7,10 +7,11 @@ import {ArrowBack} from "@mui/icons-material";
 import {App, Button, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import dayjs from "dayjs";
 import {useNavigate} from "react-router-dom";
-import {updateInfo} from "@/service/user/user.js";
+import {getInfo, updateInfo} from "@/service/user/user.js";
 import {useEffect, useState} from "react";
 import {sexList, today, ukCity} from "@/common/js/utils.js";
 import {validatePostcode} from "@/common/js/formValidator/validator.js";
+import {store} from "@/redux/store.js";
 
 const UserInfo = () => {
     const navigate = useNavigate()
@@ -31,8 +32,25 @@ const UserInfo = () => {
         mobileNum: "",
     })
 
-    useEffect(() => {
+    useEffect(async () => {
         // 查询个人信息
+        const params = {
+            patientId: store.getState()?.globalSlice.userId,
+        }
+        // const {data} = await getInfo(params)
+        // const values = {
+        //     lastName: data.givenName,
+        //     firstName: data.familyName,
+        //     sex: data.sex,
+        //     dateOfBirth: dayjs(data.dateOfBirth, "YYYY-MM-DD"),
+        //     address1: data.addr1,
+        //     address2: data.addr2,
+        //     city: data.city,
+        //     postcode: data.postcode,
+        //     email: data.email,
+        //     mobileNum: data.mobileNum,
+        // }
+
         const values = {
             lastName: "Yaocong",
             firstName: "Huang",
@@ -166,6 +184,7 @@ const UserInfo = () => {
         }else{
             // setLoading(true)
             // const params = {
+            //     patientId: store.getState()?.globalSlice.userId,
             //     lastName: values.lastName,
             //     firstName: values.firstName,
             //     dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
@@ -175,7 +194,7 @@ const UserInfo = () => {
             //     postcode: values.postcode,
             //     email: values.email,
             // }
-            // const {data} = await updateInfo(params)
+            // await updateInfo(params)
             message.success('Successfully update your information', 2)
             // // 回主页
             // navigate(0)
