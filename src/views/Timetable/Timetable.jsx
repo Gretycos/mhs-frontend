@@ -48,7 +48,7 @@ const Timetable = () => {
                 moveDisabled: true,
                 rightClickDisabled: true,
                 doubleClickDisabled: true,
-                bubbleHtml: "Testing bubble HTML"
+                bubbleHtml: "09:00 ~ 09:15"
             },
             {
                 id: 2,
