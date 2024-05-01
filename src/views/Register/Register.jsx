@@ -435,7 +435,7 @@ const Register = () => {
                         <Button type="primary" htmlType="submit" loading={loading} className="register-form-button">
                             Sign up
                         </Button>
-                        <NavLink to="/login" className="register-form-register">
+                        <NavLink to="/login/patient" className="register-form-register">
                             Already have an account? Sign in
                         </NavLink>
                     </Form.Item>
