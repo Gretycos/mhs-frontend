@@ -5,7 +5,6 @@
  */
 import {Card, Carousel} from "antd";
 import "./Home.less"
-import Meta from "antd/es/card/Meta.js";
 const Home = () => {
 
     const imgs = [
@@ -65,7 +64,7 @@ const Home = () => {
                 className="home-team-card"
                 cover={<img alt="example" src={img.url} />}
             >
-                <Meta title={img.name} description={img.category} />
+                <Card.Meta title={img.name} description={img.category} />
             </Card>
     )
 

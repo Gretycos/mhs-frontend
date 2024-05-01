@@ -25,7 +25,7 @@ const UserHome = () => {
 
     useEffect(() => {
         // console.log(location)
-        if (location.pathname === "/user") {
+        if (location.pathname === "/patient") {
             setIsHomepage(true)
         }else{
             setIsHomepage(false)

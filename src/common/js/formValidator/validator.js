@@ -37,3 +37,10 @@ export const validateConfirmPassword = async (_, value, firstPassword) => {
     }
     return Promise.reject(new Error('Please confirm your password'))
 }
+
+export const validateAgreement = async (_, value) => {
+    if (value){
+        return Promise.resolve()
+    }
+    return Promise.reject(new Error('Please accept our privacy policies'))
+}

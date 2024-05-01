@@ -3,13 +3,19 @@
  * time: 19/03/2024 17:00
  */
 import "./Register.less"
-import {App, Button, Card, Col, DatePicker, Form, Input, Layout, Row, Select} from "antd";
+import {App, Button, Card, Checkbox, Col, DatePicker, Form, Input, Layout, Modal, Row, Select} from "antd";
 import {NavLink, useNavigate} from "react-router-dom";
 import {register} from "@/service/user/user.js";
 import {useState} from "react";
 import dayjs from "dayjs";
-import {sexList, ukCity} from "@/common/js/utils.js"
-import {validateConfirmPassword, validatePassword, validatePostcode} from "@/common/js/formValidator/validator.js";
+import {sexList, today, ukCity} from "@/common/js/utils.js"
+import {
+    validateAgreement,
+    validateConfirmPassword,
+    validatePassword,
+    validatePostcode
+} from "@/common/js/formValidator/validator.js";
+import PrivacyPolicies from "@/views/Register/PrivacyPolicies.jsx";
 const {Meta} = Card
 
 const Register = () => {
@@ -18,6 +24,8 @@ const Register = () => {
 
     const [form] = Form.useForm()
     const [loading, setLoading] = useState(false)
+    const [agree, setAgree] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     // 选择器列表
     const cityList = ukCity.map(city => {
@@ -132,6 +140,15 @@ const Register = () => {
                 validator: (_, value) => validateConfirmPassword(_, value, form.getFieldValue("password"))
             }
         ],
+        agreement: [
+            {
+                required: true,
+                message: 'Please accept our privacy policies',
+            },
+            {
+                validator: validateAgreement
+            }
+        ],
     }
 
     // 表单提交
@@ -142,20 +159,40 @@ const Register = () => {
             ...values,
             dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
         }
-        const {data} = await register(params)
+        // const {data} = await register(params)
         message.success('Successfully sending register request', 2)
         // 回主页
         navigate('/', {replace: true})
         setLoading(false)
     }
 
-    const today = () => {
-        const date = new Date()
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    // 勾选同意条款
+    const onChangeCheckAgreement = (e) => {
+        setAgree(e.target.checked)
     }
+
+    // terms
+    // const openTerms = () => {
+    //     setIsModalOpen(true)
+    // }
+
+    // privacy
+    const openPrivacy = () => {
+        setIsModalOpen(true)
+    }
+
+    // 关闭对话框
+    const handleOk = () => {
+        setIsModalOpen(false)
+    }
+
+    // const today = () => {
+    //     const date = new Date()
+    //     const year = date.getFullYear();
+    //     const month = String(date.getMonth() + 1).padStart(2, '0');
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     return `${year}-${month}-${day}`;
+    // }
 
     return (
         <Layout className="register-page-content">
@@ -179,20 +216,6 @@ const Register = () => {
                         <Col>
                             <Form.Item
                                 className="register-form-item-2"
-                                name="lastName"
-                                rules={rules.lastName}
-                                validateTrigger="onBlur"
-                                label="Last Name"
-                                validateFirst={true}
-                            >
-                                <Input
-                                       placeholder="Last Name"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col>
-                            <Form.Item
-                                className="register-form-item-2"
                                 name="firstName"
                                 rules={rules.firstName}
                                 validateTrigger="onBlur"
@@ -200,7 +223,22 @@ const Register = () => {
                                 validateFirst={true}
                             >
                                 <Input
-                                       placeholder="First Name"
+                                    placeholder="First Name"
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col>
+                            <Form.Item
+                                className="register-form-item-2"
+                                name="lastName"
+                                rules={rules.lastName}
+                                validateTrigger="onBlur"
+                                label="Last Name"
+                                validateFirst={true}
+                            >
+                                <Input
+                                    placeholder="Last Name"
                                 />
                             </Form.Item>
                         </Col>
@@ -214,13 +252,13 @@ const Register = () => {
                             lg: 32,
                         }}
                     >
-                        <Col span={12}>
+                        <Col span={8}>
                             <Form.Item
                                 className="register-form-item"
                                 name="sex"
                                 rules={rules.sex}
                                 validateTrigger="onBlur"
-                                label="Biological Gender"
+                                label="Gender"
                             >
                                 <Select
                                     placeholder="Select gender"
@@ -229,7 +267,7 @@ const Register = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col span={16}>
                             <Form.Item
                                 className="register-form-item"
                                 name="dateOfBirth"
@@ -254,7 +292,7 @@ const Register = () => {
                         validateFirst={true}
                     >
                         <Input
-                               placeholder="Your street"
+                            placeholder="Your street"
                         />
                     </Form.Item>
 
@@ -266,7 +304,7 @@ const Register = () => {
                         label="Address 2"
                     >
                         <Input
-                               placeholder="Your flat"
+                            placeholder="Your flat"
                         />
                     </Form.Item>
 
@@ -311,7 +349,7 @@ const Register = () => {
                                 validateFirst={true}
                             >
                                 <Input
-                                       placeholder="Postcode"
+                                    placeholder="Postcode"
                                 />
                             </Form.Item>
                         </Col>
@@ -326,7 +364,7 @@ const Register = () => {
                         validateFirst={true}
                     >
                         <Input
-                               placeholder="Email"
+                            placeholder="Email"
                         />
                     </Form.Item>
 
@@ -351,8 +389,7 @@ const Register = () => {
                         label="Password"
                         validateFirst={true}
                     >
-                        <Input
-                            type="password"
+                        <Input.Password
                             placeholder="Password"
                         />
                     </Form.Item>
@@ -365,10 +402,31 @@ const Register = () => {
                         label="Confirm Password"
                         validateFirst={true}
                     >
-                        <Input
-                            type="password"
+                        <Input.Password
                             placeholder="Confirm Password"
                         />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="agreement"
+                        rules={rules.agreement}
+                        valuePropName="checked"
+                        validateTrigger="onBlur"
+                        validateFirst={true}
+                    >
+                        <Row>
+                            <Checkbox
+                                checked={agree}
+                                onChange={onChangeCheckAgreement}
+                            />
+                            {/*<div className="register-form-agreement-desc">*/}
+                            {/*    I agree to the <a onClick={openTerms}>Terms & Conditions</a> and <a*/}
+                            {/*    onClick={openPrivacy}>Privacy Statement</a>*/}
+                            {/*</div>*/}
+                            <div className="register-form-agreement-desc">
+                                I agree to the <a onClick={openPrivacy}>Privacy Policies</a>
+                            </div>
+                        </Row>
                     </Form.Item>
 
                     <Form.Item
@@ -383,6 +441,20 @@ const Register = () => {
                     </Form.Item>
                 </Form>
             </Card>
+            <Modal
+                className="register-modal"
+                title="Privacy Policies"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleOk}
+                footer={(_, { OkBtn, CancelBtn }) => (
+                    <>
+                        <OkBtn />
+                    </>
+                )}
+            >
+                <PrivacyPolicies/>
+            </Modal>
         </Layout>
     )
 }

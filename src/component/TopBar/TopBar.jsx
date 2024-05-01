@@ -8,7 +8,6 @@ import {store} from "@/redux/store.js";
 import {UserOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 const {Header} = Layout
-const {Search} = Input
 const TopBar = () => {
     const navigate = useNavigate()
     const token = store.getState()?.globalSlice.token
@@ -22,7 +21,7 @@ const TopBar = () => {
             key: '0',
             label: (
                 <div className="top-bar-login-dropdown">
-                    Customer Login
+                    Patient Login
                 </div>
             ),
         },
@@ -40,7 +39,7 @@ const TopBar = () => {
         // console.log(e.key)
         // console.log(typeof e.key)
         if (e.key === "0") {
-            navigate("/login/user")
+            navigate("/login/patient")
         }else{
             navigate("/login/doctor")
         }

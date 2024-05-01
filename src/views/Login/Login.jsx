@@ -3,7 +3,7 @@
  * time: 17/03/2024 01:10
  */
 
-import {App, Button, Card, Form, Input, Layout} from "antd";
+import {App, Button, Card, Checkbox, Form, Input, Layout} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {useState} from "react";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
@@ -68,14 +68,14 @@ const Login = () => {
         // dispatch(save({ token: data.token }))
         message.success('login succeeded', 2)
         // 回主页
-        role === "user" ? navigate('/user') : navigate('/doctor-home')
+        role === "patient" ? navigate('/patient') : navigate('/doctor-home')
         setLoading(false)
     }
 
     return (
         <Layout className="login-page-content">
             <Card bordered={false} className="login-card">
-                <Meta title={`MHS ${role === "user" ? "" : "Doctor"}`} className="login-title"></Meta>
+                <Meta title={`MHS ${role === "patient" ? "" : "Doctor"}`} className="login-title"></Meta>
                 <Form
                     form={form}
                     name="normal_login"
@@ -109,7 +109,7 @@ const Login = () => {
                             Sign in
                         </Button>
                         {
-                            role === "user" ?
+                            role === "patient" ?
                                 (
                                     <NavLink to="/register" className="login-form-register">
                                         Sign up
