@@ -90,10 +90,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "prescription-history",
-        element: <Prescription />,
-      },
-      {
         path: "/doctor/home",
         element: <DoctorHome />
       },
