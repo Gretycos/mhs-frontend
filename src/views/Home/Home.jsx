@@ -63,6 +63,7 @@ const Home = () => {
             <Card
                 className="home-team-card"
                 cover={<img alt="example" src={img.url} />}
+                key={idx}
             >
                 <Card.Meta title={img.name} description={img.category} />
             </Card>

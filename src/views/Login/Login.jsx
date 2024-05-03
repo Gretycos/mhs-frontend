@@ -66,6 +66,7 @@ const Login = () => {
         // }
         // const {data} = role === "patient" ? await login(params) : await loginPract(params)
         // dispatch(save({ token: data.token }))
+        dispatch(save({ role: role }))
         message.success('login succeeded', 2)
         // 回主页
         role === "patient" ? navigate('/patient') : navigate('/doctor-home')
