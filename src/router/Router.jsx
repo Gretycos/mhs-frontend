@@ -27,7 +27,6 @@ import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/Prescripti
 import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
 import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
 import UserInfo from "@/views/UserHome/UserInfo/UserInfo.jsx";
-import Prescription from "@/views/UserHome/Prescription/Prescription.jsx";
 
 const router = createBrowserRouter([
   {
@@ -111,45 +110,48 @@ const router = createBrowserRouter([
     path: "/reset/:role",
     element: <ResetPsw />,
   },
-    {
-        path:"/doctor",
-        element: <Navigate to="/doctor/home"/>
-    },
-
-    {
-        path:"/doctor",
-        element:<Doctor />,
-        children: [
-            {
-                path: "timetable",
-                element: <Timetable />
-            },
-            {
-                path: "pending",
-                element: <Pending />
-            },
-            {
-                path: "ongoing",
-                element: <Ongoing />
-            },
-            {
-                path: "completed",
-                element: <Completed />
-            },
-            {
-                path: "pending/details/:id",
-                element:<PendingDetail />
-            },
-            {
-                path: "ongoing/details/:id",
-                element:<OngoingDetail />
-            },
-            {
-                path: "completed/details/:id",
-                element:<CompletedDetail />
-            }
-        ]
-    }
+  {
+    path:"/doctor",
+    element: <Navigate to="/doctor/home"/>
+  },
+  {
+    path: "/doctor/home",
+    element: <DoctorHome />
+  },
+  {
+    path:"/doctor",
+    element:<Doctor />,
+    children: [
+      {
+        path: "timetable",
+        element: <Timetable />
+      },
+      {
+        path: "pending",
+        element: <Pending />
+      },
+      {
+        path: "ongoing",
+        element: <Ongoing />
+      },
+      {
+        path: "completed",
+        element: <Completed />
+      },
+      {
+        path: "pending/details/:id",
+        element:<PendingDetail />
+      },
+      {
+        path: "ongoing/details/:id",
+        element:<OngoingDetail />
+      },
+      {
+        path: "completed/details/:id",
+        element:<CompletedDetail />
+      }
+    ]
+  }
 ]);
 
 export default router;
