@@ -5,15 +5,14 @@
 import "./DoctorHome.less"
 import {useNavigate} from "react-router-dom";
 import CountUp from 'react-countup';
-import { Statistic } from 'antd';
+import {Col, Row, Statistic} from 'antd';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventIcon from '@mui/icons-material/Event';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import CountCard from "@/component/CountCard/CountCard.jsx";
 const DoctorHome = () => {
     const navigate = useNavigate()
-
-    const formatter = (value) => <CountUp end={value} separator="," />;
 
     const menu = [
         {
@@ -60,8 +59,22 @@ const DoctorHome = () => {
     return (
         <>
             <div className="doctor-home-countup">
-                <Statistic title="Pending Request" value={countPending} formatter={formatter} className="countup-value-style" />
-                <Statistic title="Ongoing Request" value={countOngoing} formatter={formatter} className="countup-value-style"/>
+                <Row
+                    justify="space-between"
+                    gutter={{
+                        xs: 8,
+                        sm: 16,
+                        md: 24,
+                        lg: 32,
+                    }}
+                >
+                    <Col span={12}>
+                        <CountCard type={0}/>
+                    </Col>
+                    <Col span={12}>
+                        <CountCard type={1}/>
+                    </Col>
+                </Row>
             </div>
             <div className="doctor-home-menu">
                 {menuComponent}
