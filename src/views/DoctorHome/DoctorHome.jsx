@@ -38,6 +38,12 @@ const DoctorHome = () => {
         },
     ]
 
+
+    const countPending = 15
+
+    const countOngoing = 50
+
+
     const onItemClick = (url) => {
         navigate(url)
     }
@@ -54,8 +60,8 @@ const DoctorHome = () => {
     return (
         <>
             <div className="doctor-home-countup">
-                <Statistic title="Pending Request" value={15} formatter={formatter} className="countup-value-style" />
-                <Statistic title="Ongoing Request" value={50} formatter={formatter} className="countup-value-style"/>
+                <Statistic title="Pending Request" value={countPending} formatter={formatter} className="countup-value-style" />
+                <Statistic title="Ongoing Request" value={countOngoing} formatter={formatter} className="countup-value-style"/>
             </div>
             <div className="doctor-home-menu">
                 {menuComponent}
