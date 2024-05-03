@@ -16,6 +16,9 @@ import {
 import { useState } from "react";
 const { Option } = Select;
 const { TextArea } = Input;
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { ArrowBack } from "@mui/icons-material";
+import "../../../component/UserFramework/UserFramework.less";
 
 const layout = {
   labelCol: {
@@ -82,6 +85,10 @@ const BookTest = () => {
   const [form] = Form.useForm();
   const [searchRes, setSearchRes] = useState(false);
   const [confirm, setConfirm] = useState(null);
+
+  const location = useLocation();
+  const { pathname, state } = location;
+  const navigate = useNavigate();
 
   const BookTime = () => {
     console.log("Booked !");
@@ -189,8 +196,9 @@ const BookTest = () => {
     );
   } else {
     return (
-      <div className="book-appointment-page">
-        <p className="title">Book for a surgery, test or vaccine</p>
+      <div className="book-appointment-page user-framework-container">
+        <div className="user-framework-title">{state.title}</div>
+        <ArrowBack className="back-icon" onClick={() => navigate(-1)} />
         <p className="description"> Please select your requirements:</p>
         <div className="content">
           <Form

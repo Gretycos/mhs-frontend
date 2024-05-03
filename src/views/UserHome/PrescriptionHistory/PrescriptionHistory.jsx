@@ -2,9 +2,11 @@
  * author: Tsong
  * time: 20/03/2024 19:24
  */
-
+import { useLocation, useParams } from "react-router-dom";
+import { ArrowBack } from "@mui/icons-material";
 import "./PrescriptionHistory.less";
 import { Table } from "antd";
+import { useNavigate } from "react-router-dom";
 
 // dataSource and columns for table
 const dataSource = [
@@ -95,9 +97,17 @@ const columns = [
 ];
 
 const PrescriptionHistory = () => {
+  const location = useLocation();
+  const params = useParams();
+
+  const navigate = useNavigate();
+
+  const { pathname, state } = location;
+
   return (
-    <div className="prescription-page">
-      <p className="title">Prescription History</p>
+    <div className="prescription-page user-framework-container">
+      <div className="user-framework-title">{state.title}</div>
+      <ArrowBack className="back-icon" onClick={() => navigate(-1)} />
       <Table dataSource={dataSource} columns={columns} className="table" />
     </div>
   );
