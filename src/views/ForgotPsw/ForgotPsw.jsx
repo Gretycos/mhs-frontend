@@ -7,7 +7,7 @@ import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {useState} from "react";
-import {forgot} from "@/service/user/user.js";
+import {forgot} from "@/service/user/patient.js";
 const {Meta} = Card
 
 const ForgotPsw = () => {

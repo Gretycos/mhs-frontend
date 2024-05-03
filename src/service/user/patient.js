@@ -4,7 +4,7 @@
  */
 import axios from "@/common/js/axios.js";
 
-const PREFIX = '/user'
+const PREFIX = '/patient'
 
 export const login = (params) => {
     return axios.post(PREFIX + '/login', params)

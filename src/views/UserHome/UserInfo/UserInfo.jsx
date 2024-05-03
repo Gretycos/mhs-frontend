@@ -7,7 +7,7 @@ import {ArrowBack} from "@mui/icons-material";
 import {App, Button, Col, DatePicker, Form, Input, Row, Select} from "antd";
 import dayjs from "dayjs";
 import {useNavigate} from "react-router-dom";
-import {getInfo, updateInfo} from "@/service/user/user.js";
+import {getInfo, updateInfo} from "@/service/user/patient.js";
 import {useEffect, useState} from "react";
 import {sexList, today, ukCity} from "@/common/js/utils.js";
 import {validatePostcode} from "@/common/js/formValidator/validator.js";

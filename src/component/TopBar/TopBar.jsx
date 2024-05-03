@@ -12,10 +12,6 @@ const TopBar = () => {
     const navigate = useNavigate()
     const token = store.getState()?.globalSlice.token
 
-    const onSearch = () => {
-
-    }
-
     const dropdownItems = [
         {
             key: '0',
@@ -46,15 +42,7 @@ const TopBar = () => {
     }
 
     // const LoginComponent = () => {
-    //     const loggedIn = (token) => {
-    //         // TODO: 用token找用户信息
     //
-    //         return (
-    //             <div className="top-bar-user">
-    //                 User Info
-    //             </div>
-    //         )
-    //     }
     //
     //     const onLogin = (e) => {
     //         console.log(e.key)
@@ -68,26 +56,38 @@ const TopBar = () => {
     //             })
     //         }
     //     }
-    //     const notLoggedIn = () => {
-    //         return (
-    //             <div className="top-bar-user">
-    //                 <UserOutlined />
-    //                 <Dropdown
-    //                     menu={{
-    //                         items: dropdownItems,
-    //                         onClick: onLogin
-    //                     }}
-    //                     placement="bottom"
-    //                 >
-    //                     <Button className="top-bar-user" onClick={(e) => onLogin(e)}>Login</Button>
-    //                 </Dropdown>
-    //             </div>
-    //         )
-    //     }
+
     //     const token = store.getState()?.globalSlice.token
     //     return token ? loggedIn(token) : notLoggedIn()
     //
     // }
+
+    const loggedIn = () => {
+        // TODO: 用token找用户信息
+        const {data} =
+        return (
+          <div className="top-bar-user-info">
+              <UserOutlined/>
+              user information
+          </div>
+        )
+    }
+
+    const notLoggedIn = () => {
+        return (
+          <Dropdown
+            menu={
+                {
+                    items: dropdownItems,
+                    onClick: onLogin,
+                }
+            }
+            placement="bottom"
+          >
+              <Button className="top-bar-user" disabled>Login</Button>
+          </Dropdown>
+        )
+    }
 
     return (
         <Header className="top-bar">
@@ -98,24 +98,11 @@ const TopBar = () => {
                     {
                         token ?
                             (
-                                <div className="top-bar-user-info">
-                                    <UserOutlined/>
-                                    user information
-                                </div>
+                                loggedIn()
                             )
                             :
                             (
-                                <Dropdown
-                                    menu={
-                                        {
-                                            items: dropdownItems,
-                                            onClick: onLogin,
-                                        }
-                                    }
-                                    placement="bottom"
-                                >
-                                    <Button className="top-bar-user" disabled>Login</Button>
-                                </Dropdown>
+                                notLoggedIn()
                             )
                     }
                 </div>

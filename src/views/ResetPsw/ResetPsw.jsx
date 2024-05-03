@@ -7,7 +7,7 @@ import {useLocation, useNavigate, useParams, useSearchParams} from "react-router
 import {App, Button, Card, Form, Input, Layout, Result, Spin} from "antd";
 import {useEffect, useState} from "react";
 import {UserOutlined} from "@ant-design/icons";
-import {reset, validateReset} from "@/service/user/user.js";
+import {reset, validateReset} from "@/service/user/patient.js";
 import {validateConfirmPassword, validatePassword} from "@/common/js/formValidator/validator.js";
 const {Meta} = Card
 
