@@ -7,7 +7,7 @@ import {App, Button, Card, Checkbox, Form, Input, Layout} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {useState} from "react";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
-import {login} from "@/service/user/user.js";
+import {login} from "@/service/user/patient.js";
 import {useDispatch} from "react-redux";
 import {save} from "@/redux/slice/globalSlice.js";
 import "./Login.less"
@@ -64,7 +64,7 @@ const Login = () => {
         //     email: values.email,
         //     password: values.password
         // }
-        // const {data} = await login(params)
+        // const {data} = role === "patient" ? await login(params) : await loginPract(params)
         // dispatch(save({ token: data.token }))
         message.success('login succeeded', 2)
         // 回主页

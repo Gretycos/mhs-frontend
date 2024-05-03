@@ -5,7 +5,7 @@
 import "./Register.less"
 import {App, Button, Card, Checkbox, Col, DatePicker, Form, Input, Layout, Modal, Row, Select} from "antd";
 import {NavLink, useNavigate} from "react-router-dom";
-import {register} from "@/service/user/user.js";
+import {register} from "@/service/user/patient.js";
 import {useState} from "react";
 import dayjs from "dayjs";
 import {sexList, today, ukCity} from "@/common/js/utils.js"
