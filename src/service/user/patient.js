@@ -30,10 +30,10 @@ export const validateReset = (token) => {
     return axios.get(PREFIX + `/validateReset/${token}`)
 }
 
-export const getInfo = (params) => {
+export const getPatientInfo = (params) => {
     return axios.get(PREFIX + '/info', {params})
 }
 
-export const updateInfo = (params) => {
+export const updatePatientInfo = (params) => {
     return axios.put(PREFIX + '/info/update', params)
 }

@@ -8,7 +8,8 @@ const globalSlice = createSlice({
     name: 'global',
     initialState: {
         token: '',
-        userId: ''
+        userId: '',
+        role: '',
     },
     reducers: {
         save(state, action) {

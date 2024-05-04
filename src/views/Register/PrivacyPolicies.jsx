@@ -8,7 +8,7 @@ const PrivacyPolicies = () => {
         <div className="privacy-content">
             <div className="privacy-content-l1">
 
-                <p className="privacy-title">Collection of data by the GP Service</p>
+                <p className="privacy-title">Collection of data by the MHS</p>
 
                 <div className="privacy-content-l2">
                     <p className="privacy-subtitle">Registration details</p>

@@ -74,29 +74,7 @@ const DoctorHome = () => {
     })
 
     return (
- /*       <>
-            <div className="doctor-home-countup">
-                <Row
-                    justify="space-between"
-                    gutter={{
-                        xs: 8,
-                        sm: 16,
-                        md: 24,
-                        lg: 32,
-                    }}
-                >
-                    <Col span={12}>
-                        <CountCard type={0}/>
-                    </Col>
-                    <Col span={12}>
-                        <CountCard type={1}/>
-                    </Col>
-                </Row>
-            </div>
-            <div className="doctor-home-menu">
-                {menuComponent}
-            </div>
-        </>*/
+
         <div className="doctor-home">
             {
                 isHomepage ?

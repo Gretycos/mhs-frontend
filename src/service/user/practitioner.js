@@ -13,3 +13,7 @@ export const loginPract = (params) => {
 export const logoutPract = () => {
   return axios.delete(PREFIX + '/logout')
 }
+
+export const getPractitionerInfo = (params) => {
+  return axios.post(PREFIX + '/info', params)
+}
