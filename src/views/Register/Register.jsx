@@ -16,6 +16,7 @@ import {
     validatePostcode
 } from "@/common/js/formValidator/validator.js";
 import PrivacyPolicies from "@/views/Register/PrivacyPolicies.jsx";
+import md5 from 'js-md5'
 const {Meta} = Card
 
 const Register = () => {
@@ -158,8 +159,10 @@ const Register = () => {
         const params = {
             ...values,
             dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
+            password: md5(values.password)
         }
-        // const {data} = await register(params)
+        console.log(params)
+        const {data} = await register(params)
         message.success('Successfully sending register request', 2)
         // 回主页
         navigate('/', {replace: true})
