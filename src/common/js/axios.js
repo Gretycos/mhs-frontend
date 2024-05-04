@@ -23,7 +23,7 @@ axios.interceptors.response.use(res => {
     if (res.data.resultCode !== 200) {
         message.error(res.data.message, 2)
         if (res.data.resultCode === 416) {
-            window.location.href = '/login'
+            window.location.href = '/home'
         }
         return Promise.reject(res.data)
     }
@@ -32,6 +32,7 @@ axios.interceptors.response.use(res => {
 }, rej => {
     if (rej.response.status === 401){
         message.error("timeout", 2)
+        window.location.href = '/home'
     }
     console.log(rej.response)
     return Promise.reject(rej.response.statusText)

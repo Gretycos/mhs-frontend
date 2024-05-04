@@ -16,11 +16,11 @@ export default defineConfig({
     port: 7002,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3338', // 凡是遇到 /api 路径的请求，都映射到 target 属性
+        target: 'http://127.0.0.1:10010', // 凡是遇到 /api 路径的请求，都映射到 target 属性
         changeOrigin: true
       },
       '/image': {
-        target: 'http://127.0.0.1:3338', // 凡是遇到 /upload 路径的请求，都映射到 target 属性
+        target: 'http://127.0.0.1:10010', // 凡是遇到 /upload 路径的请求，都映射到 target 属性
         changeOrigin: true,
         rewrite: path => path.replace(/^\/image/, '/upload')
       }

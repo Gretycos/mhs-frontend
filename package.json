@@ -20,6 +20,7 @@
     "antd": "^5.15.1",
     "axios": "^1.6.7",
     "daypilot-pro-react": "https://npm.daypilot.org/daypilot-pro-react/trial/2024.1.5890.tar.gz",
+    "js-md5": "^0.8.3",
     "less": "^4.2.0",
     "react": "^18.2.0",
     "react-countup": "^6.5.2",
