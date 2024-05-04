@@ -8,7 +8,6 @@ import Home from "@/views/Home/Home.jsx";
 import Login from "@/views/Login/Login.jsx";
 import RouteGuard from "@/router/RouteGuard.jsx";
 import DoctorHome from "@/views/DoctorHome/DoctorHome.jsx";
-import Doctor from "@/views/Doctor/Doctor.jsx";
 import Timetable from "@/views/Doctor/Timetable/Timetable.jsx";
 import Pending from "@/views/Doctor/Pending/Pending.jsx";
 import Ongoing from "@/views/Doctor/Ongoing/Ongoing.jsx";
