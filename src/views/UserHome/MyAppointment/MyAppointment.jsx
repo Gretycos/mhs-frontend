@@ -15,7 +15,7 @@ const MyAppointment = () => {
     const location = useLocation();
     const params = useParams()
 
-    // console.log(location)
+    console.log(location)
     const {pathname, state} = location
 
     const dateOptions = [

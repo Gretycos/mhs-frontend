@@ -64,7 +64,7 @@ const TopBar = () => {
 
     const loggedIn = () => {
         // TODO: 用token找用户信息
-        const {data} =
+        //const {data} =
         return (
           <div className="top-bar-user-info">
               <UserOutlined/>

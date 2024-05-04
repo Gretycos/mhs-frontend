@@ -16,30 +16,31 @@ const DoctorMenu = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const items = [
-        {
-            label: 'Timetable',
-            key: '/doctor/timetable',
-            icon: <CalendarMonthIcon />,
-        },
-        {
-            label: 'Pending Request',
+    const role = 0
+    const items = [{
+        label: 'Timetable',
+        key: '/doctor/timetable',
+        icon: <CalendarMonthIcon />,
+    }]
+    if (role === 0){
+        items.push({
+            label: 'Pending Appointment',
             key: '/doctor/pending',
             icon: <EditCalendarIcon />,
-        },
+        })
+    }
+    items.push(
         {
-            label: 'Ongoing Request',
+            label: 'Ongoing Appointment',
             key: '/doctor/ongoing',
             icon: <EventIcon />,
         },
         {
-            label: 'Completed Request',
+            label: 'Completed Appointment',
             key: 'completed',
             icon: <EventAvailableIcon />
 
-        },
-    ];
+        })
 
     const [current, setCurrent] = useState('mail');
     const onClick = (e) => {
@@ -55,7 +56,8 @@ const DoctorMenu = () => {
                 onClick={onClick}
                 selectedKeys={[current]}
                 mode="horizontal"
-                items={items}/>
+                items={items}
+                className="doctor-menu-container"/>
         </>
     )
 }

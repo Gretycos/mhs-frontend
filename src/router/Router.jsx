@@ -89,8 +89,38 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/doctor/home",
-        element: <DoctorHome />
+        path: "/doctor",
+        element: <DoctorHome />,
+        children: [
+          {
+            path: "timetable",
+            element: <Timetable />
+          },
+          {
+            path: "pending",
+            element: <Pending />
+          },
+          {
+            path: "ongoing",
+            element: <Ongoing />
+          },
+          {
+            path: "completed",
+            element: <Completed />
+          },
+          {
+            path: "pending/details/:id",
+            element:<PendingDetail />
+          },
+          {
+            path: "ongoing/details/:id",
+            element:<OngoingDetail />
+          },
+          {
+            path: "completed/details/:id",
+            element:<CompletedDetail />
+          }
+        ]
       },
     ],
   },
@@ -110,48 +140,7 @@ const router = createBrowserRouter([
     path: "/reset/:role",
     element: <ResetPsw />,
   },
-  {
-    path:"/doctor",
-    element: <Navigate to="/doctor/home"/>
-  },
-  {
-    path: "/doctor/home",
-    element: <DoctorHome />
-  },
-  {
-    path:"/doctor",
-    element:<Doctor />,
-    children: [
-      {
-        path: "timetable",
-        element: <Timetable />
-      },
-      {
-        path: "pending",
-        element: <Pending />
-      },
-      {
-        path: "ongoing",
-        element: <Ongoing />
-      },
-      {
-        path: "completed",
-        element: <Completed />
-      },
-      {
-        path: "pending/details/:id",
-        element:<PendingDetail />
-      },
-      {
-        path: "ongoing/details/:id",
-        element:<OngoingDetail />
-      },
-      {
-        path: "completed/details/:id",
-        element:<CompletedDetail />
-      }
-    ]
-  }
+
 ]);
 
 export default router;

@@ -4,631 +4,93 @@
  */
 import "./Pending.less"
 import { Select, Card, Pagination } from 'antd';
-import { useState} from "react";
-import { Link} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link, useLocation, useParams} from "react-router-dom";
+import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 
 const Pending = () => {
 
-    const opts = [
+    const location = useLocation();
+    const params = useParams()
+
+    const {pathname} = location
+
+    const state = {title: "Pending Appointment"}
+
+    const dateOptions = [
         {
             value: 0,
-            label: 'This week',
-        },
-        {
-            value: 1,
-            label: 'Next week',
+            label: "Next 7 Days",
         },
         {
             value: 2,
-            label: 'Next two weeks',
+            label: "Next 2 weeks",
         },
         {
-            value: 8,
-            label: 'Next eight weeks',
+            value: 3,
+            label: "Next 4 weeks",
         },
         {
-            value: 16,
-            label: 'Next sixteen weeks',
+            value: 4,
+            label: "Next 8 weeks",
         },
     ]
 
-    const getListData = (value) => {
-        let listData;
-        switch (value) {
-            case 0:
-                listData = [
+    const selectors = [
+        {
+            title: "Date Range",
+            key: "dateRange", // 当作后续发请求的参数变量名
+            options: dateOptions,
+        },
+    ]
+
+    const getData = (params) => {
+        console.log("sending request:", params)
+        return {
+            code: 200,
+            msg: "ok",
+            data: {
+                page: 1,
+                totalSize: 100,
+                data: [
                     {
                         id: '00000000',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000000',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
+                        time: "dd-MM-yyyy HH:mm",
+                        title:"John Smith"
                     },
                     {
-                        id: '11111111',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000001',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                ];
-                break;
-            case 1:
-                listData = [
-                    {
-                        id: '00000000',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000000',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '11111111',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000001',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '22222222',
-                        date: '2024/03/27',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000002',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '33333333',
-                        date: '2024/03/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000003',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                ];
-                break;
-            case 2:
-                listData = [
-                    {
-                        id: '00000000',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000000',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '11111111',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000001',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '22222222',
-                        date: '2024/03/27',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000002',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '33333333',
-                        date: '2024/03/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000003',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '44444444',
-                        date: '2024/04/01',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000004',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '55555555',
-                        date: '2024/04/02',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000005',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '66666666',
-                        date: '2024/04/04',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000006',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '77777777',
-                        date: '2024/04/05',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000007',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                ];
-                break;
-            case 8:
-                listData = [
-                    {
-                        id: '00000000',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000000',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '11111111',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000001',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '22222222',
-                        date: '2024/03/27',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000002',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '33333333',
-                        date: '2024/03/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000003',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '44444444',
-                        date: '2024/04/01',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000004',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '55555555',
-                        date: '2024/04/02',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000005',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '66666666',
-                        date: '2024/04/04',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000006',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '77777777',
-                        date: '2024/04/05',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000007',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '88888888',
-                        date: '2024/04/06',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000008',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '99999999',
-                        date: '2024/04/08',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000009',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
+                        id: '00000001',
+                        time: "dd-MM-yyyy HH:mm",
+                        title:"John Smith"
                     },
                     {
                         id: '00000002',
-                        date: '2024/04/13',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000010',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
+                        time: "dd-MM-yyyy HH:mm",
+                        title:"John Smith"
                     },
                     {
                         id: '00000003',
-                        date: '2024/04/18',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000011',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
+                        time: "dd-MM-yyyy HH:mm",
+                        title:"John Smith"
                     },
-                    {
-                        id: '00000004',
-                        date: '2024/04/25',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000012',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000005',
-                        date: '2024/04/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000013',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000006',
-                        date: '2024/05/02',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000014',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000007',
-                        date: '2024/05/13',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000015',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                ];
-                break;
-            case 16:
-                listData = [
-                    {
-                        id: '00000000',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000000',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '11111111',
-                        date: '2024/03/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000001',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '22222222',
-                        date: '2024/03/27',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000002',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '33333333',
-                        date: '2024/03/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000003',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '44444444',
-                        date: '2024/04/01',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000004',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '55555555',
-                        date: '2024/04/02',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000005',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '66666666',
-                        date: '2024/04/04',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000006',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '77777777',
-                        date: '2024/04/05',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000007',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '88888888',
-                        date: '2024/04/06',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000008',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '99999999',
-                        date: '2024/04/08',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000009',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000002',
-                        date: '2024/04/13',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000010',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000003',
-                        date: '2024/04/18',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000011',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000004',
-                        date: '2024/04/25',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000012',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000005',
-                        date: '2024/04/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000013',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000006',
-                        date: '2024/05/02',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000014',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000007',
-                        date: '2024/05/13',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000015',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000008',
-                        date: '2024/05/17',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000016',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000009',
-                        date: '2024/05/18',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000017',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000010',
-                        date: '2024/05/20',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000018',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000011',
-                        date: '2024/05/23',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000019',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000012',
-                        date: '2024/05/27',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000020',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000013',
-                        date: '2024/06/01',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000021',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000014',
-                        date: '2024/06/03',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000022',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000015',
-                        date: '2024/06/06',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000023',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000016',
-                        date: '2024/06/10',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000024',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000017',
-                        date: '2024/06/12',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000025',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000018',
-                        date: '2024/06/14',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'000000226',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000019',
-                        date: '2024/06/15',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000027',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000020',
-                        date: '2024/06/20',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000028',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000021',
-                        date: '2024/06/25',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000029',
-                        patient_name: "liu",
-                        reason:'My leg is pain.'
-                    },
-                    {
-                        id: '00000022',
-                        date: '2024/06/31',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000030',
-                        patient_name: "liu",
-                        reason:'My arm is pain.'
-                    },
-                    {
-                        id: '00000023',
-                        date: '2024/07/07',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000031',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                    {
-                        id: '00000024',
-                        date: '2024/07/13',
-                        time:'09:15-09:30',
-                        day:'Saturday',
-                        patient_id:'00000032',
-                        patient_name: "liu",
-                        reason:'My head is pain.'
-                    },
-                ];
-                break;
-            default:
+                ],
+            }
         }
-        return listData || [];
-    };
+    }
+
+    return (
+        <UserFramework
+            state={state}
+            pathname={pathname}
+            params={params}
+            selectors={selectors}
+            getData={getData}
+            Detail={PendingAppointmentDetail}
+        />
+    )
 
 
-    const pageSize = 10;
+/*    const pageSize = 10;
 
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -681,6 +143,58 @@ const Pending = () => {
                 </div>
             </div>
         </div>
+    )*/
+}
+
+const PendingAppointmentDetail = (props) => {
+    const {params, state} = props
+    const {id} = params
+    const [aptData, setAptData] = useState(
+        {
+            ref: "",
+            firstName: "",
+            lastName: "",
+            doctor: "",
+            time: "",
+            birthday:"",
+            reason:"",
+            type:"",
+        }
+    )
+
+    const parseType = (first, second) => {
+        let type = ""
+        if (first === "clinic"){
+            type += "CLINIC - "
+            switch (second) {
+                case 0: type += "FACE-TO-FACE"; break;
+                case 1: type += "TELEPHONE"; break;
+            }
+        } else {
+            type += "TEST - "
+            switch (second) {
+                case 0: type += "SURGERY"; break;
+                case 1: type += "REGULAR"; break;
+                case 2: type += "VACCINE"; break;
+            }
+        }
+        return type
+    }
+
+    useEffect(async () => {
+        console.log("onMounted", id, state.type)
+        setAptData({
+            ref: "C3221982",
+            firstName: "Yaocong",
+            lastName: "Huang",
+            doctor: "Dr.Jane",
+            time: "23-03-2024 15:15",
+            birthday:"02-01-2002",
+            reason:"My leg always pain during rain",
+        })
+    }, []);
+    return (
+        <div></div>
     )
 }
 

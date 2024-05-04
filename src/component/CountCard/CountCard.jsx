@@ -29,12 +29,19 @@ const CountCard = (props) => {
             {
                 type === 0?
                     (
-                        <Statistic title="Please solve pending appointment as fast as possible" value={countPending} formatter={formatter} />
+                        <div>
+                            The number of pending appointment is(Please solve them as fast as possible):
+                            <Statistic value={countPending} formatter={formatter} />
+                        </div>
 
                     )
                     :
                     (
-                        <Statistic title="Ongoing Request in next 8 weeks" value={countOngoing} formatter={formatter} />
+                        <div>
+                            The number of ongoing Request in next 8 weeks is:
+                            <Statistic value={countOngoing} formatter={formatter} />
+                        </div>
+
                     )
             }
         </Card>

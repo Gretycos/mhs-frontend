@@ -71,7 +71,7 @@ const UserHome = () => {
         },
     ]
     const onItemClick = (idx, url) => {
-        navigate(url, {state:{title: menu[idx].name}})
+        navigate(url)
         setIsHomepage(false)
     }
     const menuComponent = menu.map((item, idx) => {
