@@ -19,11 +19,11 @@ export const register = (params) => {
 }
 
 export const forgot = (params) => {
-    return axios.post(PREFIX + '/forgot', params)
+    return axios.get(PREFIX + '/forgot', {params})
 }
 
 export const reset = (params) => {
-    return axios.post(PREFIX + '/reset', params)
+    return axios.put(PREFIX + '/reset', params)
 }
 
 export const validateReset = (token) => {

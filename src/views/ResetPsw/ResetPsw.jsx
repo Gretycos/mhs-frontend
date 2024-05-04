@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {UserOutlined} from "@ant-design/icons";
 import {reset, validateReset} from "@/service/user/patient.js";
 import {validateConfirmPassword, validatePassword} from "@/common/js/formValidator/validator.js";
+import md5 from "js-md5";
 const {Meta} = Card
 
 const ResetPsw = () => {
@@ -50,14 +51,18 @@ const ResetPsw = () => {
         ],
     }
 
-    useEffect(async () => {
+    useEffect( () => {
         if (resetToken !== null){
-            const {data} = await validateReset(resetToken)
-            form.setFieldValue("email", data)
+            checkToken()
         }else{
             navigate("/")
         }
     }, []);
+
+    const checkToken = async () => {
+        const {data} = await validateReset(resetToken)
+        form.setFieldValue("email", data)
+    }
 
     // 表单提交
     const onFinish = async values => {
@@ -65,7 +70,7 @@ const ResetPsw = () => {
         setLoading(true)
         const params = {
             email: values.email,
-            newPassword: values.password,
+            newPassword: md5(values.password),
             token: resetToken,
         }
         const {data} = await reset(params)
