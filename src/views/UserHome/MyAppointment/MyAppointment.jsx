@@ -145,7 +145,7 @@ const MyAppointmentDetail = (props) => {
         return type
     }
 
-    useEffect(async () => {
+    useEffect( () => {
         console.log("onMounted", id, state.type)
         // 用id去查数据
         // const params = {
@@ -173,6 +173,27 @@ const MyAppointmentDetail = (props) => {
             doctor: "DR. FOO",
         })
     }, []);
+
+    const getData = async () => {
+        // 用id去查数据
+        // const params = {
+        //     appointId: id,
+        //     patientId: store.getState()?.globalSlice.userId,
+        // }
+        // console.log(params)
+        // const {data} = state.type === "clinic" ?
+        //     await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
+        // console.log(data)
+        // setAptData({
+        //     time: data.time,
+        //     ref: data.appointmentId,
+        //     firstName: data.firstName,
+        //     lastName: data.lastName,
+        //     type: parseType(state.type, data.type),
+        //     doctor: data.doctor,
+        // })
+    }
+
     return (
         <div className="aptmt-container">
             <Card
