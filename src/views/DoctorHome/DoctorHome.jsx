@@ -3,17 +3,34 @@
  * time: 16/03/2024 19:37
  */
 import "./DoctorHome.less"
-import {useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 import CountUp from 'react-countup';
-import { Statistic } from 'antd';
+import {Col, Row, Statistic} from 'antd';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventIcon from '@mui/icons-material/Event';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import CountCard from "@/component/CountCard/CountCard.jsx";
+import RecentCard from "@/component/RecentCard/RecentCard.jsx";
+import {useEffect, useState} from "react";
+import DoctorMenu from "@/component/Menu/DoctorMenu.jsx";
 const DoctorHome = () => {
-    const navigate = useNavigate()
 
-    const formatter = (value) => <CountUp end={value} separator="," />;
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const [isHomepage, setIsHomepage] = useState(true)
+
+    useEffect(() => {
+        // console.log(location)
+        if (location.pathname === "/doctor") {
+            setIsHomepage(true)
+        }else{
+            setIsHomepage(false)
+        }
+    }, [location.pathname]);
+
+    const role = 0
 
     const menu = [
         {
@@ -21,36 +38,35 @@ const DoctorHome = () => {
             icon: <CalendarMonthIcon className="menu-icon-style"/>,
             url: "/doctor/timetable"
         },
-        {
-            name: "Pending Request",
-            icon: <EditCalendarIcon className="menu-icon-style"/>,
-            url: "/doctor/pending"
-        },
-        {
-            name: "Ongoing Request",
-            icon: <EventIcon className="menu-icon-style"/>,
-            url: "/doctor/ongoing"
-        },
-        {
-            name: "Completed Request",
-            icon: <EventAvailableIcon className="menu-icon-style"/>,
-            url: "/doctor/completed"
-        },
     ]
 
+    if (role === 0){
+        menu.push({
+            name: "Pending Appointment",
+            icon: <EditCalendarIcon className="menu-icon-style"/>,
+            url: "/doctor/pending"
+        })
+    }
 
-    const countPending = 15
+    menu.push({
+        name: "Ongoing Appointment",
+        icon: <EventIcon className="menu-icon-style"/>,
+        url: "/doctor/ongoing"
+    },
+    {
+        name: "Completed Appointment",
+        icon: <EventAvailableIcon className="menu-icon-style"/>,
+        url: "/doctor/completed"
+    })
 
-    const countOngoing = 50
-
-
-    const onItemClick = (url) => {
-        navigate(url)
+    const onItemClick = (idx, url) => {
+        navigate(url, {state:{title: menu[idx].name}})
+        setIsHomepage(false)
     }
 
     const menuComponent = menu.map((item, idx) => {
         return (
-            <div key={idx} className="menu-item" onClick={() => onItemClick(item.url)}>
+            <div key={idx} className="menu-item" onClick={() => onItemClick(idx, item.url)}>
                 <div className="menu-icon">{item.icon}</div>
                 <div className="menu-name">{item.name}</div>
             </div>
@@ -58,15 +74,67 @@ const DoctorHome = () => {
     })
 
     return (
-        <>
+ /*       <>
             <div className="doctor-home-countup">
-                <Statistic title="Pending Request" value={countPending} formatter={formatter} className="countup-value-style" />
-                <Statistic title="Ongoing Request" value={countOngoing} formatter={formatter} className="countup-value-style"/>
+                <Row
+                    justify="space-between"
+                    gutter={{
+                        xs: 8,
+                        sm: 16,
+                        md: 24,
+                        lg: 32,
+                    }}
+                >
+                    <Col span={12}>
+                        <CountCard type={0}/>
+                    </Col>
+                    <Col span={12}>
+                        <CountCard type={1}/>
+                    </Col>
+                </Row>
             </div>
             <div className="doctor-home-menu">
                 {menuComponent}
             </div>
-        </>
+        </>*/
+        <div className="doctor-home">
+            {
+                isHomepage ?
+                    (
+                        <div className="doctor-home-countup">
+                            <Row
+                                justify="space-between"
+                                gutter={{
+                                    xs: 8,
+                                    sm: 16,
+                                    md: 24,
+                                    lg: 32,
+                                }}
+                            >
+                                <Col span={12}>
+                                    <CountCard type={0}/>
+                                </Col>
+                                <Col span={12}>
+                                    <CountCard type={1}/>
+                                </Col>
+                            </Row>
+                        </div>
+                    )
+                    :
+                    <DoctorMenu/>
+            }
+            {
+                isHomepage ?
+                    (
+                        <div className="doctor-home-menu">
+                            {menuComponent}
+                        </div>
+                    )
+                    :
+                    null
+            }
+            <Outlet/>
+        </div>
     )
 }
 
