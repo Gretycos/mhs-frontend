@@ -15,7 +15,6 @@ const Pending = () => {
 
     const {pathname, state} = location
 
-    console.log(state)
 
     const dateOptions = [
         {

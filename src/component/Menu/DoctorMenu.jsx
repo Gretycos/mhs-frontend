@@ -3,7 +3,7 @@
  * time: 16/03/2024 19:37
  */
 import "./DoctorMenu.less"
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
@@ -12,8 +12,9 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import {Layout} from "antd";
 import { Menu } from 'antd';
 
-const DoctorMenu = () => {
+const DoctorMenu = (props) => {
 
+    const {initial} = props
     const navigate = useNavigate();
     const location = useLocation();
     const role = 0
@@ -37,15 +38,42 @@ const DoctorMenu = () => {
         },
         {
             label: 'Completed Appointment',
-            key: 'completed',
+            key: '/doctor/completed',
             icon: <EventAvailableIcon />
 
         })
 
-    const [current, setCurrent] = useState('mail');
+    const [current, setCurrent] = useState(initial)
+
+
     const onClick = (e) => {
+
+        console.log(e)
+
         setCurrent(e.key)
-        navigate(e.key);
+
+        switch (e.key.split("/")[2]) {
+            case("timetable"):{
+                navigate(e.key, {state:{title: "Timetable"}})
+                break;
+            }
+            case("pending"):{
+                navigate(e.key, {state:{title: "Pending Appointment"}})
+                break;
+            }
+            case("ongoing"):{
+                navigate(e.key, {state:{title: "Ongoing Appointment"}})
+                break;
+            }
+            case("completed"):{
+                navigate(e.key, {state:{title: "Completed Appointment"}})
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+
     };
 
 
