@@ -5,10 +5,17 @@
 import "./Timetable.less"
 import { useState, useRef, useEffect } from "react";
 import { DayPilotCalendar, DayPilotNavigator } from "daypilot-pro-react";
+import {ArrowBack} from "@mui/icons-material";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 const Timetable = () => {
     let date = new Date();
     const currentDate = date.toISOString().split('T')[0];
+    const location = useLocation();
+    const params = useParams()
+
+    const {pathname, state} = location
+    const navigate = useNavigate();
 
     const [calendarConfig, setCalendarConfig] = useState({
         viewType: "Week",
@@ -36,6 +43,14 @@ const Timetable = () => {
     }
 
     useEffect(() => {
+        if (state === null){
+            if (pathname.split('/')[1] === "patient"){
+                navigate("/patient")
+            }else{
+                navigate("/doctor")
+            }
+        }
+
         const events = [
             {
                 id: 1,
@@ -410,11 +425,11 @@ const Timetable = () => {
 
     return (
         <>
-            <div className="timetable-page-container">
-                <div className="timetable-head-container">
-                    <p className="timetable-head-font">Timetable</p>
-                    <div className="timetable-head-line"/>
+            <div className="timetable-framework-container">
+                <div className="timetable-framework-title">
+                    {state ? state.title : ""}
                 </div>
+                <ArrowBack className="timetable-back-icon" onClick={() => navigate(-1)}/>
                 <div className="timetable-container">
                     <div className="timetable-navigator-container">
                         <DayPilotNavigator
