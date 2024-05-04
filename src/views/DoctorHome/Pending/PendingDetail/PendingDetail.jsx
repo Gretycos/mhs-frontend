@@ -7,13 +7,14 @@ import {Button, Card, Modal, Select} from 'antd';
 import { useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 
 const { Meta } = Card;
 
-const PendingDetail = () => {
+const PendingDetail = (props) => {
     const navigate = useNavigate();
-
-    const { id } = useParams();
+    const {params, state} = props
+    const {id} = useParams()
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -126,7 +127,7 @@ const PendingDetail = () => {
     }
 
     return (
-        <div className="pending-detail-page-container">
+       /* <div className="pending-detail-page-container">
             <div className="pending-detail-head-container">
                 <p className="pending-detail-head-font">Pending Request</p>
                 <div className="pending-detail-head-line"/>
@@ -151,8 +152,19 @@ const PendingDetail = () => {
                 </div>
             </div>
             {alterModal()}
-        </div>
+        </div>*/
 
+        <>
+            <DetailCard params={params}/>
+            <div className="pending-detail-content-container">
+                <div className="pending-detail-button-container">
+                    <Button size={"large"} className="pending-detail-button">Accept</Button>
+                    <Button size={"large"} className="pending-detail-button">Reject</Button>
+                    <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
+                </div>
+            </div>
+            {alterModal()}
+        </>
     )
 }
 

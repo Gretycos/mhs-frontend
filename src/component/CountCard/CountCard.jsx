@@ -22,14 +22,14 @@ const CountCard = (props) => {
 
     return (
         <Card
-            className="Pending Request"
+            className="count-card"
             title={type === 0 ? "Pending Appointment" : "Ongoing Appointment"}
             bordered={false}
         >
             {
                 type === 0?
                     (
-                        <div>
+                        <div className="count-card-item-r">
                             The number of pending appointment is(Please solve them as fast as possible):
                             <Statistic value={countPending} formatter={formatter} />
                         </div>
@@ -37,7 +37,7 @@ const CountCard = (props) => {
                     )
                     :
                     (
-                        <div>
+                        <div className="count-card-item-o">
                             The number of ongoing Request in next 8 weeks is:
                             <Statistic value={countOngoing} formatter={formatter} />
                         </div>
