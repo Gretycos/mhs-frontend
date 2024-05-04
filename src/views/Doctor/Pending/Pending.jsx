@@ -13,9 +13,9 @@ const Pending = () => {
     const location = useLocation();
     const params = useParams()
 
-    const {pathname} = location
+    const {pathname, state} = location
 
-    const state = {title: "Pending Appointment"}
+    console.log(state)
 
     const dateOptions = [
         {
