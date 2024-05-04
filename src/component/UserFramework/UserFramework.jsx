@@ -12,8 +12,11 @@ const UserFramework = (props) => {
     const {pathname, state, params, selectors, getData, Detail} = props
     const hasNoParams = Object.keys(params).length === 0
     const navigate = useNavigate();
-    // console.log(state)
-    // console.log(pathname.split('/'))
+
+    const isShow = pathname.split('/')[1]  === "patient"
+
+    console.log(pathname.split('/')[3], isShow)
+
     useEffect(() => {
         if (state === null){
             if (pathname.split('/')[1] === "patient"){
@@ -29,7 +32,7 @@ const UserFramework = (props) => {
             <div className="user-framework-title">
                 {state ? state.title : ""}
             </div>
-            {pathname.split('/')[1] === "patient" ? <ArrowBack className="back-icon" onClick={() => navigate(-1)}/> : null}
+            {isShow ? <ArrowBack className="back-icon" onClick={() => navigate(-1)}/> : null}
             {
                 hasNoParams ?
                     <DataList

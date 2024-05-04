@@ -5,13 +5,11 @@
 import "./DetailCard.less"
 import {Card, List, Statistic} from "antd";
 import {useEffect, useState} from "react";
-import CountUp from "react-countup";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {params} = props
+    const {state, params} = props
     const {id} = useParams()
-    console.log(params)
     const [detailData, setDetailData] = useState(
         {
             time: "",

@@ -15,8 +15,6 @@ const Pending = () => {
     const location = useLocation();
     const params = useParams()
 
-    console.log(params)
-
     const {pathname, state} = location
 
 

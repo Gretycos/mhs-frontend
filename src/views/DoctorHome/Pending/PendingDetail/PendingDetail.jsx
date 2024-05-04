@@ -8,6 +8,8 @@ import { useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
+import {DayPilotCalendar, DayPilotNavigator} from "daypilot-pro-react";
+import {ArrowBack} from "@mui/icons-material";
 
 const { Meta } = Card;
 
@@ -15,7 +17,7 @@ const PendingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state} = props
     const {id} = useParams()
-
+    console.log(state)
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -127,34 +129,34 @@ const PendingDetail = (props) => {
     }
 
     return (
-       /* <div className="pending-detail-page-container">
-            <div className="pending-detail-head-container">
-                <p className="pending-detail-head-font">Pending Request</p>
-                <div className="pending-detail-head-line"/>
-            </div>
-            <div className="pending-detail-content-container">
-                <div className='pending-back-cotainer'>
-                    <Button type='text' className="pending-back-button" onClick={goBack}
-                            icon={<KeyboardBackspaceIcon className="pending-back-imgs"/>}>
-                        back
-                    </Button>
-                </div>
-                <div className="pending-detail-card-container">
-                    <Card className={"pending-detail-card-style"} title={title()} hoverable={true} bordered={true}>
-                        <Meta className="pending-detail-card-content" title={contentTitle1()}
-                              description={content1()}/>
-                    </Card>
-                </div>
-                <div className="pending-detail-button-container">
-                    <Button size={"large"} className="pending-detail-button">Accept</Button>
-                    <Button size={"large"} className="pending-detail-button">Reject</Button>
-                    <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
-                </div>
-            </div>
-            {alterModal()}
-        </div>*/
-
-        <>
+        /* <div className="pending-detail-page-container">
+             <div className="pending-detail-head-container">
+                 <p className="pending-detail-head-font">Pending Request</p>
+                 <div className="pending-detail-head-line"/>
+             </div>
+             <div className="pending-detail-content-container">
+                 <div className='pending-back-cotainer'>
+                     <Button type='text' className="pending-back-button" onClick={goBack}
+                             icon={<KeyboardBackspaceIcon className="pending-back-imgs"/>}>
+                         back
+                     </Button>
+                 </div>
+                 <div className="pending-detail-card-container">
+                     <Card className={"pending-detail-card-style"} title={title()} hoverable={true} bordered={true}>
+                         <Meta className="pending-detail-card-content" title={contentTitle1()}
+                               description={content1()}/>
+                     </Card>
+                 </div>
+                 <div className="pending-detail-button-container">
+                     <Button size={"large"} className="pending-detail-button">Accept</Button>
+                     <Button size={"large"} className="pending-detail-button">Reject</Button>
+                     <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
+                 </div>
+             </div>
+             {alterModal()}
+         </div>*/
+        <div className="pending-detail-page-container">
+            <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
             <DetailCard params={params}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
@@ -164,7 +166,10 @@ const PendingDetail = (props) => {
                 </div>
             </div>
             {alterModal()}
-        </>
+        </div>
+
+
+
     )
 }
 
