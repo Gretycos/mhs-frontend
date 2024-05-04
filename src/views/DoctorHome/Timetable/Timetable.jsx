@@ -429,7 +429,6 @@ const Timetable = () => {
                 <div className="timetable-framework-title">
                     {state ? state.title : ""}
                 </div>
-                <ArrowBack className="timetable-back-icon" onClick={() => navigate(-1)}/>
                 <div className="timetable-container">
                     <div className="timetable-navigator-container">
                         <DayPilotNavigator

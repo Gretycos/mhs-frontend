@@ -29,7 +29,7 @@ const UserFramework = (props) => {
             <div className="user-framework-title">
                 {state ? state.title : ""}
             </div>
-            <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
+            {pathname.split('/')[1] === "patient" ? <ArrowBack className="back-icon" onClick={() => navigate(-1)}/> : null}
             {
                 hasNoParams ?
                     <DataList

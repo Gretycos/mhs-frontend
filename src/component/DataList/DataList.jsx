@@ -7,15 +7,19 @@ import {useEffect, useState} from "react";
 import {Card, List, Pagination} from "antd";
 import Selector from "@/component/Selector/Selector.jsx";
 import {useNavigate} from "react-router-dom";
+import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
     const {selectors, getData, path, state} = props
     const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
-    selectors.map(selector => {
-        optionsIni[selector.key] = selector.options[0].value
-    })
+    selectors[0].options ?
+        selectors.map(selector => {
+            optionsIni[selector.key] = selector.options[0].value
+        })
+        :
+        null
     // 分页和数据状态
     const [dataState, setDataState] = useState({
         page: 1,
@@ -93,7 +97,10 @@ const DataList = (props) => {
     return (
         <div className="data-component-content">
             <div className="data-component-control">
-                {dataSelectors}
+                {selectors[0].options ?
+                    dataSelectors
+                    :
+                    <MyDatePicker title={selectors[0].title} onChange={(val) => onOptionChange(val)}/>}
             </div>
             <List
                 className="data-component-list"
