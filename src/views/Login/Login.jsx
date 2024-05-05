@@ -11,6 +11,8 @@ import {login} from "@/service/user/patient.js";
 import {useDispatch} from "react-redux";
 import {save} from "@/redux/slice/globalSlice.js";
 import "./Login.less"
+import {loginPract} from "@/service/user/practitioner.js";
+import md5 from "js-md5";
 const {Meta} = Card
 const Login = () => {
     const navigate = useNavigate()
@@ -42,34 +44,21 @@ const Login = () => {
         ]
     }
 
-    // 表单提交
-    // const onFinish = async values => {
-    //     console.log('Received values of form: ', values);
-    //     setLoading(true)
-    //     const params = {
-    //         email: values.email,
-    //         password: values.password
-    //     }
-    //     const {data} = await login(params)
-    //     dispatch(save({ token: data.token }))
-    //     message.success('login succeeded', 2)
-    //     // 回主页
-    //     role === "user" ? navigate('/user') : navigate('/doctor-home')
-    //     setLoading(false)
-    // }
+
     const onFinish = async values => {
         console.log('Received values of form: ', values);
         setLoading(true)
-        // const params = {
-        //     email: values.email,
-        //     password: values.password
-        // }
-        // const {data} = role === "patient" ? await login(params) : await loginPract(params)
-        // dispatch(save({ token: data.token }))
+        const params = {
+            email: values.email,
+            password: md5(values.password)
+        }
+        const {data} = role === "patient" ? await login(params) : await loginPract(params)
+        dispatch(save({ userId: data.userId }))
+        dispatch(save({ token: data.token }))
         dispatch(save({ role: role }))
         message.success('login succeeded', 2)
         // 回主页
-        role === "patient" ? navigate('/patient') : navigate('/doctor-home')
+        role === "patient" ? navigate('/patient') : navigate('/doctor')
         setLoading(false)
     }
 

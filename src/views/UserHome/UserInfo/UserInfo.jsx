@@ -32,43 +32,31 @@ const UserInfo = () => {
         mobileNum: "",
     })
 
-    useEffect(async () => {
-        // 查询个人信息
-        const params = {
-            patientId: store.getState()?.globalSlice.userId,
-        }
-        // const {data} = await getInfo(params)
-        // const values = {
-        //     lastName: data.givenName,
-        //     firstName: data.familyName,
-        //     sex: data.sex,
-        //     dateOfBirth: dayjs(data.dateOfBirth, "YYYY-MM-DD"),
-        //     address1: data.addr1,
-        //     address2: data.addr2,
-        //     city: data.city,
-        //     postcode: data.postcode,
-        //     email: data.email,
-        //     mobileNum: data.mobileNum,
-        // }
+    useEffect( () => {
+        getInfo()
+    }, []);
 
+    const getInfo = async () => {
+        // 查询个人信息
+        const {data} = await getPatientInfo()
         const values = {
-            lastName: "Yaocong",
-            firstName: "Huang",
-            sex: 0,
-            dateOfBirth: dayjs("2022-01-01", "YYYY-MM-DD"),
-            address1: "West Park Road",
-            address2: "Mayflower A",
-            city: "Southampton",
-            postcode: "SO15 1DP",
-            email: "yh25n23@soton.ac.uk",
-            mobileNum: "+44 7551261618",
+            lastName: data.givenName,
+            firstName: data.familyName,
+            sex: data.sex,
+            dateOfBirth: dayjs(data.dateOfBirth, "YYYY-MM-DD"),
+            address1: data.addr1,
+            address2: data.addr2,
+            city: data.city,
+            postcode: data.postcode,
+            email: data.email,
+            mobileNum: data.mobileNum,
         }
         form.setFieldsValue(values)
         setIniValues({
             ...values,
             dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD")
         })
-    }, []);
+    }
 
     // 选择器列表
     const cityList = ukCity.map(city => {

@@ -7,13 +7,17 @@ import {store} from "@/redux/store.js";
 import {message} from "antd";
 
 // console.log('import.meta.env', import.meta.env)
-
 axios.defaults.baseURL = import.meta.env.MODE === 'development' ? '/api' : '/api'
 axios.defaults.withCredentials = true
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.headers['token'] = store.getState()?.globalSlice.token
-axios.defaults.headers['user-id'] = store.getState()?.globalSlice.userId
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+
+axios.interceptors.request.use((config) => {
+    // console.log(store.getState())
+    config.headers['token'] = store.getState()?.globalSlice.token
+    config.headers['user-id'] = store.getState()?.globalSlice.userId
+    return config
+})
 
 axios.interceptors.response.use(res => {
     if (typeof res.data !== 'object') {
@@ -37,6 +41,5 @@ axios.interceptors.response.use(res => {
     console.log(rej.response)
     return Promise.reject(rej.response.statusText)
 })
-
 
 export default axios

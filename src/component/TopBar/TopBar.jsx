@@ -10,28 +10,27 @@ import {useNavigate} from "react-router-dom";
 import {getPatientInfo, logout} from "@/service/user/patient.js";
 import {useEffect, useState} from "react";
 import {getPractitionerInfo, logoutPract} from "@/service/user/practitioner.js";
+import {save} from "@/redux/slice/globalSlice.js";
+import {useDispatch} from "react-redux";
 const {Header} = Layout
 const TopBar = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const token = store.getState()?.globalSlice.token
     const [fullName, setFullName] = useState("full name")
 
     useEffect( () => {
         if (token) {
-            // getUserInfo()
+            getUserInfo()
         }
     }, []);
 
     const getUserInfo = async () => {
-        // const userId = store.getState()?.globalSlice.userId
-        // const role = store.getState()?.globalSlice.role
-        // const params = {
-        //     userId: userId
-        // }
-        // const {data} = role === "patient" ? await getPatientInfo(params) : await getPractitionerInfo(params)
-        // const name = `${data.givenName} ${data.familyName}`
-        // setFullName(name)
-        // console.log(data)
+        const userId = store.getState()?.globalSlice.userId
+        const role = store.getState()?.globalSlice.role
+        const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo(params)
+        const name = `${data.givenName} ${data.familyName}`
+        setFullName(name)
     }
 
     const dropdownItems = [
@@ -91,24 +90,20 @@ const TopBar = () => {
         }else{
             // sign out
             const role = store.getState()?.globalSlice.role
-            let params = {
+            const params = {
                 token: store.getState()?.globalSlice.token
             }
-            const userId = store.getState()?.globalSlice.userId
-            if (role === "patient") {
-                params.patientId = userId
-                logout(params)
-            } else {
-                params.practId = userId
-                logoutPract(params)
-            }
+            role === "patient" ? logout(params) : logoutPract(params)
+            dispatch(save({ userId: '' }))
+            dispatch(save({ token: '' }))
+            dispatch(save({ role: '' }))
             navigate("/")
         }
     }
 
     return (
         <Header className="top-bar">
-            <div className="top-bar-logo">MHS</div>
+            <div className="top-bar-logo" onClick={() => navigate("/home")}>MHS</div>
             <div className="top-bar-right">
                 {/*<Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>*/}
                 <div className="top-bar-user">
