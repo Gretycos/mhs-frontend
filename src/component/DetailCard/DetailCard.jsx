@@ -107,7 +107,10 @@ const DetailCard = (props) => {
                 }
             >
                 <div className="detail-content">
-                    {detailData.result}
+                    <div className="detail-content-info">
+                        <div className="detail-content-info-tag">Description for appointment:</div>
+                        <div className="detail-content-info-val">{detailData.reason}</div>
+                    </div>
                 </div>
             </Card>
         </div>

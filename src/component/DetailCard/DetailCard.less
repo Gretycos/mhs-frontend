@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5%;
 
   .detail-card{
     width: 75%;
@@ -41,6 +42,7 @@
         font-size: 16px;
         .detail-title-info-tag{
           margin-right: 10px;
+          margin-left: 50px;
         }
         .detail-title-info-val{
           font-weight: normal;
@@ -50,6 +52,23 @@
   }
 
   .detail-content{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-bottom: 10%;
 
+    .detail-content-info{
+      display: flex;
+      font-size: 16px;
+
+      .detail-title-info-tag{
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      .detail-content-info-val{
+        font-weight: normal;
+      }
+    }
   }
 }
