@@ -18,7 +18,7 @@ const OngoingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const {id} = useParams()
-    console.log(practRole)
+
 
 
     const [isDiagModalOpen, setIsDiagModalOpen] = useState(false);
@@ -44,6 +44,8 @@ const OngoingDetail = (props) => {
         }
     )
 
+    const [prescrip, setPrescrip] = useState([])
+
     const [prescription, setPrescription] = useState()
 
     const [result, setResult] = useState()
@@ -57,8 +59,67 @@ const OngoingDetail = (props) => {
         setIsPrescriModalOpen(true);
     };
 
+    const [drugList, setDrugList] = useState([])
+
+    useEffect(() => {
+        setDetailData({
+            time: "23-03-2024 15:15",
+            ref: "TBT221982",
+            type: "Tuberculosis Test",
+            firstName: "Yaocong",
+            lastName: "Huang",
+            birthday: "02-01-1998",
+            gender: "Male",
+            doctor: "DR. FOO",
+            reason: "reason1",
+            diagnosis: "diagnosis1",
+        })
+
+        setResult("result1")
+
+        setTestSlot([{
+            value: 0,
+            label: "09/05/2024 9:00"
+        },
+            {
+                value: 1,
+                label: "13/05/2024 10:00"
+            }])
+
+        setDrugList([
+            {
+                index:0,
+                BNF_code: "fwwfwfwfwefweef",
+                BNF_name: "medicine 1",
+                quantity: 12,
+                price: 10,
+                action: <Button onClick={()=>showDrugModal(0)}>select</Button>
+            },
+            {
+                index:1,
+                BNF_code: "fwwfwfwfwefwedf",
+                BNF_name: "medicine 2",
+                quantity: 12,
+                price: 10,
+                action: <Button onClick={()=>showDrugModal(1)}>select</Button>
+            },
+            {
+                index:2,
+                BNF_code: "fwwfwfwfwefweaf",
+                BNF_name: "medicine 3",
+                quantity: 12,
+                price: 10,
+                action: <Button onClick={()=>showDrugModal(2)}>select</Button>
+            }
+        ])
+
+        setPrescription([])
+
+    }, []);
+
     const showDrugModal = (index) => {
-        setDrug(drugList.find(item => item.index === index));
+        setDrug(drugList.find(item => {return item.index === index}));
+        console.log(drugList.find(item => {return item.index === index}))
         setIsDrugModalOpen(true);
 
     };
@@ -78,9 +139,10 @@ const OngoingDetail = (props) => {
     const handleDrugOk = () => {
 
         addPrescriptionList();
-        setIsDrugModalOpen(false);
         setItem(1);
         setDaily(1);
+        setIsDrugModalOpen(false);
+
     };
 
     const handleTestOk = () =>{
@@ -140,91 +202,13 @@ const OngoingDetail = (props) => {
 
 
 
-    const drugList = [
-        {
-            index:0,
-            BNF_code: "fwwfwfwfwefweef",
-            BNF_name: "medicine 1",
-            quantity: 12,
-            price: 10,
-            action: <Button onClick={()=>showDrugModal(index)}>select</Button>
-        },
-        {
-            index:1,
-            BNF_code: "fwwfwfwfwefwedf",
-            BNF_name: "medicine 2",
-            quantity: 12,
-            price: 10,
-            action: <Button onClick={()=>showDrugModal(index)}>select</Button>
-        },
-        {
-            index:2,
-            BNF_code: "fwwfwfwfwefweaf",
-            BNF_name: "medicine 3",
-            quantity: 12,
-            price: 10,
-            action: <Button onClick={()=>showDrugModal(index)}>select</Button>
-        }
-    ]
 
-    useEffect(() => {
-        setDetailData({
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            type: "Tuberculosis Test",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            birthday: "02-01-1998",
-            gender: "Male",
-            doctor: "DR. FOO",
-            reason: "reason1",
-            diagnosis: "diagnosis1",
-        })
-
-        setPrescription([{
-            bnfName: "medicine 1",
-            price: 12.00,
-            item: 1,
-            perQuantity: 10,
-            totalQuantity: 10,
-            adqusage: 2,
-        },
-            {
-                bnfName: "medicine 2",
-                price: 12.00,
-                item: 1,
-                perQuantity: 10,
-                totalQuantity: 10,
-                adqusage: 2,
-            },
-            {
-                bnfName: "medicine 3",
-                price: 12.00,
-                item: 1,
-                perQuantity: 10,
-                totalQuantity: 10,
-                adqusage: 2,
-            }])
-
-        setResult("result1")
-
-        setTestSlot([{
-            value: 0,
-            label: "09/05/2024 9:00"
-        },
-            {
-                value: 1,
-                label: "13/05/2024 10:00"
-            }])
-    }, []);
 
     const addPrescriptionList = () => {
         let data = prescription;
-        if(data.find(result => result.index === drug.index)){
+        if(data.find(result => {return result.index === drug.index})){
             data.map(result => {
-                if (result.index === result.index) {
-                    // 在此处更新找到的数据
-                    // 例如，你可以修改 item 中的某个属性
+                if (result.index === drug.index) {
                     result.item = item;
                     result.daily = daily;
                 }
@@ -256,8 +240,6 @@ const OngoingDetail = (props) => {
     const onPrescriSearch = () => {
 
     }
-
-
     
     const diagModal = () =>{
         return(
@@ -331,6 +313,7 @@ const OngoingDetail = (props) => {
     }
 
     const drugModal = () => {
+        console.log(drug, item, daily)
         return (
             <>
                 <Modal open={isDrugModalOpen}
@@ -348,11 +331,11 @@ const OngoingDetail = (props) => {
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-select-container" key={1}>
                             <p className='ongoing-detail-card-content-font1'>Item</p>
-                            <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={item} changeOnWheel onChange={handleItemChange}/>
+                            <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={item} value={item} changeOnWheel onChange={handleItemChange}/>
                         </div>
                         <div className="ongoing-detail-select-container" key={2}>
                             <p className='ongoing-detail-card-content-font1'>Daily</p>
-                            <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={daily} changeOnWheel onChange={handleDailyChange}/>
+                            <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={daily} value={daily} changeOnWheel onChange={handleDailyChange}/>
                         </div>
                     </div>
                 </Modal>
@@ -396,7 +379,7 @@ const OngoingDetail = (props) => {
     return (
         <div className="ongoing-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result}
+            <DetailCard params={params} detailData={detailData} prescription={prescrip} result={result}
                         practRole={practRole}/>
             <div className="ongoing-detail-content-container">
                 <div className="ongoing-detail-button-container">
@@ -424,4 +407,4 @@ const OngoingDetail = (props) => {
     )
 }
 
-export default OngoingDetail
+export default OngoingDetail;

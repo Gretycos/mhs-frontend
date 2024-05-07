@@ -8,70 +8,10 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {params} = props
+    const {params, detailData, prescription, result} = props
     //console.log(detailData, prescription, result, role)
     const {id} = useParams()
-    const [detailData, setDetailData] = useState(
-        {
-            time: "",
-            ref: "",
-            type: "",
-            firstName: "",
-            lastName: "",
-            birthday: "",
-            gender: "",
-            doctor: "",
-            reason: "",
-            diagnosis: "",
-        }
-    )
 
-    const [prescription, setPrescription] = useState()
-
-    const [result, setResult] = useState()
-
-    useEffect(() => {
-        // 用id去查数据
-        setDetailData({
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            type: "Tuberculosis Test",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            birthday: "02-01-1998",
-            gender: "Male",
-            doctor: "DR. FOO",
-            reason: "reason1",
-            diagnosis: "diagnosis1",
-        })
-
-        setPrescription([{
-            bnfName: "medicine 1",
-            price: 12.00,
-            item: 1,
-            perQuantity: 10,
-            totalQuantity: 10,
-            adqusage: 2,
-        },
-        {
-            bnfName: "medicine 2",
-            price: 12.00,
-            item: 1,
-            perQuantity: 10,
-            totalQuantity: 10,
-            adqusage: 2,
-        },
-        {
-            bnfName: "medicine 3",
-            price: 12.00,
-            item: 1,
-            perQuantity: 10,
-            totalQuantity: 10,
-            adqusage: 2,
-        }])
-
-        setResult("result1")
-    }, []);
     return (
         <div className="detail-container">
             <Card

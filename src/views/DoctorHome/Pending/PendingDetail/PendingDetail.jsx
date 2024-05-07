@@ -143,32 +143,6 @@ const PendingDetail = (props) => {
     }
 
     return (
-        /* <div className="pending-detail-page-container">
-             <div className="pending-detail-head-container">
-                 <p className="pending-detail-head-font">Pending Request</p>
-                 <div className="pending-detail-head-line"/>
-             </div>
-             <div className="pending-detail-content-container">
-                 <div className='pending-back-cotainer'>
-                     <Button type='text' className="pending-back-button" onClick={goBack}
-                             icon={<KeyboardBackspaceIcon className="pending-back-imgs"/>}>
-                         back
-                     </Button>
-                 </div>
-                 <div className="pending-detail-card-container">
-                     <Card className={"pending-detail-card-style"} title={title()} hoverable={true} bordered={true}>
-                         <Meta className="pending-detail-card-content" title={contentTitle1()}
-                               description={content1()}/>
-                     </Card>
-                 </div>
-                 <div className="pending-detail-button-container">
-                     <Button size={"large"} className="pending-detail-button">Accept</Button>
-                     <Button size={"large"} className="pending-detail-button">Reject</Button>
-                     <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
-                 </div>
-             </div>
-             {alterModal()}
-         </div>*/
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
             <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole}/>
