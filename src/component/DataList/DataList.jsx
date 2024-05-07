@@ -37,7 +37,7 @@ const DataList = (props) => {
             page: dataState.page,
             pageSize: dataState.pageSize
         }
-        const {data} = getData(params)
+        const data = getData(params)
         setDataState({
             ...dataState,
             totalSize: data.totalSize,
