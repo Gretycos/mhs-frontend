@@ -4,7 +4,7 @@
  */
 import "./PendingDetail.less";
 import {Button, Card, Modal, Select} from 'antd';
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
@@ -21,6 +21,25 @@ const PendingDetail = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
 
+    const [detailData, setDetailData] = useState(
+        {
+            time: "",
+            ref: "",
+            type: "",
+            firstName: "",
+            lastName: "",
+            birthday: "",
+            gender: "",
+            doctor: "",
+            reason: "",
+            diagnosis: "",
+        }
+    )
+
+    const [prescription, setPrescription] = useState()
+
+    const [result, setResult] = useState()
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -33,73 +52,67 @@ const PendingDetail = (props) => {
         setIsModalOpen(false);
     };
 
-    const goBack = () => {
-        navigate(-1); // 返回上一页
-    };
 
-    const data = {
-        id: id,
-        date: '2024/06/31',
-        time:'09:15-09:30',
-        Ref:'M3221982',
-        patient_id:'00000030',
-        patient_name: "liu",
-        age: 56,
-        gender:'Male',
-        doctor_id:'00000001',
-        doctor_name:'Jane',
-        reason:'My arm is pain.',
-        test_report:"https://www.pexels.com/zh-cn/photo/17314093/",
-        diagnosis:"Sleep More",
-        med_history_id:'00000002'
-    }
+    useEffect(() => {
+        setAlternatives([
+            {
+                value: 0,
+                label: 'Jimmy',
+            },
+            {
+                value: 1,
+                label: 'Lucy',
+            },
+            {
+                value: 2,
+                label: 'David',
+            },
+            {
+                value: 3,
+                label: 'Sally',
+            }
+        ])
 
-    const opts = [
-        {
-            value: 0,
-            label: 'Jimmy',
+        setDetailData({
+            time: "23-03-2024 15:15",
+            ref: "TBT221982",
+            type: "Tuberculosis Test",
+            firstName: "Yaocong",
+            lastName: "Huang",
+            birthday: "02-01-1998",
+            gender: "Male",
+            doctor: "DR. FOO",
+            reason: "reason1",
+            diagnosis: "diagnosis1",
+        })
+
+        setPrescription([{
+            bnfName: "medicine 1",
+            price: 12.00,
+            item: 1,
+            perQuantity: 10,
+            totalQuantity: 10,
+            adqusage: 2,
         },
-        {
-            value: 1,
-            label: 'Lucy',
-        },
-        {
-            value: 2,
-            label: 'David',
-        },
-        {
-            value: 3,
-            label: 'Sally',
-        }
-    ]
+            {
+                bnfName: "medicine 2",
+                price: 12.00,
+                item: 1,
+                perQuantity: 10,
+                totalQuantity: 10,
+                adqusage: 2,
+            },
+            {
+                bnfName: "medicine 3",
+                price: 12.00,
+                item: 1,
+                perQuantity: 10,
+                totalQuantity: 10,
+                adqusage: 2,
+            }])
 
-    const title = () => {
-        return (
-            <div className="pending-detail-card-title">
-                <div className="pending-detail-card-title-line">
-                    <p className='pending-detail-card-title-font1'>{data.date}, {data.time}</p>
-                    <p className='pending-detail-card-title-font2'>Medical Record</p>
-                    <p className='pending-detail-card-title-font3'>Ref: {id}</p>
-                </div>
-                <div className="pending-detail-card-title-line">
-                    <p className='pending-detail-card-title-font3'>Name: {data.patient_name}</p>
-                    <p className='pending-detail-card-title-font3'>Age: {data.age}</p>
-                    <p className='pending-detail-card-title-font3'>Gender: {data.gender}</p>
-                </div>
-                <div className="pending-detail-card-title-line">
-                    <p className='pending-detail-card-title-font3'>Doctor: {data.doctor_name}</p>
-                </div>
-            </div>
-        )
-    }
-
-    const contentTitle1 = () => {
-        return <p className='pending-detail-card-content-font1'>Patient Description</p>;
-    }
-
-    const content1 = () => {
-        return <p className='pending-detail-card-content-font2'>{data.reason}</p>;
-    }
+        setResult("result1")
+    }, []);
 
     const alterModal = () =>{
         return(
@@ -120,7 +133,7 @@ const PendingDetail = (props) => {
                     <div className="pending-detail-modal-container">
                         <div className="pending-detail-select-container">
                             <p className='pending-detail-card-content-font1'>Doctor</p>
-                            <Select defaultValue="Jimmy" className="pending-detail-select-tools" options={opts}
+                            <Select defaultValue="Jimmy" className="pending-detail-select-tools" options={alternatives}
                                     size={"large"}/>
                         </div>
                     </div>
@@ -158,7 +171,7 @@ const PendingDetail = (props) => {
          </div>*/
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} role={role}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} role={role}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
                     <Button size={"large"} className="pending-detail-button">Accept</Button>

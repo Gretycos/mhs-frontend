@@ -91,7 +91,7 @@ const DataList = (props) => {
 
     const onClickItem = (id, type) => {
         console.log(`${path}/${id}`)
-        navigate(`${path}/${id}`, {state: {...state, type: type, role: role}})
+        navigate(`${path}/${id}`, {state: {...state, type: type}})
     }
 
     return (

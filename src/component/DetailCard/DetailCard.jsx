@@ -8,8 +8,8 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {state, role, params} = props
-    console.log(role)
+    const {params} = props
+    //console.log(detailData, prescription, result, role)
     const {id} = useParams()
     const [detailData, setDetailData] = useState(
         {
@@ -31,7 +31,6 @@ const DetailCard = (props) => {
     const [result, setResult] = useState()
 
     useEffect(() => {
-        console.log("onMounted", id)
         // 用id去查数据
         setDetailData({
             time: "23-03-2024 15:15",
@@ -133,16 +132,16 @@ const DetailCard = (props) => {
                                         <div className="presecription-list-tag">Quantity</div>
                                         <div className="presecription-list-tag">daily use</div>
                                     </div>
-                                    {prescription.map(p => {
+                                    {prescription.map(( p, indx) => {
                                         return (
-                                            <div className="prescription-list-row">
+                                            <li className="prescription-list-row" key={indx}>
                                                 <div className="presecription-list-val">{p.bnfName}</div>
                                                 <div className="presecription-list-val">{p.price}</div>
                                                 <div className="presecription-list-val">{p.item}</div>
                                                 <div className="presecription-list-val">{p.perQuantity}</div>
                                                 <div className="presecription-list-val">{p.totalQuantity}</div>
                                                 <div className="presecription-list-val">{p.adqusage}</div>
-                                            </div>
+                                            </li>
                                         )
                                     })}
                                 </div>

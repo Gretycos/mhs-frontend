@@ -10,13 +10,14 @@ import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import PendingDetail from "@/views/DoctorHome/Pending/PendingDetail/PendingDetail.jsx";
 
-const Pending = () => {
-
+const Pending = (props) => {
+    console.log(props)
+    //const [practRole] = props;
     const location = useLocation();
     const params = useParams()
 
     const {pathname, state} = location
-
+    const practRole = 0;
 
     const dateOptions = [
         {
@@ -81,6 +82,7 @@ const Pending = () => {
 
     return (
         <UserFramework
+            practRole={practRole}
             state={state}
             pathname={pathname}
             params={params}

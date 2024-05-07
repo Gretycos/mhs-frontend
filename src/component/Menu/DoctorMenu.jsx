@@ -14,16 +14,15 @@ import { Menu } from 'antd';
 
 const DoctorMenu = (props) => {
 
-    const {initial} = props
+    const {initial, practRole} = props
     const navigate = useNavigate();
     const location = useLocation();
-    const role = 0
     const items = [{
         label: 'Timetable',
         key: '/doctor/timetable',
         icon: <CalendarMonthIcon />,
     }]
-    if (role === 0){
+    if (practRole === 0){
         items.push({
             label: 'Pending Appointment',
             key: '/doctor/pending',
@@ -42,8 +41,7 @@ const DoctorMenu = (props) => {
             icon: <EventAvailableIcon />
 
         })
-
-    const [current, setCurrent] = useState(initial)
+    const [current, setCurrent] = useState(location.pathname)
 
 
     const onClick = (e) => {
@@ -54,19 +52,19 @@ const DoctorMenu = (props) => {
 
         switch (e.key.split("/")[2]) {
             case("timetable"):{
-                navigate(e.key, {state:{title: "Timetable"}})
+                navigate(e.key, {state:{title: "Timetable", practRole: practRole}})
                 break;
             }
             case("pending"):{
-                navigate(e.key, {state:{title: "Pending Appointment"}})
+                navigate(e.key, {state:{title: "Pending Appointment", practRole: practRole}})
                 break;
             }
             case("ongoing"):{
-                navigate(e.key, {state:{title: "Ongoing Appointment"}})
+                navigate(e.key, {state:{title: "Ongoing Appointment", practRole: practRole}})
                 break;
             }
             case("completed"):{
-                navigate(e.key, {state:{title: "Completed Appointment"}})
+                navigate(e.key, {state:{title: "Completed Appointment", practRole: practRole}})
                 break;
             }
             default:{

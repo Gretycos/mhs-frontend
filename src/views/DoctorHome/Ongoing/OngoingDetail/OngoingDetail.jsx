@@ -7,6 +7,8 @@ import {Button, Card, Modal, Input, Select, Table, InputNumber} from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useState} from "react";
+import {ArrowBack} from "@mui/icons-material";
+import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 
 const { Meta } = Card;
 const { Search} = Input
@@ -401,31 +403,23 @@ const OngoingDetail = () => {
     }
 
     return (
-        <div className="ongoing-detail-page-container">
-            <div className="ongoing-detail-head-container">
-                <p className="ongoing-detail-head-font">Ongoing Request</p>
-                <div className="ongoing-detail-head-line"/>
-            </div>
-            <div className="ongoing-detail-content-container">
-                <div className='ongoing-back-cotainer'>
-                    <Button type='text' className="ongoing-back-button" onClick={goBack}
-                            icon={<KeyboardBackspaceIcon className="ongoing-back-imgs"/>}>
-                        back
-                    </Button>
-                </div>
-                <div className="ongoing-detail-card-container">
-                    <Card className={"ongoing-detail-card-style"} title={title()} hoverable={true} bordered={true}>
-                        <Meta className="ongoing-detail-card-content" title={contentTitle1()}
-                              description={content1()}/>
-                        <div className="ongoing-detail-card-line"/>
-                        <Meta className="ongoing-detail-card-content" title={contentTitle2()}
-                              description={content2()}/>
-                    </Card>
-                </div>
-                <div className="ongoing-detail-button-container">
-                    <Button size={"large"} className="ongoing-detail-button" onClick={showDiagModal}>Diagnosis</Button>
-                    <Button size={"large"} className="ongoing-detail-button" onClick={showPrescriModal}>Prescription</Button>
-                    <Button size={"large"} className="ongoing-detail-button" onClick={showTestModal}>Test</Button>
+        <div className="pending-detail-page-container">
+            <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
+            <DetailCard params={params} role={role}/>
+            <div className="pending-detail-content-container">
+                <div className="pending-detail-button-container">
+                    <Button size={"large"} className="pending-detail-button">Accept</Button>
+                    {
+                        alternatives ?
+                            (
+                                <Button size={"large"} className="pending-detail-button"
+                                        onClick={showModal}>Alter</Button>
+                            )
+                            :
+                            (
+                                <Button size={"large"} className="pending-detail-button">Reject</Button>
+                            )
+                    }
                 </div>
             </div>
             {diagModal()}
