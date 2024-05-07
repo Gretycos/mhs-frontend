@@ -7,12 +7,13 @@ import {Link, useLocation, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Card, Pagination, Select} from "antd";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
+import OngoingDetail from "@/views/DoctorHome/Ongoing/OngoingDetail/OngoingDetail.jsx";
 const Ongoing = () => {
     const location = useLocation();
     const params = useParams()
 
     const {pathname, state} = location
-
+    const practRole = state.practRole;
 
     const dateOptions = [
         {
@@ -77,6 +78,7 @@ const Ongoing = () => {
 
     return (
         <UserFramework
+            practRole={practRole}
             state={state}
             pathname={pathname}
             params={params}
