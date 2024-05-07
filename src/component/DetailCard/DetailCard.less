@@ -26,7 +26,7 @@
     }
     .detail-title-row-3{
       justify-content: space-between;
-      flex-wrap: wrap;
+      width: 100%;
     }
 
     .detail-title-row{
@@ -39,10 +39,11 @@
 
       .detail-title-info{
         display: flex;
+
         font-size: 16px;
         .detail-title-info-tag{
           margin-right: 10px;
-          margin-left: 50px;
+          margin-left: 70px;
         }
         .detail-title-info-val{
           font-weight: normal;
@@ -61,14 +62,29 @@
     .detail-content-info{
       display: flex;
       font-size: 16px;
+      flex-direction: column;
 
       .detail-title-info-tag{
-        margin-right: 10px;
         font-weight: bold;
       }
       .detail-content-info-val{
         font-weight: normal;
       }
+    }
+  }
+
+  .prescription-list-row{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+
+    .presecription-list-tag{
+      font-weight: bold;
+    }
+    .prescription-llist-val{
+      font-weight: normal;
     }
   }
 }

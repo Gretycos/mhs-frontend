@@ -15,10 +15,11 @@ const { Meta } = Card;
 
 const PendingDetail = (props) => {
     const navigate = useNavigate();
-    const {params, state} = props
+    const {params, state, role} = props
     const {id} = useParams()
     console.log(state)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alternatives, setAlternatives] = useState();
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -157,12 +158,20 @@ const PendingDetail = (props) => {
          </div>*/
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params}/>
+            <DetailCard params={params} role={role}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
                     <Button size={"large"} className="pending-detail-button">Accept</Button>
-                    <Button size={"large"} className="pending-detail-button">Reject</Button>
-                    <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
+                    {
+                        alternatives ?
+                            (
+                                <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
+                            )
+                            :
+                            (
+                                <Button size={"large"} className="pending-detail-button">Reject</Button>
+                            )
+                    }
                 </div>
             </div>
             {alterModal()}

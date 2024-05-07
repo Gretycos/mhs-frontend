@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
-    const {selectors, getData, path, state} = props
+    const {selectors, getData, path, state, role} = props
     const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
@@ -91,7 +91,7 @@ const DataList = (props) => {
 
     const onClickItem = (id, type) => {
         console.log(`${path}/${id}`)
-        navigate(`${path}/${id}`, {state: {...state, type: type}})
+        navigate(`${path}/${id}`, {state: {...state, type: type, role: role}})
     }
 
     return (
