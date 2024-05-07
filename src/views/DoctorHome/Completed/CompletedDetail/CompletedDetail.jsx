@@ -6,105 +6,86 @@ import "./CompletedDetail.less"
 import { Button, Card} from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import {ArrowBack} from "@mui/icons-material";
+import DetailCard from "@/component/DetailCard/DetailCard.jsx";
+import {useEffect, useState} from "react";
 
 const { Meta } = Card;
 
-const CompletedDetail = () => {
+const CompletedDetail = (props) => {
     const navigate = useNavigate();
+    const {params, state, practRole} = props
+    const {id} = useParams()
+    console.log(practRole)
 
-    const { id } = useParams();
+    const [detailData, setDetailData] = useState(
+        {
+            time: "",
+            ref: "",
+            type: "",
+            firstName: "",
+            lastName: "",
+            birthday: "",
+            gender: "",
+            doctor: "",
+            reason: "",
+            diagnosis: "",
+        }
+    )
 
-    const goBack = () => {
-        navigate(-1); // 返回上一页
-    };
+    const [prescription, setPrescription] = useState()
 
-    const data = {
-        id: id,
-        date: '2024/06/31',
-        time:'09:15-09:30',
-        Ref:'M3221982',
-        patient_id:'00000030',
-        patient_name: "liu",
-        age: 56,
-        gender:'Male',
-        doctor_id:'00000001',
-        doctor_name:'Jane',
-        reason:'My arm is pain.',
-        test_report:"https://www.pexels.com/zh-cn/photo/17314093/",
-        diagnosis:"Sleep More",
-        med_history_id:'00000002'
-    }
+    const [result, setResult] = useState()
 
-    const title = () => {
-        return (
-            <div className="completed-detail-card-title">
-                <div className="completed-detail-card-title-line">
-                    <p className='completed-detail-card-title-font1'>{data.date}, {data.time}</p>
-                    <p className='completed-detail-card-title-font2'>Medical Record</p>
-                    <p className='completed-detail-card-title-font3'>Ref: {id}</p>
-                </div>
-                <div className="completed-detail-card-title-line">
-                    <p className='completed-detail-card-title-font3'>Name: {data.patient_name}</p>
-                    <p className='completed-detail-card-title-font3'>Age: {data.age}</p>
-                    <p className='completed-detail-card-title-font3'>Gender: {data.gender}</p>
-                </div>
-                <div className="completed-detail-card-title-line">
-                    <p className='completed-detail-card-title-font3'>Doctor: {data.doctor_name}</p>
-                </div>
-            </div>
-        )
-    }
+    useEffect(() => {
+        setDetailData({
+            time: "23-03-2024 15:15",
+            ref: "TBT221982",
+            type: "Tuberculosis Test",
+            firstName: "Yaocong",
+            lastName: "Huang",
+            birthday: "02-01-1998",
+            gender: "Male",
+            doctor: "DR. FOO",
+            reason: "reason1",
+            diagnosis: "diagnosis1",
+        })
 
-    const contentTitle1 = () => {
-        return <p className='completed-detail-card-content-font1'>Patient Description</p>;
-    }
+        setPrescription([{
+            bnfName: "medicine 1",
+            price: 12.00,
+            item: 1,
+            perQuantity: 10,
+            totalQuantity: 10,
+            adqusage: 2,
+        },
+            {
+                bnfName: "medicine 2",
+                price: 12.00,
+                item: 1,
+                perQuantity: 10,
+                totalQuantity: 10,
+                adqusage: 2,
+            },
+            {
+                bnfName: "medicine 3",
+                price: 12.00,
+                item: 1,
+                perQuantity: 10,
+                totalQuantity: 10,
+                adqusage: 2,
+            }])
 
-    const content1 = () => {
-        return <p className='completed-detail-card-content-font2'>{data.reason}</p>;
-    }
+        setResult("result1")
+    }, []);
 
-    const contentTitle2 = () => {
-        return <p className='completed-detail-card-content-font1'>Test Report</p>;
-    }
 
-    const content2 = () => {
-        return <a className='completed-detail-card-content-font2' href={data.test_report} target="_blank" rel="noopener noreferrer">Click here to see the test report</a>;
-    }
-
-    const contentTitle3 = () => {
-        return <p className='completed-detail-card-content-font1'>Diagnosis</p>;
-    }
-
-    const content3 = () => {
-        return <p className='completed-detail-card-content-font2' >{data.diagnosis}</p>;
-    }
 
     return (
         <div className="completed-detail-page-container">
-            <div className="completed-detail-head-container">
-                <p className="completed-detail-head-font">Completed Request</p>
-                <div className="completed-detail-head-line"/>
-            </div>
-            <div className="completed-detail-content-container">
-                <div className='completed-back-cotainer'>
-                    <Button type='text' className="completed-back-button" onClick={goBack}
-                            icon={<KeyboardBackspaceIcon className="completed-back-imgs"/>}>
-                        back
-                    </Button>
-                </div>
-                <div className="completed-detail-card-container">
-                    <Card className={"completed-detail-card-style"} title={title()} hoverable={true} bordered={true}>
-                        <Meta className="completed-detail-card-content" title={contentTitle1()}
-                              description={content1()}/>
-                        <div className="completed-detail-card-line"/>
-                        <Meta className="completed-detail-card-content" title={contentTitle2()}
-                              description={content2()}/>
-                        <div className="completed-detail-card-line"/>
-                        <Meta className="completed-detail-card-content" title={contentTitle3()}
-                              description={content3()}/>
-                    </Card>
-                </div>
-            </div>
+            <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result}
+                        practRole={practRole}/>
         </div>
     )
 }

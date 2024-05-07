@@ -15,9 +15,9 @@ const { Meta } = Card;
 
 const PendingDetail = (props) => {
     const navigate = useNavigate();
-    const {params, state, role} = props
+    const {params, state, practRole} = props
     const {id} = useParams()
-    console.log(state)
+    console.log(practRole)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
 
@@ -133,7 +133,7 @@ const PendingDetail = (props) => {
                     <div className="pending-detail-modal-container">
                         <div className="pending-detail-select-container">
                             <p className='pending-detail-card-content-font1'>Doctor</p>
-                            <Select defaultValue="Jimmy" className="pending-detail-select-tools" options={alternatives}
+                            <Select defaultValue={"choose an alternative doctor"} className="pending-detail-select-tools" options={alternatives}
                                     size={"large"}/>
                         </div>
                     </div>
@@ -171,7 +171,7 @@ const PendingDetail = (props) => {
          </div>*/
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} role={role}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
                     <Button size={"large"} className="pending-detail-button">Accept</Button>
