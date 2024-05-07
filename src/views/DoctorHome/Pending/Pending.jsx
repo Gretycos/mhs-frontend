@@ -11,13 +11,11 @@ import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import PendingDetail from "@/views/DoctorHome/Pending/PendingDetail/PendingDetail.jsx";
 
 const Pending = (props) => {
-    console.log(props)
-    //const [practRole] = props;
     const location = useLocation();
     const params = useParams()
 
     const {pathname, state} = location
-    const practRole = 0;
+    const practRole = state.practRole;
 
     const dateOptions = [
         {
