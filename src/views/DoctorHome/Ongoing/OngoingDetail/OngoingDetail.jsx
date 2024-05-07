@@ -168,25 +168,6 @@ const OngoingDetail = (props) => {
     ]
 
     useEffect(() => {
-        setAlternatives([
-            {
-                value: 0,
-                label: 'Jimmy',
-            },
-            {
-                value: 1,
-                label: 'Lucy',
-            },
-            {
-                value: 2,
-                label: 'David',
-            },
-            {
-                value: 3,
-                label: 'Sally',
-            }
-        ])
-
         setDetailData({
             time: "23-03-2024 15:15",
             ref: "TBT221982",
