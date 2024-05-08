@@ -127,6 +127,7 @@ const MyAppointmentDetail = (props) => {
             lastName: "",
             type: "",
             doctor: "",
+            status:"",
         }
     )
 
@@ -147,6 +148,20 @@ const MyAppointmentDetail = (props) => {
             }
         }
         return type
+    }
+
+    const parseStatus = (status) => {
+        let s
+        switch (status){
+            case 0: s = "unfulfilled"; break;
+            case 1: s = "accepted"; break;
+            case 2: s = "transferred"; break;
+            case 3: s = "rejected"; break;
+            case 4: s = "ongoing"; break;
+            case 5: s = "completed"; break;
+            default: s = "unfulfilled"; break;
+        }
+        return s
     }
 
     useEffect( () => {
@@ -172,14 +187,28 @@ const MyAppointmentDetail = (props) => {
         const {data} = state.type === "clinic" ?
             await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
         // console.log(data)
-        setAptData({
-            time: data.time,
-            ref: data.appointmentId,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            type: parseType(state.type, data.type),
-            doctor: data.doctor,
-        })
+
+        if (state.type === "clinic") {
+            setAptData({
+                time: data.time,
+                ref: data.appointmentId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                type: parseType(state.type, data.type),
+                doctor: data.doctor,
+                status: parseStatus(data.status),
+            })
+        } else {
+            setAptData({
+                time: data.time,
+                ref: data.appointmentId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                type: parseType(state.type, data.type),
+                doctor: data.doctor,
+            })
+        }
+
     }
 
     return (
@@ -217,6 +246,17 @@ const MyAppointmentDetail = (props) => {
                         <div className="aptmt-item-title">Doctor:</div>
                         <div className="aptmt-item-content">{aptData.doctor}</div>
                     </div>
+                    {
+                        state.type === "clinic" ?
+                            (
+                                <div className="aptmt-item">
+                                    <div className="aptmt-item-title">Status:</div>
+                                    <div className="aptmt-item-content">{aptData.status}</div>
+                                </div>
+                            )
+                            :
+                            null
+                    }
                 </div>
             </Card>
         </div>
