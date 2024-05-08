@@ -142,9 +142,11 @@ const MyAppointmentDetail = (props) => {
         } else {
             type += "TEST - "
             switch (second) {
-                case 0: type += "SURGERY"; break;
-                case 1: type += "REGULAR"; break;
-                case 2: type += "VACCINE"; break;
+                case 0: type += "EyeSight"; break;
+                case 1: type += "Height and Weight"; break;
+                case 2: type += "Blood Pressure"; break;
+                case 3: type += "Blood Sugar"; break;
+                case 4: type += "Audiometry"; break;
             }
         }
         return type
