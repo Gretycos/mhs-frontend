@@ -26,6 +26,7 @@ import PrescriptionHistory from "@/views/UserHome/PrescriptionHistory/Prescripti
 import BookTest from "@/views/UserHome/BookTest/BookTest.jsx";
 import TestReport from "@/views/UserHome/TestReport/TestReport.jsx";
 import UserInfo from "@/views/UserHome/UserInfo/UserInfo.jsx";
+import PrescriptionDetail from "@/views/UserHome/PrescriptionDetail/PrescriptionDetail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "prescription-history",
             element: <PrescriptionHistory />,
+          },
+          {
+            path: "prescription-history/:id",
+            element: <PrescriptionDetail />,
           },
           {
             path: "book-test",
@@ -93,33 +98,33 @@ const router = createBrowserRouter([
         children: [
           {
             path: "timetable",
-            element: <Timetable />
+            element: <Timetable />,
           },
           {
             path: "pending",
-            element: <Pending />
+            element: <Pending />,
           },
           {
             path: "ongoing",
-            element: <Ongoing />
+            element: <Ongoing />,
           },
           {
             path: "completed",
-            element: <Completed />
+            element: <Completed />,
           },
           {
             path: "pending/:id",
-            element:<PendingDetail />
+            element: <PendingDetail />,
           },
           {
             path: "ongoing/:id",
-            element:<OngoingDetail />
+            element: <OngoingDetail />,
           },
           {
             path: "completed/:id",
-            element:<CompletedDetail />
-          }
-        ]
+            element: <CompletedDetail />,
+          },
+        ],
       },
     ],
   },
@@ -139,7 +144,6 @@ const router = createBrowserRouter([
     path: "/reset/:role",
     element: <ResetPsw />,
   },
-
 ]);
 
 export default router;

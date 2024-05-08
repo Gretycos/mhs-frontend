@@ -5,8 +5,11 @@
 import "./BookAppointment.less";
 import { Form, Select, Input, Space, Button, DatePicker, Table } from "antd";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 const { Option } = Select;
 const { TextArea } = Input;
+import { ArrowBack } from "@mui/icons-material";
+import "../../../component/UserFramework/UserFramework.less";
 
 // dataSource
 const layout = {
@@ -173,117 +176,141 @@ const BookAppointment = () => {
     form.resetFields();
   };
 
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // 返回上一页
+  };
+
   if (confirm) {
     return (
-      <div className="book-appointment-page">
-        <p className="title">Book for a doctor Appointment</p>
-        <p className="description"> Please check before booking.</p>
-        <div className="box">
-          <div className="item">
-            <p className="item-title">Details:</p>
-            <div className="detail-box">
-              <p>
-                <span>Time:</span> {confirm.date} {confirm.time}
-              </p>
-              <p>
-                <span>Doctor:</span> {confirm.doctor}
-              </p>
-              <p>
-                <span>Type:</span> {confirm.type}
-              </p>
-              <p>
-                <span>Location:</span> {confirm.location}
-              </p>
+      <div className="book-appointment-page user-framework-container">
+        <div className="user-framework-title">
+          Book for a doctor Appointment
+        </div>
+
+        <div className="confirm-box">
+          <p className="description"> Please check before booking.</p>
+          <div className="box">
+            <div className="item">
+              <p className="item-title">Details:</p>
+              <div className="detail-box">
+                <p>
+                  <span>Time:</span> {confirm.date} {confirm.time}
+                </p>
+                <p>
+                  <span>Doctor:</span> {confirm.doctor}
+                </p>
+                <p>
+                  <span>Type:</span> {confirm.type}
+                </p>
+                <p>
+                  <span>Location:</span> {confirm.location}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="item">
-            <p className="item-title">Have Anything to Say?</p>
-            <TextArea
-              showCount
-              maxLength={120}
-              onBlur={inputTxt}
-              placeholder="Please leave your message here"
-              style={{
-                height: 120,
-                resize: "none",
-              }}
-            />
-            <Button type="primary" className="btn" onClick={SubmitAppointment}>
-              Confirm
-            </Button>
+            <div className="item">
+              <p className="item-title">Have Anything to Say?</p>
+              <TextArea
+                showCount
+                maxLength={120}
+                onBlur={inputTxt}
+                placeholder="Please leave your message here"
+                style={{
+                  height: 120,
+                  resize: "none",
+                }}
+              />
+              <div className="btn-box">
+                <Button htmlType="button" onClick={goBack}>
+                  Cancel
+                </Button>
+                <Button type="primary" className="btn" onClick={SubmitAppointment}>
+                  Confirm
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     );
   } else {
     return (
-      <div className="book-appointment-page">
-        <p className="title">Book for a doctor Appointment</p>
-        <p className="description"> Please select your requirements:</p>
-        <div className="content">
-          <Form
-            {...layout}
-            form={form}
-            name="control-hooks"
-            onFinish={onFinish}
-            className="form"
-          >
-            <Form.Item name="type" label="Type" rules={[]}>
-              <Select
-                placeholder="Select appointment type"
-                onChange={onDateChange}
-                allowClear
-              >
-                {typeOptions.map((type) => {
-                  return (
-                    <Option value={type.value} key={type.value}>
-                      {type.label}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
+      <div className="book-appointment-page user-framework-container">
+        <div className="user-framework-title">
+          Book for a doctor Appointment
+        </div>
+        <Link to="/patient">
+          <ArrowBack className="back-icon" />
+        </Link>
+        <div className="select-box">
+          <p className="description"> Please select your requirements:</p>
+          <div className="content">
+            <Form
+              {...layout}
+              form={form}
+              name="control-hooks"
+              onFinish={onFinish}
+              className="form"
+            >
+              <Form.Item name="date" label="Date" rules={[{ required: true }]}>
+                <DatePicker />
+                {/* <TimePicker /> */}
+              </Form.Item>
+              <Form.Item name="type" label="Type" rules={[]}>
+                <Select
+                  placeholder="Select appointment type"
+                  onChange={onDateChange}
+                  allowClear
+                >
+                  {typeOptions.map((type) => {
+                    return (
+                      <Option value={type.value} key={type.value}>
+                        {type.label}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
 
-            <Form.Item name="doctor" label="Doctor" rules={[]}>
-              <Select
-                placeholder="Select a doctor"
-                onChange={onDoctorChange}
-                allowClear
-              >
-                {doctorOptions.map((doctor) => {
-                  return (
-                    <Option key={doctor.value} value={doctor.value}>
-                      Dr. {doctor.value}
-                    </Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-              <DatePicker />
-              {/* <TimePicker /> */}
-            </Form.Item>
-            {/* <Form.Item name="note" label="Note">
+              <Form.Item name="doctor" label="Doctor" rules={[]}>
+                <Select
+                  placeholder="Select a doctor"
+                  onChange={onDoctorChange}
+                  allowClear
+                >
+                  {doctorOptions.map((doctor) => {
+                    return (
+                      <Option key={doctor.value} value={doctor.value}>
+                        Dr. {doctor.value}
+                      </Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+
+              {/* <Form.Item name="note" label="Note">
                 <Input placeholder="What else do you want to say" />
               </Form.Item> */}
-            <Form.Item {...tailLayout} className="btn-group">
-              <Space>
-                <Button type="primary" htmlType="submit">
-                  Search Availability
-                </Button>
-                <Button htmlType="button" onClick={onReset}>
-                  Reset
-                </Button>
-              </Space>
-            </Form.Item>
-          </Form>
-          {searchRes && (
-            <Table
-              className="available-time"
-              dataSource={availableTime}
-              columns={columns}
-            ></Table>
-          )}
+              <Form.Item {...tailLayout} className="btn-group">
+                <Space>
+                  <Button htmlType="button" onClick={onReset}>
+                    Reset
+                  </Button>
+                  <Button type="primary" htmlType="submit">
+                    Search Availability
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Form>
+            {searchRes && (
+              <Table
+                className="available-time"
+                dataSource={availableTime}
+                columns={columns}
+              ></Table>
+            )}
+          </div>
         </div>
       </div>
     );

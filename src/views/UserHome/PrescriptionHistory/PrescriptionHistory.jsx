@@ -6,93 +6,34 @@ import { useLocation, useParams } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 import "./PrescriptionHistory.less";
 import { Table } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
+import { render } from "less";
 
 // dataSource and columns for table
 const dataSource = [
   {
     key: "1",
-    id: "PX110345C",
-    date: "2024-03-24",
-    time: "10:00",
+    id: "1",
+    date: "2024-03-24 10:00",
     doctor: "Dr. John Doe",
-    diagnosis: "Fever",
-    medicine: "Paracetamol",
-    quantity: "21",
-    unit: "tablet",
-    note: "Take after meal",
+    pharmacy: "Pharmacy A",
+    total_price: "3",
   },
   {
     key: "2",
-    id: "PX110346D",
-    date: "2024-02-11",
-    time: "11:00",
+    id: "2",
+    date: "2024-02-11 11:00",
     doctor: "Dr. Jane Doe",
-    diagnosis: "Cold",
-    medicine: "Cough Syrup",
-    quantity: "1",
-    unit: "bottle",
-    note: "Take before sleep",
+    pharmacy: "Pharmacy B",
+    total_price: "10",
   },
   {
     key: "3",
-    id: "PX110347E",
-    date: "2024-01-12",
-    time: "12:00",
+    id: "3",
+    date: "2024-01-12 12:00",
     doctor: "Dr. Jim Doe",
-    diagnosis: "Headache",
-    medicine: "Aspirin",
-    quantity: "14",
-    unit: "tablet",
-    note: "Take with water",
-  },
-];
-
-const columns = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Time",
-    dataIndex: "time",
-    key: "time",
-  },
-  {
-    title: "Doctor",
-    dataIndex: "doctor",
-    key: "doctor",
-  },
-  {
-    title: "Diagnosis",
-    dataIndex: "diagnosis",
-    key: "diagnosis",
-  },
-  {
-    title: "Medicine",
-    dataIndex: "medicine",
-    key: "medicine",
-  },
-  {
-    title: "Quantity",
-    dataIndex: "quantity",
-    key: "quantity",
-  },
-  {
-    title: "Unit",
-    dataIndex: "unit",
-    key: "unit",
-  },
-  {
-    title: "Note",
-    dataIndex: "note",
-    key: "note",
+    pharmacy: "pharmacy C",
+    total_price: "5",
   },
 ];
 
@@ -103,6 +44,41 @@ const PrescriptionHistory = () => {
   const navigate = useNavigate();
 
   const { pathname, state } = location;
+
+  const columns = [
+    {
+      title: "Date and Time",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Doctor",
+      dataIndex: "doctor",
+      key: "doctor",
+    },
+    {
+      title: "Pharmacy",
+      dataIndex: "pharmacy",
+      key: "pharmacy",
+    },
+    {
+      title: "Total Price",
+      dataIndex: "total_price",
+      key: "price",
+    },
+    {
+      // title: "Look Details",
+      dataIndex: "id",
+      key: "id",
+      render: (text) => {
+        return (
+          <NavLink to={`${pathname}/${text}`} className="forgot-form-login">
+            Look Details
+          </NavLink>
+        );
+      },
+    },
+  ];
 
   return (
     <div className="prescription-page user-framework-container">
