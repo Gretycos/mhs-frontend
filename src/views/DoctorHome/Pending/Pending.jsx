@@ -9,6 +9,8 @@ import {Link, useLocation, useParams} from "react-router-dom";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import PendingDetail from "@/views/DoctorHome/Pending/PendingDetail/PendingDetail.jsx";
+import {getMyAppointments} from "@/service/appointment/appointment.js";
+import {getUncompletedAppointments} from "@/service/appointment/doctorAppointment.js";
 
 const Pending = (props) => {
     const location = useLocation();
@@ -44,42 +46,16 @@ const Pending = (props) => {
         },
     ]
 
-    const getData = (params) => {
+    const getData = async (params) => {
         console.log("sending request:", params)
-        return {
-            code: 200,
-            msg: "ok",
-            data: {
-                page: 1,
-                totalSize: 100,
-                data: [
-                    {
-                        id: '00000000',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000001',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000002',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000003',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                ],
-            }
-        }
+        const {data} = await getUncompletedAppointments(params)
+
+        return data
     }
 
     return (
         <UserFramework
+            status={0}
             practRole={practRole}
             state={state}
             pathname={pathname}

@@ -17,3 +17,7 @@ export const countDoctorAppointTime = () => {
 export const getTimetable = (params) => {
     return axios.get(PREFIX + `/getTimetable`, {params})
 }
+
+export const getUncompletedAppointments = (params) => {
+    return axios.get(PREFIX + '/getUncompletedAppointments', {params})
+}

@@ -27,8 +27,6 @@ const DoctorHome = () => {
     const [practRole, setPractRole] = useState(0)
 
 
-    const practId = '4F2E6A3D'
-
     useEffect(() => {
         // console.log(location)
         if (location.pathname === "/doctor") {

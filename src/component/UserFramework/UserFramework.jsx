@@ -9,7 +9,8 @@ import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 
 const UserFramework = (props) => {
-    const {practRole, pathname, state, params, selectors, getData, Detail} = props
+    const {status, practRole, pathname, state, params, selectors, getData, Detail} = props
+    console.log(practRole)
     const hasNoParams = Object.keys(params).length === 0
     const navigate = useNavigate();
 
@@ -40,6 +41,8 @@ const UserFramework = (props) => {
                         getData={getData}
                         path={pathname}
                         state={state}
+                        practRole={practRole}
+                        status={status}
                     />
                     :
                     <Detail
