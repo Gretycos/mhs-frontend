@@ -21,15 +21,15 @@ const Ongoing = () => {
             label: "Next 7 Days",
         },
         {
-            value: 2,
+            value: 1,
             label: "Next 2 weeks",
         },
         {
-            value: 3,
+            value: 2,
             label: "Next 4 weeks",
         },
         {
-            value: 4,
+            value: 3,
             label: "Next 8 weeks",
         },
     ]
