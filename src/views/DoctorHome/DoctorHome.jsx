@@ -102,12 +102,27 @@ const DoctorHome = () => {
                                     lg: 32,
                                 }}
                             >
-                                <Col span={12}>
-                                    <CountCard type={0} practRole={practRole}/>
-                                </Col>
-                                <Col span={12}>
-                                    <CountCard type={1} practRole={practRole}/>
-                                </Col>
+                                {
+                                    practRole === 0 ?
+                                        (
+                                            <>
+                                                <Col span={12}>
+                                                    <CountCard type={0} practRole={practRole}/>
+                                                </Col>
+                                                <Col span={12}>
+                                                    <CountCard type={1} practRole={practRole}/>
+                                                </Col>
+                                            </>
+
+                                        )
+                                    :
+                                    (
+                                        <Col span={24}>
+                                            <CountCard type={1} practRole={practRole}/>
+                                        </Col>
+                                    )
+                                }
+
                             </Row>
                         </div>
                     )
