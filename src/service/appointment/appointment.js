@@ -6,5 +6,5 @@ import axios from "@/common/js/axios.js";
 
 const PREFIX = '/appoint'
 export const getMyAppointments = (params) => {
-    return axios.get(PREFIX + `/myList`, {params})
+    return axios.get(PREFIX + '/myList', {params})
 }
