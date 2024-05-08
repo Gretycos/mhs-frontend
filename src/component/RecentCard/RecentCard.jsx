@@ -5,6 +5,8 @@
 import "./RecentCard.less"
 import {Card, List} from "antd";
 import {useEffect, useState} from "react";
+import {getMyRecentAppointments} from "@/service/appointment/appointment.js";
+import {getMyRecentTestReports} from "@/service/med/testReport.js";
 
 const RecentCard = (props) => {
     const {type} = props
@@ -12,35 +14,43 @@ const RecentCard = (props) => {
 
     useEffect(() => {
         // 获取数据
-        const appointmentList = [
-            {
-                type: "clinic",
-                title: "Meeting with DR.Foo",
-                time: "22-03-2024 15:00",
-            },
-            {
-                type: "test",
-                title: "Blood Test",
-                time: "22-03-2024 16:00",
-            },
-        ]
+        getRecentList()
+        // const appointmentList = [
+        //     {
+        //         type: "clinic",
+        //         title: "Meeting with DR.Foo",
+        //         time: "22-03-2024 15:00",
+        //     },
+        //     {
+        //         type: "test",
+        //         title: "Blood Test",
+        //         time: "22-03-2024 16:00",
+        //     },
+        // ]
+        //
+        // const reportList = [
+        //     {
+        //         title: "CT Report",
+        //         time: "22-03-2024 17:00",
+        //     },
+        //     {
+        //         title: "Blood Report",
+        //         time: "22-03-2024 18:00",
+        //     },
+        // ]
 
-        const reportList = [
-            {
-                title: "CT Report",
-                time: "22-03-2024 17:00",
-            },
-            {
-                title: "Blood Report",
-                time: "22-03-2024 18:00",
-            },
-        ]
-        if (type === 0) {
-            setDataList(appointmentList)
-        }else{
-            setDataList(reportList)
-        }
     }, []);
+
+    const getRecentList = async () => {
+        if (type === 0) {
+            const {data} = await getMyRecentAppointments()
+            setDataList(data)
+        }else{
+            const {data} = await getMyRecentTestReports()
+            setDataList(data)
+            // setDataList([])
+        }
+    }
 
     return (
         <Card
@@ -52,7 +62,7 @@ const RecentCard = (props) => {
                 dataList.length === 0?
                     (
                         <Card.Meta
-                            description={`No ${type===0? "appointments" : "reports"} in 30 days.`}
+                            description={`No ${type===0? "appointments" : "reports"} in recent days.`}
                         />
                     )
                     :

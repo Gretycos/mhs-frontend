@@ -7,6 +7,7 @@ import {useLocation, useParams} from "react-router-dom";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import {useEffect, useState} from "react";
 import {Card} from "antd";
+import {getMyTestReport, getMyTestReports} from "@/service/med/testReport.js";
 
 const TestReport = () => {
     const location = useLocation();
@@ -40,19 +41,23 @@ const TestReport = () => {
     const typeOptions = [
         {
             value: 0,
-            label: "Blood Test",
+            label: "EyeSight",
         },
         {
             value: 1,
-            label: "Radiographic",
+            label: "Height and Weight",
         },
         {
             value: 2,
-            label: "Electrocardiogram",
+            label: "Blood Pressure",
         },
         {
             value: 3,
-            label: "Physical Exam",
+            label: "Blood Sugar",
+        },
+        {
+            value: 4,
+            label: "Audiometry",
         },
     ]
 
@@ -70,33 +75,31 @@ const TestReport = () => {
         },
     ]
 
-    const getData = (params) => {
+    const getData = async (params) => {
         console.log("sending request:", params)
-        return {
-            code: 200,
-            msg: "ok",
-            data: {
-                page: 1,
-                totalSize: 100,
-                data: [
-                    {
-                        id: 0,
-                        title: "Tuberculosis Test",
-                        time: "22-03-2024 15:00",
-                    },
-                    {
-                        id: 1,
-                        title: "Tuberculosis Test",
-                        time: "22-03-2024 15:00",
-                    },
-                    {
-                        id: 2,
-                        title: "Tuberculosis Test",
-                        time: "22-03-2024 15:00",
-                    },
-                ],
-            }
-        }
+        const {data} = await getMyTestReports(params)
+        return data
+        // return  {
+        //     currPage: 1,
+        //     totalCount: 100,
+        //     list: [
+        //         {
+        //             id: 0,
+        //             title: "Tuberculosis Test",
+        //             time: "22-03-2024 15:00",
+        //         },
+        //         {
+        //             id: 1,
+        //             title: "Tuberculosis Test",
+        //             time: "22-03-2024 15:00",
+        //         },
+        //         {
+        //             id: 2,
+        //             title: "Tuberculosis Test",
+        //             time: "22-03-2024 15:00",
+        //         },
+        //     ],
+        // }
     }
 
     return (
@@ -116,33 +119,80 @@ const TestReportDetail = (props) => {
     const {id} = params
     const [testData, setTestData] = useState(
         {
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            type: "Tuberculosis Test",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            age: 22,
-            gender: "Male",
-            doctor: "DR. FOO",
-            examiner: "DR. BAR"
+            time: "",
+            ref: "",
+            type: "",
+            firstName: "",
+            lastName: "",
+            age: 0,
+            gender: "",
+            doctor: "",
+            examiner: "",
+            result: "no result",
         }
     )
 
     useEffect(() => {
         console.log("onMounted", id)
         // 用id去查数据
-        setTestData({
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            type: "Tuberculosis Test",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            age: 22,
-            gender: "Male",
-            doctor: "DR. FOO",
-            examiner: "DR. BAR"
-        })
+        getDetailData()
+        // setTestData({
+        //     time: "23-03-2024 15:15",
+        //     ref: "TBT221982",
+        //     type: "Tuberculosis Test",
+        //     firstName: "Yaocong",
+        //     lastName: "Huang",
+        //     age: 22,
+        //     gender: "Male",
+        //     doctor: "DR. FOO",
+        //     examiner: "DR. BAR"
+        // })
     }, []);
+
+    const parseType = (type) => {
+        let typeName
+        switch (type) {
+            case 0: typeName = "EyeSight"; break;
+            case 1: typeName = "Height and Weight"; break;
+            case 2: typeName = "Blood Pressure"; break;
+            case 3: typeName = "Blood Sugar"; break;
+            case 4: typeName = "Audiometry"; break;
+        }
+
+        return `${typeName} Test`
+    }
+
+    const getDetailData = async () => {
+        // 用id去查数据
+        const params = {
+            testReportId: id,
+        }
+        const {data} = await getMyTestReport(params)
+        setTestData({
+            time: data.time,
+            ref: data.testReportId,
+            type: parseType(data.type),
+            firstName: data.firstName,
+            lastName: data.lastName,
+            age: data.age,
+            gender: data.gender === 0? "Male" : "Female",
+            // doctor: "DR. FOO",
+            examiner: data.examiner,
+            result: data.result,
+        })
+        // setTestData({
+        //     time: "23-03-2024 15:15",
+        //     ref: "TBT221982",
+        //     type: "Tuberculosis Test",
+        //     firstName: "Yaocong",
+        //     lastName: "Huang",
+        //     age: 22,
+        //     gender: "Male",
+        //     // doctor: "DR. FOO",
+        //     examiner: "DR. BAR"
+        // })
+    }
+
     return (
         <div className="report-container">
             <Card
@@ -175,10 +225,10 @@ const TestReportDetail = (props) => {
                                 <div className="report-title-info-tag">Gender:</div>
                                 <div className="report-title-info-val">{testData.gender}</div>
                             </div>
-                            <div className="report-title-info">
-                                <div className="report-title-info-tag">Doctor:</div>
-                                <div className="report-title-info-val">{testData.doctor}</div>
-                            </div>
+                            {/*<div className="report-title-info">*/}
+                            {/*    <div className="report-title-info-tag">Doctor:</div>*/}
+                            {/*    <div className="report-title-info-val">{testData.doctor}</div>*/}
+                            {/*</div>*/}
                             <div className="report-title-info">
                                 <div className="report-title-info-tag">Examiner:</div>
                                 <div className="report-title-info-val">{testData.examiner}</div>
@@ -188,7 +238,7 @@ const TestReportDetail = (props) => {
                 }
             >
                 <div className="report-content">
-                    这里是报告内容
+                    {testData.result}
                 </div>
             </Card>
         </div>

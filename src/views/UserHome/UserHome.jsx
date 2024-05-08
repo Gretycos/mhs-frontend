@@ -16,6 +16,7 @@ import {
 import {useEffect, useState} from "react";
 import {Col, Row} from "antd";
 import RecentCard from "@/component/RecentCard/RecentCard.jsx";
+import {getMyRecentAppointments} from "@/service/appointment/appointment.js";
 
 const UserHome = () => {
     const navigate = useNavigate()
