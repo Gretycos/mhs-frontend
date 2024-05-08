@@ -7,6 +7,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import {useEffect, useState} from "react";
 import {Card, Divider} from "antd";
+import {getMyMedHistories, getMyMedHistory} from "@/service/med/medHistory.js";
 
 const MedicalHistory = () => {
     const location = useLocation();
@@ -46,33 +47,35 @@ const MedicalHistory = () => {
         },
     ]
 
-    const getData = (params) => {
+    const getData = async (params) => {
         console.log("sending request:", params)
-        return {
-            code: 200,
-            msg: "ok",
-            data: {
-                page: 1,
-                totalSize: 100,
-                data: [
-                    {
-                        id: 0,
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                    },
-                    {
-                        id: 1,
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                    },
-                    {
-                        id: 2,
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                    },
-                ],
-            }
-        }
+        const {data} = await getMyMedHistories(params)
+        return data
+        // return {
+        //     code: 200,
+        //     msg: "ok",
+        //     data: {
+        //         page: 1,
+        //         totalSize: 100,
+        //         data: [
+        //             {
+        //                 id: 0,
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //             },
+        //             {
+        //                 id: 1,
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //             },
+        //             {
+        //                 id: 2,
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //             },
+        //         ],
+        //     }
+        // }
     }
 
     return (
@@ -107,18 +110,40 @@ const MedHisDetail = (props) => {
     useEffect(() => {
         console.log("onMounted", id)
         // 用id去查数据
-        setMedHisData({
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            age: 22,
-            gender: "Male",
-            doctor: "DR. FOO",
-            selfDisc: "patient self description",
-            diagnosis: "This is diagnosis content",
-        })
+        getDetailData()
     }, []);
+
+    const getDetailData = async () => {
+        // 用id去查数据
+        const params = {
+            medHistoryId: id,
+        }
+        const {data} = await getMyMedHistory(params)
+        console.log(data)
+        // setMedHisData({
+        //     time: "23-03-2024 15:15",
+        //     ref: "TBT221982",
+        //     firstName: "Yaocong",
+        //     lastName: "Huang",
+        //     age: 22,
+        //     gender: "Male",
+        //     doctor: "DR. FOO",
+        //     selfDisc: "patient self description",
+        //     diagnosis: "This is diagnosis content",
+        // })
+        // setMedHisData({
+        //     time: "23-03-2024 15:15",
+        //     ref: "TBT221982",
+        //     firstName: "Yaocong",
+        //     lastName: "Huang",
+        //     age: 22,
+        //     gender: "Male",
+        //     doctor: "DR. FOO",
+        //     selfDisc: "patient self description",
+        //     diagnosis: "This is diagnosis content",
+        // })
+    }
+
     return (
         <div className="medhis-container">
             <Card

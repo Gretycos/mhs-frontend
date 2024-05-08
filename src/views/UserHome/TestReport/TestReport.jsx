@@ -126,7 +126,7 @@ const TestReportDetail = (props) => {
             lastName: "",
             age: 0,
             gender: "",
-            doctor: "",
+            // doctor: "",
             examiner: "",
             result: "no result",
         }
