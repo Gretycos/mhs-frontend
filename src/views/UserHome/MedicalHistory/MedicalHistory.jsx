@@ -120,17 +120,17 @@ const MedHisDetail = (props) => {
         }
         const {data} = await getMyMedHistory(params)
         console.log(data)
-        // setMedHisData({
-        //     time: "23-03-2024 15:15",
-        //     ref: "TBT221982",
-        //     firstName: "Yaocong",
-        //     lastName: "Huang",
-        //     age: 22,
-        //     gender: "Male",
-        //     doctor: "DR. FOO",
-        //     selfDisc: "patient self description",
-        //     diagnosis: "This is diagnosis content",
-        // })
+        setMedHisData({
+            time: data.medTime,
+            ref: data.medHistoryId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            age: data.age,
+            gender: data.gender === 0? "Male" : "Female",
+            doctor: data.doctor,
+            selfDisc: data.selfDisc === null ? "" : data.selfDisc,
+            diagnosis: data.diagnosis === null ? "" : data.diagnosis,
+        })
         // setMedHisData({
         //     time: "23-03-2024 15:15",
         //     ref: "TBT221982",
