@@ -10,13 +10,12 @@ import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import PendingDetail from "@/views/DoctorHome/Pending/PendingDetail/PendingDetail.jsx";
 
-const Pending = () => {
-
+const Pending = (props) => {
     const location = useLocation();
     const params = useParams()
 
     const {pathname, state} = location
-
+    const practRole = state.practRole;
 
     const dateOptions = [
         {
@@ -24,15 +23,15 @@ const Pending = () => {
             label: "Next 7 Days",
         },
         {
-            value: 2,
+            value: 1,
             label: "Next 2 weeks",
         },
         {
-            value: 3,
+            value: 2,
             label: "Next 4 weeks",
         },
         {
-            value: 4,
+            value: 3,
             label: "Next 8 weeks",
         },
     ]
@@ -81,6 +80,7 @@ const Pending = () => {
 
     return (
         <UserFramework
+            practRole={practRole}
             state={state}
             pathname={pathname}
             params={params}

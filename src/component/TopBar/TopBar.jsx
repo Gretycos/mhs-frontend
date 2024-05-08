@@ -3,10 +3,10 @@
  * time: 16/03/2024 19:37
  */
 import "./TopBar.less"
-import {Layout, Input, Button, Dropdown} from "antd";
+import {Layout, Button, Dropdown} from "antd";
 import {store} from "@/redux/store.js";
 import {UserOutlined} from "@ant-design/icons";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {getPatientInfo, logout} from "@/service/user/patient.js";
 import {useEffect, useState} from "react";
 import {getPractitionerInfo, logoutPract} from "@/service/user/practitioner.js";
@@ -18,6 +18,10 @@ const TopBar = () => {
     const dispatch = useDispatch()
     const token = store.getState()?.globalSlice.token
     const [fullName, setFullName] = useState("full name")
+    const location = useLocation()
+
+    const isHome = location.pathname.split("/")[1] === "home"
+    // console.log("isHome?", isHome)
 
     useEffect( () => {
         if (token) {
@@ -26,10 +30,10 @@ const TopBar = () => {
     }, []);
 
     const getUserInfo = async () => {
-        const userId = store.getState()?.globalSlice.userId
+        // const userId = store.getState()?.globalSlice.userId
         const role = store.getState()?.globalSlice.role
-        const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo(params)
-        const name = `${data.givenName} ${data.familyName}`
+        const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo()
+        const name = (role === "patient" ? "" : "DR. ") + `${data.givenName} ${data.familyName}`
         setFullName(name)
     }
 
@@ -101,11 +105,32 @@ const TopBar = () => {
         }
     }
 
+    const toSpecificHome = () => {
+        if (store.getState()?.globalSlice.role === "patient") {
+            return (
+                <div className="top-bar-nav" onClick={() => navigate("/patient")}>
+                    <span className="top-bar-nav-item">To Patient Home</span>
+                </div>
+            )
+        }
+        return (
+            <div className="top-bar-nav" onClick={() => navigate("/doctor")}>
+                <span className="top-bar-nav-item">To Doctor Home</span>
+            </div>
+        )
+    }
+
     return (
         <Header className="top-bar">
             <div className="top-bar-logo" onClick={() => navigate("/home")}>MHS</div>
             <div className="top-bar-right">
                 {/*<Search className="top-bar-search" placeholder="input search text" onSearch={onSearch} enterButton/>*/}
+                {
+                    token && isHome?
+                        toSpecificHome()
+                        :
+                        null
+                }
                 <div className="top-bar-user">
                     {
                         token ?
@@ -113,7 +138,10 @@ const TopBar = () => {
                                 <Dropdown
                                     menu={
                                         {
-                                            items: dropdownItemsLoggedIn,
+                                            items: dropdownItemsLoggedIn.filter((item) => {
+                                                return !(store.getState()?.globalSlice.role !== "patient" && item.key === "0");
+
+                                            }),
                                             onClick: onClickLoggedIn,
                                         }
                                     }

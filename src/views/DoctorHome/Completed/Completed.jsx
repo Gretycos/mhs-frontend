@@ -6,6 +6,7 @@ import "./Completed.less"
 import {Link, useLocation, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
+import CompletedDetail from "@/views/DoctorHome/Completed/CompletedDetail/CompletedDetail.jsx";
 
 const Completed = () => {
     const location = useLocation();
@@ -62,61 +63,10 @@ const Completed = () => {
             params={params}
             selectors={selectors}
             getData={getData}
-            Detail={CompletedAppointmentDetail}
+            Detail={CompletedDetail}
         />
     )
 }
 
-const CompletedAppointmentDetail = (props) => {
-    const {params, state} = props
-    const {id} = params
-    const [aptData, setAptData] = useState(
-        {
-            ref: "",
-            firstName: "",
-            lastName: "",
-            doctor: "",
-            time: "",
-            birthday:"",
-            reason:"",
-            type:"",
-        }
-    )
-
-    const parseType = (first, second) => {
-        let type = ""
-        if (first === "clinic"){
-            type += "CLINIC - "
-            switch (second) {
-                case 0: type += "FACE-TO-FACE"; break;
-                case 1: type += "TELEPHONE"; break;
-            }
-        } else {
-            type += "TEST - "
-            switch (second) {
-                case 0: type += "SURGERY"; break;
-                case 1: type += "REGULAR"; break;
-                case 2: type += "VACCINE"; break;
-            }
-        }
-        return type
-    }
-
-    useEffect(async () => {
-        console.log("onMounted", id, state.type)
-        setAptData({
-            ref: "C3221982",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            doctor: "Dr.Jane",
-            time: "23-03-2024 15:15",
-            birthday:"02-01-2002",
-            reason:"My leg always pain during rain",
-        })
-    }, []);
-    return (
-        <div></div>
-    )
-}
 
 export default Completed

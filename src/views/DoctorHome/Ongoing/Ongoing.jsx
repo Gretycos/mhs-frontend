@@ -7,12 +7,13 @@ import {Link, useLocation, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Card, Pagination, Select} from "antd";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
+import OngoingDetail from "@/views/DoctorHome/Ongoing/OngoingDetail/OngoingDetail.jsx";
 const Ongoing = () => {
     const location = useLocation();
     const params = useParams()
 
     const {pathname, state} = location
-
+    const practRole = state.practRole;
 
     const dateOptions = [
         {
@@ -20,15 +21,15 @@ const Ongoing = () => {
             label: "Next 7 Days",
         },
         {
-            value: 2,
+            value: 1,
             label: "Next 2 weeks",
         },
         {
-            value: 3,
+            value: 2,
             label: "Next 4 weeks",
         },
         {
-            value: 4,
+            value: 3,
             label: "Next 8 weeks",
         },
     ]
@@ -77,12 +78,13 @@ const Ongoing = () => {
 
     return (
         <UserFramework
+            practRole={practRole}
             state={state}
             pathname={pathname}
             params={params}
             selectors={selectors}
             getData={getData}
-            Detail={OngoingAppointmentDetail}
+            Detail={OngoingDetail}
         />
     )
 
@@ -108,57 +110,5 @@ const Ongoing = () => {
             </div>
         </div>
     )*/
-}
-
-const OngoingAppointmentDetail = (props) => {
-    const {params, state} = props
-    const {id} = params
-    const [aptData, setAptData] = useState(
-        {
-            ref: "",
-            firstName: "",
-            lastName: "",
-            doctor: "",
-            time: "",
-            birthday:"",
-            reason:"",
-            type:"",
-        }
-    )
-
-    const parseType = (first, second) => {
-        let type = ""
-        if (first === "clinic"){
-            type += "CLINIC - "
-            switch (second) {
-                case 0: type += "FACE-TO-FACE"; break;
-                case 1: type += "TELEPHONE"; break;
-            }
-        } else {
-            type += "TEST - "
-            switch (second) {
-                case 0: type += "SURGERY"; break;
-                case 1: type += "REGULAR"; break;
-                case 2: type += "VACCINE"; break;
-            }
-        }
-        return type
-    }
-
-    useEffect(async () => {
-        console.log("onMounted", id, state.type)
-        setAptData({
-            ref: "C3221982",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            doctor: "Dr.Jane",
-            time: "23-03-2024 15:15",
-            birthday:"02-01-2002",
-            reason:"My leg always pain during rain",
-        })
-    }, []);
-    return (
-        <div></div>
-    )
 }
 export default Ongoing

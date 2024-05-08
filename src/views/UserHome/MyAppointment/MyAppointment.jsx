@@ -10,12 +10,13 @@ import {useEffect, useState} from "react";
 import {store} from "@/redux/store.js";
 import {getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
 import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
+import {getMyAppointments} from "@/service/appointment/appointment.js";
 
 const MyAppointment = () => {
     const location = useLocation();
     const params = useParams()
 
-    console.log(location)
+    // console.log(location)
     const {pathname, state} = location
 
     const dateOptions = [
@@ -60,44 +61,47 @@ const MyAppointment = () => {
         },
         {
             title: "Type",
-            key: "appointmentType",
+            key: "type", // 当作后续发请求的参数变量名
             options: typeOptions,
         },
     ]
 
-    const getData = (params) => {
+    const getData = async (params) => {
         console.log("sending request:", params)
-        return {
-            code: 200,
-            msg: "ok",
-            data: {
-                page: 1,
-                totalSize: 100,
-                data: [
-                    {
-                        id: 0,
-                        type: "clinic",
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                        status: 0,
-                    },
-                    {
-                        id: 1,
-                        type: "clinic",
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                        status: 1,
-                    },
-                    {
-                        id: 2,
-                        type: "clinic",
-                        title: "Meeting with DR.Foo",
-                        time: "22-03-2024 15:00",
-                        status: 2,
-                    },
-                ],
-            }
-        }
+        const {data} = await getMyAppointments(params)
+
+        return data
+        // return {
+        //     code: 200,
+        //     msg: "ok",
+        //     data: {
+        //         page: 1,
+        //         totalSize: 100,
+        //         data: [
+        //             {
+        //                 id: 0,
+        //                 type: "clinic",
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //                 status: 0,
+        //             },
+        //             {
+        //                 id: 1,
+        //                 type: "clinic",
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //                 status: 1,
+        //             },
+        //             {
+        //                 id: 2,
+        //                 type: "clinic",
+        //                 title: "Meeting with DR.Foo",
+        //                 time: "22-03-2024 15:00",
+        //                 status: 2,
+        //             },
+        //         ],
+        //     }
+        // }
     }
 
     return (
@@ -148,50 +152,34 @@ const MyAppointmentDetail = (props) => {
     useEffect( () => {
         console.log("onMounted", id, state.type)
         // 用id去查数据
-        // const params = {
-        //     appointId: id,
-        //     patientId: store.getState()?.globalSlice.userId,
-        // }
-        // console.log(params)
-        // const {data} = state.type === "clinic" ?
-        //     await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
-        // console.log(data)
+        getDetailData()
         // setAptData({
-        //     time: data.time,
-        //     ref: data.appointmentId,
-        //     firstName: data.firstName,
-        //     lastName: data.lastName,
-        //     type: parseType(state.type, data.type),
-        //     doctor: data.doctor,
+        //     time: "23-03-2024 15:15",
+        //     ref: "C3221982",
+        //     firstName: "Yaocong",
+        //     lastName: "Huang",
+        //     type: "Clinic, face-to-face",
+        //     doctor: "DR. FOO",
         // })
-        setAptData({
-            time: "23-03-2024 15:15",
-            ref: "C3221982",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            type: "Clinic, face-to-face",
-            doctor: "DR. FOO",
-        })
     }, []);
 
-    const getData = async () => {
+    const getDetailData = async () => {
         // 用id去查数据
-        // const params = {
-        //     appointId: id,
-        //     patientId: store.getState()?.globalSlice.userId,
-        // }
+        const params = {
+            appointId: id,
+        }
         // console.log(params)
-        // const {data} = state.type === "clinic" ?
-        //     await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
+        const {data} = state.type === "clinic" ?
+            await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
         // console.log(data)
-        // setAptData({
-        //     time: data.time,
-        //     ref: data.appointmentId,
-        //     firstName: data.firstName,
-        //     lastName: data.lastName,
-        //     type: parseType(state.type, data.type),
-        //     doctor: data.doctor,
-        // })
+        setAptData({
+            time: data.time,
+            ref: data.appointmentId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            type: parseType(state.type, data.type),
+            doctor: data.doctor,
+        })
     }
 
     return (

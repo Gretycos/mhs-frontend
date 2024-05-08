@@ -11,26 +11,39 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import EventIcon from '@mui/icons-material/Event';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import CountCard from "@/component/CountCard/CountCard.jsx";
+import RecentCard from "@/component/RecentCard/RecentCard.jsx";
 import {useEffect, useState} from "react";
 import DoctorMenu from "@/component/Menu/DoctorMenu.jsx";
+import {countDoctorAppointTime} from "@/service/appointment/doctorAppointment.js";
+import {countTestAppointTime} from "@/service/appointment/testAppointment.js";
+import {getPractRole} from "@/service/user/practitioner.js";
 const DoctorHome = () => {
 
     const navigate = useNavigate()
     const location = useLocation()
 
     const [isHomepage, setIsHomepage] = useState(true)
-    const {pathname} = location
+
+    const [practRole, setPractRole] = useState(0)
+
+    const practId = '4F2E6A3D'
 
     useEffect(() => {
         // console.log(location)
         if (location.pathname === "/doctor") {
             setIsHomepage(true)
-        } else {
+        }else{
             setIsHomepage(false)
         }
+
+        onInitial();
     }, [location.pathname]);
 
-    const role = 0
+    const onInitial  = async () => {
+        const {data} = await getPractRole()
+        console.log(data)
+        setPractRole(data.role)
+    }
 
     const menu = [
         {
@@ -40,7 +53,7 @@ const DoctorHome = () => {
         },
     ]
 
-    if (role === 0) {
+    if (practRole === 0){
         menu.push({
             name: "Pending Appointment",
             icon: <EditCalendarIcon className="menu-icon-style"/>,
@@ -49,18 +62,18 @@ const DoctorHome = () => {
     }
 
     menu.push({
-            name: "Ongoing Appointment",
-            icon: <EventIcon className="menu-icon-style"/>,
-            url: "/doctor/ongoing"
-        },
-        {
-            name: "Completed Appointment",
-            icon: <EventAvailableIcon className="menu-icon-style"/>,
-            url: "/doctor/completed"
-        })
+        name: "Ongoing Appointment",
+        icon: <EventIcon className="menu-icon-style"/>,
+        url: "/doctor/ongoing"
+    },
+    {
+        name: "Completed Appointment",
+        icon: <EventAvailableIcon className="menu-icon-style"/>,
+        url: "/doctor/completed"
+    })
 
     const onItemClick = (idx, url) => {
-        navigate(url, {state: {title: menu[idx].name}})
+        navigate(url, {state:{title: menu[idx].name, practRole:practRole}})
         setIsHomepage(false)
     }
 
@@ -74,56 +87,63 @@ const DoctorHome = () => {
     })
 
     return (
-        <div>
+
+        <div className="doctor-home">
             {
                 isHomepage ?
-                    null
-                    :
                     (
-                        <DoctorMenu initial = {pathname}/>
+                        <div className="doctor-home-countup">
+                            <Row
+                                justify="space-between"
+                                gutter={{
+                                    xs: 8,
+                                    sm: 16,
+                                    md: 24,
+                                    lg: 32,
+                                }}
+                            >
+                                {
+                                    practRole === 0 ?
+                                        (
+                                            <>
+                                                <Col span={12}>
+                                                    <CountCard type={0} practRole={practRole}/>
+                                                </Col>
+                                                <Col span={12}>
+                                                    <CountCard type={1} practRole={practRole}/>
+                                                </Col>
+                                            </>
+
+                                        )
+                                    :
+                                    (
+                                        <Col span={24}>
+                                            <CountCard type={1} practRole={practRole}/>
+                                        </Col>
+                                    )
+                                }
+
+                            </Row>
+                        </div>
                     )
+                    :
+                    <DoctorMenu practRole={practRole}/>
             }
-            <div className="doctor-home">
-                {
-                    isHomepage ?
-                        (
-                            <div className="doctor-home-countup">
-                                <Row
-                                    justify="space-between"
-                                    gutter={{
-                                        xs: 8,
-                                        sm: 16,
-                                        md: 24,
-                                        lg: 32,
-                                    }}
-                                >
-                                    <Col span={12}>
-                                        <CountCard type={0}/>
-                                    </Col>
-                                    <Col span={12}>
-                                        <CountCard type={1}/>
-                                    </Col>
-                                </Row>
-                            </div>
-                        )
-                        :
-                        null
-                }
-                {
-                    isHomepage ?
-                        (
-                            <div className="doctor-home-menu">
-                                {menuComponent}
-                            </div>
-                        )
-                        :
-                        null
-                }
+            {
+                isHomepage ?
+                    (
+                        <div className="doctor-home-menu">
+                            {menuComponent}
+                        </div>
+                    )
+                    :
+                    null
+            }
+            <div className="doctor-outlet">
                 <Outlet/>
             </div>
         </div>
-
-)
+    )
 }
 
 export default DoctorHome

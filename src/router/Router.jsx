@@ -114,17 +114,17 @@ const router = createBrowserRouter([
           },
           {
             path: "pending/:id",
-            element: <PendingDetail />,
+            element:<Pending />
           },
           {
             path: "ongoing/:id",
-            element: <OngoingDetail />,
+            element:<Ongoing />
           },
           {
             path: "completed/:id",
-            element: <CompletedDetail />,
-          },
-        ],
+            element:<Completed />
+          }
+        ]
       },
     ],
   },

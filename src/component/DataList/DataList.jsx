@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
-    const {selectors, getData, path, state} = props
+    const {selectors, getData, path, state, role} = props
     const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
@@ -22,9 +22,9 @@ const DataList = (props) => {
         null
     // 分页和数据状态
     const [dataState, setDataState] = useState({
-        page: 1,
+        currPage: 1,
         pageSize: 5,
-        totalSize: 0,
+        totalCount: 0,
         dataList: [],
     })
     // 选择器的键值对状态
@@ -34,19 +34,24 @@ const DataList = (props) => {
         console.log("on mounted")
         const params = {
             ...options,
-            page: dataState.page,
+            page: dataState.currPage,
             pageSize: dataState.pageSize
         }
-        const {data} = getData(params)
-        setDataState({
-            ...dataState,
-            totalSize: data.totalSize,
-            dataList: data.data,
-        })
+        getListData(params)
     }, []);
 
-    const onPageChange = (page, pageSize) => {
-        page = page === dataState.page ? 1 : page // page相同相当于改了pageSize, 需要返回第一页
+    const getListData = async (params) => {
+        const data = await getData(params)
+        setDataState({
+            ...dataState,
+            currPage: data.currPage,
+            totalCount: data.totalCount,
+            dataList: data.list,
+        })
+    }
+
+    const onPageChange = async (page, pageSize) => {
+        page = page === dataState.currPage ? 1 : page // page相同相当于改了pageSize, 需要返回第一页
 
         console.log(`page change: ${page}, ${pageSize}`)
         const params = {
@@ -54,17 +59,17 @@ const DataList = (props) => {
             page: page,
             pageSize: pageSize,
         }
-        const {data} = getData(params)
+        const {data} = await getData(params)
         setDataState({
             ...dataState,
-            page: page,
+            currPage: page,
             pageSize: pageSize,
-            totalSize: data.totalSize,
-            dataList: data.data,
+            totalCount: data.totalCount,
+            dataList: data.list,
         })
     }
 
-    const onOptionChange = (value, key) => {
+    const onOptionChange = async (value, key) => {
         console.log(`option change: ${key}: ${value}`)
         setOptions({
             ...options,
@@ -73,20 +78,21 @@ const DataList = (props) => {
         const params = {
             ...options,
             [key]: value, // 因为set后不会马上更新，所以只能同步修改要用的值
-            page: dataState.page,
+            page: dataState.currPage,
             pageSize: dataState.pageSize,
         }
-        const {data} = getData(params)
+        const data = await getData(params)
+        console.log(data)
         setDataState({
             ...dataState,
-            page: 1,
-            totalSize: data.totalSize,
-            dataList: data.data,
+            currPage: 1,
+            totalCount: data.totalCount,
+            dataList: data.list,
         })
     }
 
     const dataSelectors = selectors.map((item, idx) => {
-        return <Selector key={idx} title={item.title} onChange={(val) => onOptionChange(val, item.key)} options={item.options}/>
+        return <Selector autoFocus={true} key={idx} title={item.title} onChange={ (val) => onOptionChange(val, item.key)} options={item.options}/>
     })
 
     const onClickItem = (id, type) => {
@@ -121,9 +127,9 @@ const DataList = (props) => {
                 className="data-component-pagination"
                 showSizeChanger
                 onChange={onPageChange}
-                current={dataState.page}
+                current={dataState.currPage}
                 pageSize={dataState.pageSize}
-                total={dataState.totalSize}
+                total={dataState.totalCount}
                 pageSizeOptions={[5, 10, 20]}
             />
         </div>
