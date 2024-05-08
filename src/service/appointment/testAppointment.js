@@ -20,3 +20,7 @@ export const getTestTimetable = (params) => {
 export const getTestUncompletedAppointments = (params) => {
     return axios.get(PREFIX + '/getOngoingAppointByPractId', {params})
 }
+
+export const getTestCompletedAppointments = (params) => {
+    return axios.get(PREFIX + '/getCompletedAppointByPractId', {params})
+}

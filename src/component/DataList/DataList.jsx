@@ -11,7 +11,7 @@ import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
     const {selectors, getData, path, state, practRole, status} = props
-    console.log(practRole)
+    console.log(selectors[0].options)
     const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
@@ -20,8 +20,12 @@ const DataList = (props) => {
             optionsIni[selector.key] = selector.options[0].value
         })
         :
-        null
+        optionsIni = {
+            startDate: null,
+            endDate: null
+        }
     // 分页和数据状态
+    console.log(optionsIni)
     const [dataState, setDataState] = useState({
         currPage: 1,
         pageSize: 5,
@@ -96,6 +100,31 @@ const DataList = (props) => {
         })
     }
 
+    const onDateOptionChange = async (value, key) => {
+        console.log(`option change: ${key}`)
+        setOptions({
+            ...options,
+            startDate: key[0],
+            endDate:key[1],
+        })
+        const params = {
+            ...options,
+            startDate: key[0],
+            endDate:key[1], // 因为set后不会马上更新，所以只能同步修改要用的值
+            page: dataState.currPage,
+            pageSize: dataState.pageSize,
+            status: status
+        }
+        const data = await getData(params)
+        console.log(data)
+        setDataState({
+            ...dataState,
+            currPage: 1,
+            totalCount: data.totalCount,
+            dataList: data.list,
+        })
+    }
+
     const dataSelectors = selectors.map((item, idx) => {
         return <Selector autoFocus={true} key={idx} title={item.title} onChange={ (val) => onOptionChange(val, item.key)} options={item.options}/>
     })
@@ -111,7 +140,7 @@ const DataList = (props) => {
                 {selectors[0].options ?
                     dataSelectors
                     :
-                    <MyDatePicker title={selectors[0].title} onChange={(val) => onOptionChange(val)}/>}
+                    <MyDatePicker title={selectors[0].title} onChange={(val1, val2) => onDateOptionChange(val1, val2)}/>}
             </div>
             <List
                 className="data-component-list"
