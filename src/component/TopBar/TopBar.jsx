@@ -33,7 +33,7 @@ const TopBar = () => {
         // const userId = store.getState()?.globalSlice.userId
         const role = store.getState()?.globalSlice.role
         const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo()
-        const name = role === "patient" ? "" : "DR. " + `${data.givenName} ${data.familyName}`
+        const name = (role === "patient" ? "" : "DR. ") + `${data.givenName} ${data.familyName}`
         setFullName(name)
     }
 
@@ -138,7 +138,10 @@ const TopBar = () => {
                                 <Dropdown
                                     menu={
                                         {
-                                            items: dropdownItemsLoggedIn,
+                                            items: dropdownItemsLoggedIn.filter((item) => {
+                                                return !(store.getState()?.globalSlice.role !== "patient" && item.key === "0");
+
+                                            }),
                                             onClick: onClickLoggedIn,
                                         }
                                     }
