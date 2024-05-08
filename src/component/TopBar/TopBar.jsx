@@ -32,8 +32,8 @@ const TopBar = () => {
     const getUserInfo = async () => {
         // const userId = store.getState()?.globalSlice.userId
         const role = store.getState()?.globalSlice.role
-        const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo(params)
-        const name = `${data.givenName} ${data.familyName}`
+        const {data} = role === "patient" ? await getPatientInfo() : await getPractitionerInfo()
+        const name = role === "patient" ? "" : "DR. " + `${data.givenName} ${data.familyName}`
         setFullName(name)
     }
 

@@ -16,7 +16,7 @@ const MyAppointment = () => {
     const location = useLocation();
     const params = useParams()
 
-    console.log(location)
+    // console.log(location)
     const {pathname, state} = location
 
     const dateOptions = [
@@ -168,10 +168,10 @@ const MyAppointmentDetail = (props) => {
         const params = {
             appointId: id,
         }
-        console.log(params)
+        // console.log(params)
         const {data} = state.type === "clinic" ?
             await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
-        console.log(data)
+        // console.log(data)
         setAptData({
             time: data.time,
             ref: data.appointmentId,
