@@ -59,7 +59,8 @@ const DataList = (props) => {
             page: page,
             pageSize: pageSize,
         }
-        const {data} = await getData(params)
+        const data = await getData(params)
+        console.log(data)
         setDataState({
             ...dataState,
             currPage: page,
@@ -82,7 +83,7 @@ const DataList = (props) => {
             pageSize: dataState.pageSize,
         }
         const data = await getData(params)
-        console.log(data)
+        // console.log(data)
         setDataState({
             ...dataState,
             currPage: 1,
