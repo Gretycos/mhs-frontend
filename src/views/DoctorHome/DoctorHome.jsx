@@ -26,6 +26,7 @@ const DoctorHome = () => {
 
     const [practRole, setPractRole] = useState(0)
 
+
     const practId = '4F2E6A3D'
 
     useEffect(() => {
@@ -43,6 +44,7 @@ const DoctorHome = () => {
         const {data} = await getPractRole()
         console.log(data)
         setPractRole(data.role)
+
     }
 
     const menu = [
@@ -107,10 +109,10 @@ const DoctorHome = () => {
                                         (
                                             <>
                                                 <Col span={12}>
-                                                    <CountCard type={0} practRole={practRole}/>
+                                                    <CountCard key={practRole} type={0} practRole={practRole}/>
                                                 </Col>
                                                 <Col span={12}>
-                                                    <CountCard type={1} practRole={practRole}/>
+                                                    <CountCard key={practRole} type={1} practRole={practRole}/>
                                                 </Col>
                                             </>
 
@@ -118,7 +120,7 @@ const DoctorHome = () => {
                                     :
                                     (
                                         <Col span={24}>
-                                            <CountCard type={1} practRole={practRole}/>
+                                            <CountCard key={practRole} type={1} practRole={practRole}/>
                                         </Col>
                                     )
                                 }

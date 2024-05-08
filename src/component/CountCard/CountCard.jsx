@@ -13,11 +13,11 @@ import {countTestAppointTime} from "@/service/appointment/testAppointment.js";
 
 const CountCard = (props) => {
     const {type, practRole} = props
+    console.log(practRole)
     const [countPending, setCountPending] = useState(0)
     const [countOngoing, setCountOngoing] = useState(0)
 
     const formatter = (value) => <CountUp end={value} separator="," />;
-
 
 
     useEffect(() => {
@@ -27,8 +27,8 @@ const CountCard = (props) => {
     }, []);
 
     const onInitial  = async () => {
-        const {data} = practRole === 0 ? await countDoctorAppointTime() : await countTestAppointTime()
-        console.log(data)
+        const {data} = props.practRole === 0 ? await countDoctorAppointTime() : await countTestAppointTime()
+        console.log(props.practRole, data)
         setCountPending(data.countPending)
         setCountOngoing(data.countOngoing)
     }
