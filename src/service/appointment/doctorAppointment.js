@@ -9,3 +9,7 @@ const PREFIX = '/doctorAppoint'
 export const getMyDoctorAppointment = (params) => {
     return axios.get(PREFIX + `/`, {params})
 }
+
+export const countDoctorAppointTime = () => {
+    return axios.get(PREFIX + '/countAppointment')
+}

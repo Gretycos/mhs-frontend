@@ -6,19 +6,32 @@ import "./CountCard.less"
 import {Card, List, Statistic} from "antd";
 import {useEffect, useState} from "react";
 import CountUp from "react-countup";
+import {login} from "@/service/user/patient.js";
+import {loginPract} from "@/service/user/practitioner.js";
+import {countDoctorAppointTime} from "@/service/appointment/doctorAppointment.js";
+import {countTestAppointTime} from "@/service/appointment/testAppointment.js";
 
 const CountCard = (props) => {
-    const {type} = props
-    const [dataList, setDataList] = useState([])
-    const countPending = 15
-    const countOngoing = 50
+    const {type, practRole} = props
+    const [countPending, setCountPending] = useState(0)
+    const [countOngoing, setCountOngoing] = useState(0)
 
     const formatter = (value) => <CountUp end={value} separator="," />;
 
+
+
     useEffect(() => {
         // 获取数据
+        onInitial()
 
     }, []);
+
+    const onInitial  = async () => {
+        const {data} = practRole === 0 ? await countDoctorAppointTime() : await countTestAppointTime()
+        console.log(data)
+        setCountPending(data.countPending)
+        setCountOngoing(data.countOngoing)
+    }
 
     return (
         <Card

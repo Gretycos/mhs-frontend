@@ -14,6 +14,9 @@ import CountCard from "@/component/CountCard/CountCard.jsx";
 import RecentCard from "@/component/RecentCard/RecentCard.jsx";
 import {useEffect, useState} from "react";
 import DoctorMenu from "@/component/Menu/DoctorMenu.jsx";
+import {countDoctorAppointTime} from "@/service/appointment/doctorAppointment.js";
+import {countTestAppointTime} from "@/service/appointment/testAppointment.js";
+import {getPractRole} from "@/service/user/practitioner.js";
 const DoctorHome = () => {
 
     const navigate = useNavigate()
@@ -23,6 +26,8 @@ const DoctorHome = () => {
 
     const [practRole, setPractRole] = useState(0)
 
+    const practId = '4F2E6A3D'
+
     useEffect(() => {
         // console.log(location)
         if (location.pathname === "/doctor") {
@@ -31,8 +36,14 @@ const DoctorHome = () => {
             setIsHomepage(false)
         }
 
-        setPractRole(0)
+        onInitial();
     }, [location.pathname]);
+
+    const onInitial  = async () => {
+        const {data} = await getPractRole()
+        console.log(data)
+        setPractRole(data.role)
+    }
 
     const menu = [
         {
@@ -92,10 +103,10 @@ const DoctorHome = () => {
                                 }}
                             >
                                 <Col span={12}>
-                                    <CountCard type={0}/>
+                                    <CountCard type={0} practRole={practRole}/>
                                 </Col>
                                 <Col span={12}>
-                                    <CountCard type={1}/>
+                                    <CountCard type={1} practRole={practRole}/>
                                 </Col>
                             </Row>
                         </div>

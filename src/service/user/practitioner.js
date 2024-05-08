@@ -17,3 +17,7 @@ export const logoutPract = () => {
 export const getPractitionerInfo = (params) => {
   return axios.get(PREFIX + '/info', {params})
 }
+
+export const getPractRole = () =>{
+  return axios.get(PREFIX + '/findRole')
+}
