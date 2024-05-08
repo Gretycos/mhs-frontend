@@ -16,7 +16,7 @@ import {
 import { useState } from "react";
 const { Option } = Select;
 const { TextArea } = Input;
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
 import "../../../component/UserFramework/UserFramework.less";
 
@@ -152,6 +152,10 @@ const BookTest = () => {
     form.resetFields();
   };
 
+  const goBack = () => {
+    navigate(-1); // 返回上一页
+  };
+
   if (confirm) {
     return (
       <div className="book-test-page">
@@ -187,9 +191,18 @@ const BookTest = () => {
                 resize: "none",
               }}
             />
-            <Button type="primary" className="btn" onClick={SubmitAppointment}>
-              Confirm
-            </Button>
+            <div className="btn-box">
+              <Button htmlType="button" onClick={goBack}>
+                Cancel
+              </Button>
+              <Button
+                type="primary"
+                className="btn"
+                onClick={SubmitAppointment}
+              >
+                Confirm
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -208,6 +221,10 @@ const BookTest = () => {
             onFinish={onFinish}
             className="form"
           >
+            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
+              <DatePicker />
+              {/* <TimePicker /> */}
+            </Form.Item>
             <Form.Item name="type" label="Type" rules={[]}>
               <Select
                 placeholder="Select type"
@@ -223,10 +240,7 @@ const BookTest = () => {
                 })}
               </Select>
             </Form.Item>
-            <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-              <DatePicker />
-              {/* <TimePicker /> */}
-            </Form.Item>
+
             <Form.Item {...tailLayout} className="btn-group">
               <Space>
                 <Button type="primary" htmlType="submit">
