@@ -195,7 +195,7 @@ const OngoingDetail = (props) => {
         },
         {
             value: 4,
-            label: "Listening"
+            label: "Audiometry"
         }
     ]
 

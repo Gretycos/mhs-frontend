@@ -13,3 +13,7 @@ export const getMyDoctorAppointment = (params) => {
 export const countDoctorAppointTime = () => {
     return axios.get(PREFIX + '/countAppointment')
 }
+
+export const getTimetable = (params) => {
+    return axios.get(PREFIX + `/getTimetable`, {params})
+}

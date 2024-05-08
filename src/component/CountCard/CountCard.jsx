@@ -22,11 +22,11 @@ const CountCard = (props) => {
 
     useEffect(() => {
         // 获取数据
-        onInitial()
+        countCardInitial()
 
     }, []);
 
-    const onInitial  = async () => {
+    const countCardInitial  = async () => {
         const {data} = props.practRole === 0 ? await countDoctorAppointTime() : await countTestAppointTime()
         console.log(props.practRole, data)
         setCountPending(data.countPending)

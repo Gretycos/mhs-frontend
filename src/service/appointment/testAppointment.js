@@ -12,3 +12,7 @@ export const getMyTestAppointment = (params) => {
 export const countTestAppointTime = () => {
     return axios.get(PREFIX + '/countAppointment')
 }
+
+export const getTestTimetable = (params) => {
+    return axios.get(PREFIX + `/getTimetable`, {params})
+}
