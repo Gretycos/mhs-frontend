@@ -8,6 +8,8 @@ import {useEffect, useState} from "react";
 import {Card, Pagination, Select} from "antd";
 import UserFramework from "@/component/UserFramework/UserFramework.jsx";
 import OngoingDetail from "@/views/DoctorHome/Ongoing/OngoingDetail/OngoingDetail.jsx";
+import {getTestUncompletedAppointments} from "@/service/appointment/testAppointment.js";
+import {getUncompletedAppointments} from "@/service/appointment/doctorAppointment.js";
 const Ongoing = () => {
     const location = useLocation();
     const params = useParams()
@@ -42,42 +44,16 @@ const Ongoing = () => {
         },
     ]
 
-    const getData = (params) => {
+    const getData = async (params) => {
         console.log("sending request:", params)
-        return {
-            code: 200,
-            msg: "ok",
-            data: {
-                page: 1,
-                totalSize: 100,
-                data: [
-                    {
-                        id: '00000000',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000001',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000002',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                    {
-                        id: '00000003',
-                        time: "dd-MM-yyyy HH:mm",
-                        title:"John Smith"
-                    },
-                ],
-            }
-        }
+        const {data} = practRole === 0?await getUncompletedAppointments(params) :await getTestUncompletedAppointments(params)
+
+        return data
     }
 
     return (
         <UserFramework
+            status={1}
             practRole={practRole}
             state={state}
             pathname={pathname}

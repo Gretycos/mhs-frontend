@@ -10,6 +10,8 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {DayPilotCalendar, DayPilotNavigator} from "daypilot-pro-react";
 import {ArrowBack} from "@mui/icons-material";
+import {getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
+import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
 
 const { Meta } = Card;
 
@@ -17,7 +19,7 @@ const PendingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const {id} = useParams()
-    console.log(practRole)
+    console.log(practRole, id)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
 
@@ -113,6 +115,40 @@ const PendingDetail = (props) => {
 
         setResult("result1")
     }, []);
+
+
+    const getDetailData = async () => {
+        // 用id去查数据
+        const params = {
+            appointId: id,
+        }
+        // console.log(params)
+        const {data} = state.type === "clinic" ?
+            await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
+        // console.log(data)
+
+        if (state.type === "clinic") {
+            setAptData({
+                time: data.time,
+                ref: data.appointmentId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                type: parseType(state.type, data.type),
+                doctor: data.doctor,
+                status: parseStatus(data.status),
+            })
+        } else {
+            setAptData({
+                time: data.time,
+                ref: data.appointmentId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                type: parseType(state.type, data.type),
+                doctor: data.doctor,
+            })
+        }
+
+    }
 
     const alterModal = () =>{
         return(

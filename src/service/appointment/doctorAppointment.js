@@ -19,5 +19,5 @@ export const getTimetable = (params) => {
 }
 
 export const getUncompletedAppointments = (params) => {
-    return axios.get(PREFIX + '/getUncompletedAppointments', {params})
+    return axios.get(PREFIX + '/getUncompletedAppointByPractId', {params})
 }

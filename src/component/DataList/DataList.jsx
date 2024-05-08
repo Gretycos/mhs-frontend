@@ -60,6 +60,7 @@ const DataList = (props) => {
             ...options,
             page: page,
             pageSize: pageSize,
+            status: status
         }
         const data = await getData(params)
         console.log(data)
@@ -83,9 +84,10 @@ const DataList = (props) => {
             [key]: value, // 因为set后不会马上更新，所以只能同步修改要用的值
             page: dataState.currPage,
             pageSize: dataState.pageSize,
+            status: status
         }
         const data = await getData(params)
-        // console.log(data)
+        console.log(data)
         setDataState({
             ...dataState,
             currPage: 1,
