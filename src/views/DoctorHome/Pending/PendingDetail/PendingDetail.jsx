@@ -10,7 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {DayPilotCalendar, DayPilotNavigator} from "daypilot-pro-react";
 import {ArrowBack} from "@mui/icons-material";
-import {getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
+import {getAvailableList, getpractAppointDetail, updateStatus} from "@/service/appointment/doctorAppointment.js";
 import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
 import {getPractRole} from "@/service/user/practitioner.js";
 
@@ -19,10 +19,13 @@ const { Meta } = Card;
 const PendingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
+    const time = state.time
+
     const {id} = useParams()
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
-
+    const [alter, setAlter] = useState();
+    const [update, setUpdate] = useState();
     const [detailData, setDetailData] = useState(
         {
             time: "",
@@ -81,6 +84,7 @@ const PendingDetail = (props) => {
     };
 
     const handleOk = () => {
+        setStatus(2)
         setIsModalOpen(false);
     };
 
@@ -88,54 +92,81 @@ const PendingDetail = (props) => {
         setIsModalOpen(false);
     };
 
+    const accept = () =>{
+        setStatus(1)
+    }
+
+    const reject = () =>{
+        setStatus(3)
+    }
 
     useEffect(() => {
-        getDetailData()
-        setAlternatives([
-            {
-                value: 0,
-                label: 'Jimmy',
-            },
-            {
-                value: 1,
-                label: 'Lucy',
-            },
-            {
-                value: 2,
-                label: 'David',
-            },
-            {
-                value: 3,
-                label: 'Sally',
-            }
-        ])
-
         getDetailData()
     }, []);
 
 
     const getDetailData = async () => {
         // 用id去查数据
-        const params = {
-            appointId: id,
+        const params1 = {
+            appointId: id
         }
-        // console.log(params)
-        const {data} = await getpractAppointDetail(params)
+
+        const params2 = {
+            appointTime: time
+        }
+        console.log(params1)
+        console.log(params2)
+        const res1 = await getpractAppointDetail(params1)
+        const res2 = await getAvailableList(params2)
 
         setDetailData({
-            time: data.time,
-            ref: data.appointmentId,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            doctor: data.doctor,
-            status: parseStatus(data.status),
-            type: parseType(state.type, data.type),
-            birthday: data.birthday,
-            gender: data.gender,
-            reason: data.reason,
+            time: time,
+            ref: res1.data.appointmentId,
+            firstName: res1.data.firstName,
+            lastName: res1.data.lastName,
+            doctor: res1.data.doctor,
+            status: parseStatus(res1.data.status),
+            type: parseType(state.type, res1.data.type),
+            birthday: res1.data.birthday,
+            gender: res1.data.gender,
+            reason: res1.data.reason,
         })
 
+        var alterList = []
+        var key = 0;
+
+        res2.data.forEach(d => {
+            alterList.push({
+                value: key,
+                label: d.name,
+                practId: d.practId
+            })
+            key = key + 1
+        })
+        setAlternatives(alterList)
+
     }
+
+    const updateData = () => {
+        console.log('update list')
+    }
+
+    const setStatus = async (value)=>{
+        const params = {
+            doctorAppointId: id,
+            status: value,
+            practId: alter,
+        }
+        updateStatus(params)
+        navigate(-1, {update: () => updateData()})
+    }
+
+    const onOptionChange =  (value) => {
+        console.log(`option change: ${value}`)
+        setAlter(alternatives[value].practId)
+    }
+
+
 
     const alterModal = () =>{
         return(
@@ -156,8 +187,8 @@ const PendingDetail = (props) => {
                     <div className="pending-detail-modal-container">
                         <div className="pending-detail-select-container">
                             <p className='pending-detail-card-content-font1'>Doctor</p>
-                            <Select defaultValue={"choose an alternative doctor"} className="pending-detail-select-tools" options={alternatives}
-                                    size={"large"}/>
+                            <Select  className="pending-detail-select-tools" defaultValue={"--select an alternative doctor--"} options={alternatives}
+                                    size={"large"} autoFocus={true} onChange={(val) => onOptionChange(val)} />
                         </div>
                     </div>
                 </Modal>
@@ -168,10 +199,10 @@ const PendingDetail = (props) => {
     return (
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Appointment Record"}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
-                    <Button size={"large"} className="pending-detail-button">Accept</Button>
+                    <Button size={"large"} className="pending-detail-button" onClick={accept}>Accept</Button>
                     {
                         alternatives ?
                             (
@@ -179,7 +210,7 @@ const PendingDetail = (props) => {
                             )
                             :
                             (
-                                <Button size={"large"} className="pending-detail-button">Reject</Button>
+                                <Button size={"large"} className="pending-detail-button" onClick={reject}>Reject</Button>
                             )
                     }
                 </div>

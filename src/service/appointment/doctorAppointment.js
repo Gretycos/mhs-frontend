@@ -29,3 +29,11 @@ export const getCompletedAppointments = (params) => {
 export const getpractAppointDetail = (params) => {
     return axios.get(PREFIX + '/practAppointmentDetail', {params})
 }
+
+export const getAvailableList = (params) => {
+    return axios.get(PREFIX + '/getAvailableList', {params})
+}
+
+export const updateStatus = (params) =>{
+    return axios.put(PREFIX + '/updateStatus', params)
+}

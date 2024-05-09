@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {params, detailData, prescription, result} = props
+    const {params, detailData, prescription, result, title} = props
     //console.log(detailData, prescription, result, role)
     const {id} = useParams()
 
@@ -19,7 +19,7 @@ const DetailCard = (props) => {
                 title={
                     <div className="detail-title">
                         <div className="detail-title-row detail-title-row-1">
-                            <div className="detail-title-name">title</div>
+                            <div className="detail-title-name">{title}</div>
                         </div>
                         <div className="detail-title-row detail-title-row-2">
                             <div className="detail-title-info">

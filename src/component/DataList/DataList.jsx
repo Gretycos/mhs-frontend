@@ -129,9 +129,9 @@ const DataList = (props) => {
         return <Selector autoFocus={true} key={idx} title={item.title} onChange={ (val) => onOptionChange(val, item.key)} options={item.options}/>
     })
 
-    const onClickItem = (id, type, practRole) => {
+    const onClickItem = (id, type, time, practRole) => {
         console.log(`${path}/${id}`)
-        navigate(`${path}/${id}`, {state: {...state, type: type}, practRole:practRole})
+        navigate(`${path}/${id}`, {state: {...state, type: type, time: time}, practRole:practRole})
     }
 
     return (
@@ -152,7 +152,7 @@ const DataList = (props) => {
                         className="data-component-list-item"
                         key={index}
                         title={item.time}
-                        onClick={() => onClickItem(item.id, item.type, item.practRole)}>
+                        onClick={() => onClickItem(item.id, item.type, item.time, item.practRole)}>
                         <p>{item.title}</p>
                     </Card>
                 )}
