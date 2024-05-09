@@ -40,12 +40,12 @@ const UserHome = () => {
             url: "book-appointment"
 
         },
-        {
-            name: "Book Test",
-            icon: <CalendarMonth className="menu-icon-style" />,
-            url: "book-test"
-
-        },
+        // {
+        //     name: "Book Test",
+        //     icon: <CalendarMonth className="menu-icon-style" />,
+        //     url: "book-test"
+        //
+        // },
         {
             name: "My Appointment",
             icon: <FactCheck className="menu-icon-style" />,

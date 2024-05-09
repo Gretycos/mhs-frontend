@@ -10,6 +10,8 @@ const { Option } = Select;
 const { TextArea } = Input;
 import { ArrowBack } from "@mui/icons-material";
 import "../../../component/UserFramework/UserFramework.less";
+import {createDoctorAppointment, getAbleAppointTime} from "@/service/appointment/doctorAppointment.js";
+import {store} from "@/redux/store.js";
 
 // dataSource
 const layout = {
@@ -41,9 +43,8 @@ const doctorOptions = [
 ];
 
 const typeOptions = [
-  { value: "Face to Face", label: "Face to Face" },
-  { value: "Phone call", label: "Phone call" },
-  { value: "Video call", label: "Video call" },
+  { value: 0, label: "Face to Face" },
+  { value: 1, label: "Phone call" },
 ];
 
 const availableTime = [
@@ -77,24 +78,38 @@ const availableTime = [
   },
 ];
 
-const confirmData = {
-  doctor: "John Doe",
-  date: "2024-04-03",
-  time: "10:00",
-  type: "Face to Face",
-  location: `SO17 1BJ. University Health Service. 
-Building 48, University of Southampton.`,
-  userID: "U123456",
-  note: "",
-};
+// const confirmData = {
+//   doctor: "John Doe",
+//   date: "2024-04-03",
+//   time: "10:00",
+//   type: "Face to Face",
+//   location: `SO17 1BJ. University Health Service.
+// Building 48, University of Southampton.`,
+//   userID: "U123456",
+//   note: "",
+// };
 
 const BookAppointment = () => {
   const [form] = Form.useForm();
   const [searchRes, setSearchRes] = useState(false);
   const [confirm, setConfirm] = useState(null);
+  const [appointType, setAppointType] = useState(0)
+  const [availableTimeList, setAvailableTimeList] = useState([])
 
-  const BookTime = () => {
-    console.log("Booked !");
+  const BookTime = (record) => {
+    // console.log("Booked !");
+    console.log(record)
+    const confirmData = {
+      doctorId: record.doctorId,
+      doctor: record.doctor,
+      date: record.date,
+      time: record.time,
+      type: appointType,
+//       location: `SO17 1BJ. University Health Service.
+// Building 48, University of Southampton.`,
+      patientId: store.getState()?.globalSlice.userId,
+      note: "",
+    }
     setConfirm(confirmData);
   };
 
@@ -114,17 +129,17 @@ const BookAppointment = () => {
       dataIndex: "doctor",
       key: "doctor",
     },
-    {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-    },
+    // {
+    //   title: "Type",
+    //   dataIndex: "type",
+    //   key: "type",
+    // },
     {
       dataIndex: "book",
       key: "book",
       render: (text, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => BookTime()}>
+          <Button type="primary" onClick={() => BookTime(record)}>
             Book
           </Button>
         </Space>
@@ -137,44 +152,66 @@ const BookAppointment = () => {
     setConfirm({ ...confirm, note: e.target.value });
   };
 
-  const onDateChange = (value) => {
-    // console.log(value);
-  };
+  // const onDateChange = (value) => {
+  //   // console.log(value);
+  // };
 
-  const onDoctorChange = (value) => {
-    // switch (value) {
-    //   case "male":
-    //     form.setFieldsValue({
-    //       note: "Hi, man!",
-    //     });
-    //     break;
-    //   case "female":
-    //     form.setFieldsValue({
-    //       note: "Hi, lady!",
-    //     });
-    //     break;
-    //   case "other":
-    //     form.setFieldsValue({
-    //       note: "Hi there!",
-    //     });
-    //     break;
-    //   default:
-    // }
-  };
+  // const onDoctorChange = (value) => {
+  //   // switch (value) {
+  //   //   case "male":
+  //   //     form.setFieldsValue({
+  //   //       note: "Hi, man!",
+  //   //     });
+  //   //     break;
+  //   //   case "female":
+  //   //     form.setFieldsValue({
+  //   //       note: "Hi, lady!",
+  //   //     });
+  //   //     break;
+  //   //   case "other":
+  //   //     form.setFieldsValue({
+  //   //       note: "Hi there!",
+  //   //     });
+  //   //     break;
+  //   //   default:
+  //   // }
+  // };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    // 提交表单
+    console.log(values.date.format("DD-MM-YYYY"));
+    const params = {
+      date: values.date.format("DD-MM-YYYY"),
+    }
+    const {data} = await getAbleAppointTime(params)
+    console.log(data)
+    setAvailableTimeList(data)
     setSearchRes(true);
   };
 
-  const SubmitAppointment = () => {
-    console.log("Appointment Submitted!");
+  const SubmitAppointment = async () => {
     console.log(confirm);
+    const params = {
+      patientId: confirm.patientId,
+      practId: confirm.doctorId,
+      doctorAppointType: confirm.type,
+      doctorAppointTime: `${confirm.date} ${confirm.time}`,
+      reason: confirm.note
+    }
+    console.log(params)
+    const {data} = await createDoctorAppointment(params)
+    navigate("/patient/home")
   };
 
   const onReset = () => {
     form.resetFields();
   };
+
+  const onTypeChange = (e) => {
+    console.log(e)
+    setAppointType(e)
+  }
+
 
   const navigate = useNavigate();
 
@@ -202,11 +239,11 @@ const BookAppointment = () => {
                   <span>Doctor:</span> {confirm.doctor}
                 </p>
                 <p>
-                  <span>Type:</span> {confirm.type}
+                  <span>Type:</span> {confirm.type === 0? "Face-to-Face" : "Telephone"}
                 </p>
-                <p>
-                  <span>Location:</span> {confirm.location}
-                </p>
+                {/*<p>*/}
+                {/*  <span>Location:</span> {confirm.location}*/}
+                {/*</p>*/}
               </div>
             </div>
             <div className="item">
@@ -260,7 +297,7 @@ const BookAppointment = () => {
               <Form.Item name="type" label="Type" rules={[]}>
                 <Select
                   placeholder="Select appointment type"
-                  onChange={onDateChange}
+                  onChange={onTypeChange}
                   allowClear
                 >
                   {typeOptions.map((type) => {
@@ -273,21 +310,21 @@ const BookAppointment = () => {
                 </Select>
               </Form.Item>
 
-              <Form.Item name="doctor" label="Doctor" rules={[]}>
-                <Select
-                  placeholder="Select a doctor"
-                  onChange={onDoctorChange}
-                  allowClear
-                >
-                  {doctorOptions.map((doctor) => {
-                    return (
-                      <Option key={doctor.value} value={doctor.value}>
-                        Dr. {doctor.value}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
+              {/*<Form.Item name="doctor" label="Doctor" rules={[]}>*/}
+              {/*  <Select*/}
+              {/*    placeholder="Select a doctor"*/}
+              {/*    onChange={onDoctorChange}*/}
+              {/*    allowClear*/}
+              {/*  >*/}
+              {/*    {doctorOptions.map((doctor) => {*/}
+              {/*      return (*/}
+              {/*        <Option key={doctor.value} value={doctor.value}>*/}
+              {/*          Dr. {doctor.value}*/}
+              {/*        </Option>*/}
+              {/*      );*/}
+              {/*    })}*/}
+              {/*  </Select>*/}
+              {/*</Form.Item>*/}
 
               {/* <Form.Item name="note" label="Note">
                 <Input placeholder="What else do you want to say" />
@@ -306,7 +343,7 @@ const BookAppointment = () => {
             {searchRes && (
               <Table
                 className="available-time"
-                dataSource={availableTime}
+                dataSource={availableTimeList}
                 columns={columns}
               ></Table>
             )}

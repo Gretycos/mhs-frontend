@@ -62,10 +62,10 @@ const router = createBrowserRouter([
             path: "prescription-history/:id",
             element: <RouteGuard><PrescriptionDetail /></RouteGuard>,
           },
-          {
-            path: "book-test",
-            element: <RouteGuard><BookTest /></RouteGuard>,
-          },
+          // {
+          //   path: "book-test",
+          //   element: <RouteGuard><BookTest /></RouteGuard>,
+          // },
           {
             path: "my-appointment",
             element: <RouteGuard><MyAppointment /></RouteGuard>,

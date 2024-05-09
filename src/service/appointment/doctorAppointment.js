@@ -41,3 +41,11 @@ export const updateStatus = (params) =>{
 export const getpractAppointDetails = (params) => {
     return axios.get(PREFIX + '/getPractAppointDetails', {params})
 }
+
+export const getAbleAppointTime = (params) => {
+    return axios.get(PREFIX + '/getAbleAppointTime', {params})
+}
+
+export const createDoctorAppointment = (params) => {
+    return axios.post(PREFIX + '/createAppointment', params)
+}
