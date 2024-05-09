@@ -4,7 +4,7 @@
  */
 import {useEffect} from "react";
 import {Navigate} from "react-router-dom";
-import {App as MsgApp} from "antd";
+import {App as MsgApp, message} from "antd";
 import {store} from "@/redux/store.js";
 
 const RouteGuard = (props) => {
@@ -19,8 +19,8 @@ const RouteGuard = (props) => {
     }, []);
 
     if (!token) {
-        //没有token直接跳转到登录页
-        return <Navigate to='/login' replace/>
+        //没有token直接跳转到首页
+        return <Navigate to='/home' replace/>
     }
     return props.children
 }
