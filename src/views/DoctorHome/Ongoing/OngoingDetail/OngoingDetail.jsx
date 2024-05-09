@@ -10,8 +10,8 @@ import {useEffect, useState} from "react";
 import {ArrowBack} from "@mui/icons-material";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {getAppointMedHistory} from "@/service/med/medHistory.js";
-import {getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
-import {getTestpractAppointDetail} from "@/service/appointment/testAppointment.js";
+import {getpractAppointDetail, getpractAppointDetails} from "@/service/appointment/doctorAppointment.js";
+import {getTestpractAppointDetail, getTestpractAppointDetails} from "@/service/appointment/testAppointment.js";
 
 
 const { Meta } = Card;
@@ -21,6 +21,7 @@ const { Column } = Table;
 const OngoingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
+    const time = state.time
     const {id} = useParams()
     const title = practRole === 0 ? "Doctor Appointment Record" : "Test Appointment Record"
 
@@ -89,7 +90,7 @@ const OngoingDetail = (props) => {
     const [item, setItem] = useState(1);
     const [daily, setDaily] = useState(1);
 
-    const [prescrip, setPrescrip] = useState([])
+    const [prescrip, setPrescrip] = useState()
 
     const [testSlot, setTestSlot] = useState();
 
@@ -151,9 +152,7 @@ const OngoingDetail = (props) => {
             appointId: id
         }
 
-
-        console.log(params2)
-        const res1 = practRole === 0 ? await getpractAppointDetail(params1) : await getTestpractAppointDetail(params1)
+        const res1 = practRole === 0 ? await getpractAppointDetails(params1) : await getTestpractAppointDetails(params1)
 
         setDetailData({
             time: time,
@@ -168,13 +167,9 @@ const OngoingDetail = (props) => {
             reason: res1.data.reason,
         })
 
-        const params2 = {
-            medHistoryId: res1.data.medHistoryId
-        }
+        setDiagnosis(res1.data.diagnosis)
 
-        const res2 = await getAppointMedHistory(params);
-
-        console.log(res2.data)
+        setResult(res1.data.result)
 
     }
 
@@ -440,7 +435,7 @@ const OngoingDetail = (props) => {
     return (
         <div className="ongoing-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result}
+            <DetailCard params={params} detailData={detailData} prescription={prescrip} result={result}
                         practRole={practRole} title={title}  diagnosis={diagnosis}/>
             <div className="ongoing-detail-content-container">
                 <div className="ongoing-detail-button-container">

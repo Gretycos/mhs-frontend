@@ -28,3 +28,7 @@ export const getTestCompletedAppointments = (params) => {
 export const getTestpractAppointDetail = (params) => {
     return axios.get(PREFIX + '/practAppointmentDetail', {params})
 }
+
+export const getTestpractAppointDetails = (params) => {
+    return axios.get(PREFIX + '/getPractAppointDetails', {params})
+}

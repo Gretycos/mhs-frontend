@@ -37,3 +37,7 @@ export const getAvailableList = (params) => {
 export const updateStatus = (params) =>{
     return axios.put(PREFIX + '/updateStatus', params)
 }
+
+export const getpractAppointDetails = (params) => {
+    return axios.get(PREFIX + '/getPractAppointDetails', {params})
+}

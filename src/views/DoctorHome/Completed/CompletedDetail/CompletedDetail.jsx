@@ -19,6 +19,7 @@ const CompletedDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const {id} = useParams()
+    const time = state.time
 
     const title = practRole === 0 ? "Doctor Appointment Record" : "Test Appointment Record"
 
@@ -105,13 +106,6 @@ const CompletedDetail = (props) => {
             reason: res1.data.reason,
         })
 
-        const params2 = {
-            medHistoryId: res1.data.medHistoryId
-        }
-
-        const res2 = await getAppointMedHistory(params);
-
-        console.log(res2.data)
 
     }
 
