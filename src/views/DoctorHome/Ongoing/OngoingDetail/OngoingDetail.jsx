@@ -9,10 +9,16 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useEffect, useState} from "react";
 import {ArrowBack} from "@mui/icons-material";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
-import {getAppointMedHistory} from "@/service/med/medHistory.js";
+import {getAppointMedHistory, updateMedHistory} from "@/service/med/medHistory.js";
 import {getpractAppointDetail, getpractAppointDetails} from "@/service/appointment/doctorAppointment.js";
-import {getTestpractAppointDetail, getTestpractAppointDetails} from "@/service/appointment/testAppointment.js";
+import {
+    getTestpractAppointDetail,
+    getTestpractAppointDetails,
+    insertTestAppointments
+} from "@/service/appointment/testAppointment.js";
 import {insertTestReport} from "@/service/med/testReport.js";
+import {addPrescri} from "@/service/prescription/prescription.js";
+import {getDrugs} from "@/service/prescription/drug.js";
 
 
 const { Meta } = Card;
@@ -94,6 +100,7 @@ const OngoingDetail = (props) => {
 
     const [testSlot, setTestSlot] = useState();
 
+    const [keyword, setKeyword] = useState()
     const showDiagModal = () => {
         setIsDiagModalOpen(true);
     };
@@ -142,6 +149,11 @@ const OngoingDetail = (props) => {
             }
         ])
 
+        setTestSlot([{
+            value: 0,
+            label: "29/05/2024 9:00~9:15"
+        }])
+
         setPrescription([])
 
     }, []);
@@ -188,8 +200,17 @@ const OngoingDetail = (props) => {
 
 
     const handleDiagOk = () => {
+        addTestAppoint()
         setIsDiagModalOpen(false);
     };
+
+    const addTestAppoint = async () =>{
+        const params = {
+            patientId: detailData.patientId,
+            appointTime:timeSlot[0]
+        }
+        const {data} = insertTestAppointments(params)
+    }
 
     const handlePrescriOk = () => {
         setIsPrescriModalOpen(false);
@@ -271,9 +292,11 @@ const OngoingDetail = (props) => {
             testType:state.type,
             result: diagnosis,
             diagnosis: diagnosis,
-            medHistoryId: detailData.medHistoryId
+            medHistoryId: detailData.medHistoryId,
+            totalItemPrice: totalItemPrice,
+            prescriDrugList: prescription,
         }
-        practRole === 0 ? await insertPrescri(params):await insertTestReport(params);
+        practRole === 0 ? (prescription.length === 0 ? await updateMedHistory(params): await addPrescri(params)):await insertTestReport(params);
         navigate(-1, {update: () => updateData()})
     }
 
@@ -309,9 +332,16 @@ const OngoingDetail = (props) => {
         setPrescription([...data]);
     }
 
+    const onSearchChange = (e) => {
+        setKeyword(e.target.value)
+    }
 
-    const onPrescriSearch = () => {
-
+    const onPrescriSearch = async () => {
+        const params = {
+            keyword:keyword
+        }
+        const {data} = await getDrugs(params)
+        console.log(data)
     }
     
     const diagModal = () =>{
@@ -356,8 +386,8 @@ const OngoingDetail = (props) => {
                        ]}>
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-select-container" key={0}>
-                            <Search className="ongoing-detail-search" placeholder="input search text"
-                                    onSearch={onPrescriSearch} enterButton/>
+                            <Search className="ongoing-detail-search" placeholder="input search text" onChange={e=>onSearchChange(e)}
+                                    onSearch={e=> onPrescriSearch(e)} enterButton/>
                         </div>
                         <div className="ongoing-detail-list-container" key={1}>
                             <Table dataSource={drugList} className="ongoing-table-style">

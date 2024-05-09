@@ -66,11 +66,11 @@ const DoctorHome = () => {
         icon: <EventIcon className="menu-icon-style"/>,
         url: "/doctor/ongoing"
     },
-    {
+    /*{
         name: "Completed Appointment",
         icon: <EventAvailableIcon className="menu-icon-style"/>,
         url: "/doctor/completed"
-    })
+    }*/)
 
     const onItemClick = (idx, url) => {
         navigate(url, {state:{title: menu[idx].name, practRole:practRole}})

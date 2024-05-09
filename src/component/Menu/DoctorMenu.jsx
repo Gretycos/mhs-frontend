@@ -35,12 +35,12 @@ const DoctorMenu = (props) => {
             key: '/doctor/ongoing',
             icon: <EventIcon />,
         },
-        {
+        /*{
             label: 'Completed Appointment',
             key: '/doctor/completed',
             icon: <EventAvailableIcon />
 
-        })
+        }*/)
     const [current, setCurrent] = useState(location.pathname)
 
 
