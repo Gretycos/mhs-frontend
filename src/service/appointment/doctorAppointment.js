@@ -25,3 +25,7 @@ export const getUncompletedAppointments = (params) => {
 export const getCompletedAppointments = (params) => {
     return axios.get(PREFIX + '/getCompletedAppointByPractId', {params})
 }
+
+export const getpractAppointDetail = (params) => {
+    return axios.get(PREFIX + '/practAppointmentDetail', {params})
+}

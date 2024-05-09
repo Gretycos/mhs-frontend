@@ -159,8 +159,7 @@ const MyAppointmentDetail = (props) => {
             case 1: s = "accepted"; break;
             case 2: s = "transferred"; break;
             case 3: s = "rejected"; break;
-            case 4: s = "ongoing"; break;
-            case 5: s = "completed"; break;
+            case 4: s = "completed"; break;
             default: s = "unfulfilled"; break;
         }
         return s

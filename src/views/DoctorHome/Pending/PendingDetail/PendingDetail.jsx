@@ -10,8 +10,9 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {DayPilotCalendar, DayPilotNavigator} from "daypilot-pro-react";
 import {ArrowBack} from "@mui/icons-material";
-import {getMyDoctorAppointment} from "@/service/appointment/doctorAppointment.js";
+import {getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
 import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
+import {getPractRole} from "@/service/user/practitioner.js";
 
 const { Meta } = Card;
 
@@ -19,7 +20,6 @@ const PendingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const {id} = useParams()
-    console.log(practRole, id)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
 
@@ -38,9 +38,43 @@ const PendingDetail = (props) => {
         }
     )
 
+    const parseType = (first, second) => {
+        let type = ""
+        if (first === "clinic"){
+            type += "CLINIC - "
+            switch (second) {
+                case 0: type += "FACE-TO-FACE"; break;
+                case 1: type += "TELEPHONE"; break;
+            }
+        } else {
+            type += "TEST - "
+            switch (second) {
+                case 0: type += "EyeSight"; break;
+                case 1: type += "Height and Weight"; break;
+                case 2: type += "Blood Pressure"; break;
+                case 3: type += "Blood Sugar"; break;
+                case 4: type += "Audiometry"; break;
+            }
+        }
+        return type
+    }
+
+    const parseStatus = (status) => {
+        let s
+        switch (status){
+            case 0: s = "unfulfilled"; break;
+            case 1: s = "accepted"; break;
+            case 2: s = "transferred"; break;
+            case 3: s = "rejected"; break;
+            case 4: s = "completed"; break;
+            default: s = "unfulfilled"; break;
+        }
+        return s
+    }
+
     const [prescription, setPrescription] = useState()
 
-    const [result, setResult] = useState()
+    const [result, setResult] = useState(null)
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -56,6 +90,7 @@ const PendingDetail = (props) => {
 
 
     useEffect(() => {
+        getDetailData()
         setAlternatives([
             {
                 value: 0,
@@ -75,45 +110,7 @@ const PendingDetail = (props) => {
             }
         ])
 
-        setDetailData({
-            time: "23-03-2024 15:15",
-            ref: "TBT221982",
-            type: "Tuberculosis Test",
-            firstName: "Yaocong",
-            lastName: "Huang",
-            birthday: "02-01-1998",
-            gender: "Male",
-            doctor: "DR. FOO",
-            reason: "reason1",
-            diagnosis: "diagnosis1",
-        })
-
-        setPrescription([{
-            bnfName: "medicine 1",
-            price: 12.00,
-            item: 1,
-            perQuantity: 10,
-            totalQuantity: 10,
-            adqusage: 2,
-        },
-            {
-                bnfName: "medicine 2",
-                price: 12.00,
-                item: 1,
-                perQuantity: 10,
-                totalQuantity: 10,
-                adqusage: 2,
-            },
-            {
-                bnfName: "medicine 3",
-                price: 12.00,
-                item: 1,
-                perQuantity: 10,
-                totalQuantity: 10,
-                adqusage: 2,
-            }])
-
-        setResult("result1")
+        getDetailData()
     }, []);
 
 
@@ -123,30 +120,20 @@ const PendingDetail = (props) => {
             appointId: id,
         }
         // console.log(params)
-        const {data} = state.type === "clinic" ?
-            await getMyDoctorAppointment(params) : await getMyTestAppointment(params)
-        // console.log(data)
+        const {data} = await getpractAppointDetail(params)
 
-        if (state.type === "clinic") {
-            setAptData({
-                time: data.time,
-                ref: data.appointmentId,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                type: parseType(state.type, data.type),
-                doctor: data.doctor,
-                status: parseStatus(data.status),
-            })
-        } else {
-            setAptData({
-                time: data.time,
-                ref: data.appointmentId,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                type: parseType(state.type, data.type),
-                doctor: data.doctor,
-            })
-        }
+        setDetailData({
+            time: data.time,
+            ref: data.appointmentId,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            doctor: data.doctor,
+            status: parseStatus(data.status),
+            type: parseType(state.type, data.type),
+            birthday: data.birthday,
+            gender: data.gender,
+            reason: data.reason,
+        })
 
     }
 
