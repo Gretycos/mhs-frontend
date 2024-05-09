@@ -43,86 +43,86 @@ const router = createBrowserRouter([
       },
       {
         path: "/patient",
-        // element: <RouteGuard><UserHome/></RouteGuard>
-        element: <UserHome />,
+        element: <RouteGuard><UserHome/></RouteGuard>,
+        // element: <UserHome />,
         children: [
           {
             path: "info",
-            element: <UserInfo />,
+            element: <RouteGuard><UserInfo /></RouteGuard>,
           },
           {
             path: "book-appointment",
-            element: <BookAppointment />,
+            element: <RouteGuard><BookAppointment /></RouteGuard>,
           },
           {
             path: "prescription-history",
-            element: <PrescriptionHistory />,
+            element: <RouteGuard><PrescriptionHistory /></RouteGuard>,
           },
           {
             path: "prescription-history/:id",
-            element: <PrescriptionDetail />,
+            element: <RouteGuard><PrescriptionDetail /></RouteGuard>,
           },
           {
             path: "book-test",
-            element: <BookTest />,
+            element: <RouteGuard><BookTest /></RouteGuard>,
           },
           {
             path: "my-appointment",
-            element: <MyAppointment />,
+            element: <RouteGuard><MyAppointment /></RouteGuard>,
           },
           {
             path: "my-appointment/:id",
-            element: <MyAppointment />,
+            element: <RouteGuard><MyAppointment /></RouteGuard>,
           },
           {
             path: "medical-history",
-            element: <MedicalHistory />,
+            element: <RouteGuard><MedicalHistory /></RouteGuard>,
           },
           {
             path: "medical-history/:id",
-            element: <MedicalHistory />,
+            element: <RouteGuard><MedicalHistory /></RouteGuard>,
           },
           {
             path: "test-report",
-            element: <TestReport />,
+            element: <RouteGuard><TestReport /></RouteGuard>,
           },
           {
             path: "test-report/:id",
-            element: <TestReport />,
+            element: <RouteGuard><TestReport /></RouteGuard>,
           },
         ],
       },
       {
         path: "/doctor",
-        element: <DoctorHome />,
+        element: <RouteGuard><DoctorHome /></RouteGuard>,
         children: [
           {
             path: "timetable",
-            element: <Timetable />,
+            element: <RouteGuard><Timetable /></RouteGuard>,
           },
           {
             path: "pending",
-            element: <Pending />,
+            element: <RouteGuard><Pending /></RouteGuard>,
           },
           {
             path: "ongoing",
-            element: <Ongoing />,
+            element: <RouteGuard><Ongoing /></RouteGuard>,
           },
           {
             path: "completed",
-            element: <Completed />,
+            element: <RouteGuard><Completed /></RouteGuard>,
           },
           {
             path: "pending/:id",
-            element:<Pending />
+            element:<RouteGuard><Pending /></RouteGuard>,
           },
           {
             path: "ongoing/:id",
-            element:<Ongoing />
+            element:<RouteGuard><Ongoing /></RouteGuard>,
           },
           {
             path: "completed/:id",
-            element:<Completed />
+            element:<RouteGuard><Completed /></RouteGuard>
           }
         ]
       },
