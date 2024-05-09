@@ -25,7 +25,6 @@ const PendingDetail = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
     const [alter, setAlter] = useState();
-    const [update, setUpdate] = useState();
     const [detailData, setDetailData] = useState(
         {
             time: "",
@@ -37,7 +36,6 @@ const PendingDetail = (props) => {
             gender: "",
             doctor: "",
             reason: "",
-            diagnosis: "",
         }
     )
 
@@ -77,7 +75,9 @@ const PendingDetail = (props) => {
 
     const [prescription, setPrescription] = useState()
 
-    const [result, setResult] = useState(null)
+    const [result, setResult] = useState()
+
+    const [diagnosis, setDiagnosis] = useState()
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -199,7 +199,7 @@ const PendingDetail = (props) => {
     return (
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Appointment Record"}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Appointment Record"} diagnosis={diagnosis}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
                     <Button size={"large"} className="pending-detail-button" onClick={accept}>Accept</Button>

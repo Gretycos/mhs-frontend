@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {params, detailData, prescription, result, title} = props
+    const {params, detailData, prescription, result, title, diagnosis} = props
     //console.log(detailData, prescription, result, role)
     const {id} = useParams()
 
@@ -104,12 +104,12 @@ const DetailCard = (props) => {
                         null
                 }
                 {
-                    detailData.diagnosis ?
+                    diagnosis ?
                         (
                             <div className="detail-content">
                                 <div className="detail-content-info">
                                     <div className="detail-content-info-tag">Diagnosis:</div>
-                                    <div className="detail-content-info-val">{detailData.diagnosis}</div>
+                                    <div className="detail-content-info-val">{diagnosis}</div>
                                 </div>
                             </div>
                         )
