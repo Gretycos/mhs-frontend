@@ -30,8 +30,8 @@ export const getpractAppointDetail = (params) => {
     return axios.get(PREFIX + '/practAppointmentDetail', {params})
 }
 
-export const getAvailableList = (params) => {
-    return axios.get(PREFIX + '/getAvailableList', {params})
+export const getPractitionerList = (params) => {
+    return axios.get(PREFIX + '/getPractitionerList', {params})
 }
 
 export const updateStatus = (params) =>{

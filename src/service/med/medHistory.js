@@ -17,3 +17,7 @@ export const getMyMedHistory = (params) => {
 export const getAppointMedHistory = (params) => {
     return axios.get(PREFIX + `/getAppointMedHistory`, {params})
 }
+
+export const  insertMedicalHistory = (params) => {
+    return axios.post(PREFIX + `/addMedHistory`, params)
+}

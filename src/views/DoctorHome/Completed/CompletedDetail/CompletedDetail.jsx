@@ -9,7 +9,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {ArrowBack} from "@mui/icons-material";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {useEffect, useState} from "react";
-import {getAvailableList, getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
+import {getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
 import {getTestpractAppointDetail} from "@/service/appointment/testAppointment.js";
 import {getAppointMedHistory} from "@/service/med/medHistory.js";
 

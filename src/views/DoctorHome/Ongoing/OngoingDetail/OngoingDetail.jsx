@@ -12,6 +12,7 @@ import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {getAppointMedHistory} from "@/service/med/medHistory.js";
 import {getpractAppointDetail, getpractAppointDetails} from "@/service/appointment/doctorAppointment.js";
 import {getTestpractAppointDetail, getTestpractAppointDetails} from "@/service/appointment/testAppointment.js";
+import {insertTestReport} from "@/service/med/testReport.js";
 
 
 const { Meta } = Card;
@@ -36,7 +37,9 @@ const OngoingDetail = (props) => {
             gender: "",
             doctor: "",
             reason: "",
-            diagnosis: "",
+            medHistoryId:"",
+            testId:"",
+            result:""
         }
     )
 
@@ -80,8 +83,6 @@ const OngoingDetail = (props) => {
 
     const [diagnosis, setDiagnosis] = useState()
 
-
-
     const [isDiagModalOpen, setIsDiagModalOpen] = useState(false);
     const [isPrescriModalOpen, setIsPrescriModalOpen] = useState(false);
     const [isDrugModalOpen, setIsDrugModalOpen] = useState(false);
@@ -90,7 +91,6 @@ const OngoingDetail = (props) => {
     const [item, setItem] = useState(1);
     const [daily, setDaily] = useState(1);
 
-    const [prescrip, setPrescrip] = useState()
 
     const [testSlot, setTestSlot] = useState();
 
@@ -165,11 +165,14 @@ const OngoingDetail = (props) => {
             birthday: res1.data.birthday,
             gender: res1.data.gender,
             reason: res1.data.reason,
+            medHistoryId:res1.data.medHistoryId,
+            testId:res1.data.testId,
+            result:res1.data.result,
+            patientId:res1.data.patientId,
+            practId:res1.data.practId
         })
 
         setDiagnosis(res1.data.diagnosis)
-
-        setResult(res1.data.result)
 
     }
 
@@ -230,7 +233,9 @@ const OngoingDetail = (props) => {
         setDaily(value);
     };
 
-
+    const handleInputChange = (e) =>{
+        setDiagnosis(e.target.value)
+    }
 
     const testType = [
         {
@@ -255,10 +260,22 @@ const OngoingDetail = (props) => {
         }
     ]
 
+    const updateData = () => {
+        console.log('update list')
+    }
 
-
-
-
+    const insertDiagnosis = async () =>{
+        const params = {
+            patientId:detailData.patientId,
+            practId:detailData.practId,
+            testType:state.type,
+            result: diagnosis,
+            diagnosis: diagnosis,
+            medHistoryId: detailData.medHistoryId
+        }
+        practRole === 0 ? await insertPrescri(params):await insertTestReport(params);
+        navigate(-1, {update: () => updateData()})
+    }
 
     const addPrescriptionList = () => {
         let data = prescription;
@@ -314,7 +331,7 @@ const OngoingDetail = (props) => {
                        ]}>
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-input-container">
-                            <Input.TextArea className="ongoing-detail-input" rows={10} placeholder="please enter diagnosis"/>
+                            <Input.TextArea className="ongoing-detail-input" rows={10} placeholder="please enter diagnosis" onChange={e => handleInputChange(e)}/>
                         </div>
                     </div>
                 </Modal>
@@ -435,8 +452,8 @@ const OngoingDetail = (props) => {
     return (
         <div className="ongoing-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescrip} result={result}
-                        practRole={practRole} title={title}  diagnosis={diagnosis}/>
+            <DetailCard params={params} detailData={detailData} result={result}
+                        practRole={practRole} title={title}/>
             <div className="ongoing-detail-content-container">
                 <div className="ongoing-detail-button-container">
                     <Button size={"large"} className="ongoing-detail-button" onClick={showDiagModal}>Diagnosis</Button>

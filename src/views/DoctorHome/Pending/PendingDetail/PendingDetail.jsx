@@ -10,7 +10,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {DayPilotCalendar, DayPilotNavigator} from "daypilot-pro-react";
 import {ArrowBack} from "@mui/icons-material";
-import {getAvailableList, getpractAppointDetail, updateStatus} from "@/service/appointment/doctorAppointment.js";
+import {getPractitionerList, getpractAppointDetail, updateStatus} from "@/service/appointment/doctorAppointment.js";
 import {getMyTestAppointment} from "@/service/appointment/testAppointment.js";
 import {getPractRole} from "@/service/user/practitioner.js";
 
@@ -117,7 +117,7 @@ const PendingDetail = (props) => {
         console.log(params1)
         console.log(params2)
         const res1 = await getpractAppointDetail(params1)
-        const res2 = await getAvailableList(params2)
+        const res2 = await getPractitionerList(params2)
 
         setDetailData({
             time: time,
@@ -132,9 +132,9 @@ const PendingDetail = (props) => {
             reason: res1.data.reason,
         })
 
-        var alterList = []
+        var alterList = [];
         var key = 0;
-
+        console.log(res2.data)
         res2.data.forEach(d => {
             alterList.push({
                 value: key,
@@ -143,7 +143,10 @@ const PendingDetail = (props) => {
             })
             key = key + 1
         })
-        setAlternatives(alterList)
+        if(alterList.length > 0){
+            setAlternatives(alterList)
+        }
+
 
     }
 

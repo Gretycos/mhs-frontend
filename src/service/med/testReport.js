@@ -16,3 +16,7 @@ export const getMyRecentTestReports = (params) => {
 export const getMyTestReport = (params) => {
     return axios.get(PREFIX + `/`, {params})
 }
+
+export const insertTestReport = (params) => {
+    return axios.post(PREFIX + `/addTestReport`, params)
+}
