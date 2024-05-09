@@ -11,6 +11,7 @@ import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {useEffect, useState} from "react";
 import {getAvailableList, getpractAppointDetail} from "@/service/appointment/doctorAppointment.js";
 import {getTestpractAppointDetail} from "@/service/appointment/testAppointment.js";
+import {getAppointMedHistory} from "@/service/med/medHistory.js";
 
 const { Meta } = Card;
 
@@ -18,6 +19,8 @@ const CompletedDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const {id} = useParams()
+
+    const title = practRole === 0 ? "Doctor Appointment Record" : "Test Appointment Record"
 
 
     const [detailData, setDetailData] = useState(
@@ -106,6 +109,10 @@ const CompletedDetail = (props) => {
             medHistoryId: res1.data.medHistoryId
         }
 
+        const res2 = await getAppointMedHistory(params);
+
+        console.log(res2.data)
+
     }
 
 
@@ -113,7 +120,7 @@ const CompletedDetail = (props) => {
         <div className="completed-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
             <DetailCard params={params} detailData={detailData} prescription={prescription} result={result}
-                        practRole={practRole}/>
+                        practRole={practRole} title={title}  diagnosis={diagnosis}/>
         </div>
     )
 }

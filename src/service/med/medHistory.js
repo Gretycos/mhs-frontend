@@ -13,3 +13,7 @@ export const getMyMedHistories = (params) => {
 export const getMyMedHistory = (params) => {
     return axios.get(PREFIX + `/`, {params})
 }
+
+export const getAppointMedHistory = (params) => {
+    return axios.get(PREFIX + `/getAppointMedHistory`, {params})
+}

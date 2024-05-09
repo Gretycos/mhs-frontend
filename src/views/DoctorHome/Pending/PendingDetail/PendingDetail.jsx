@@ -199,7 +199,7 @@ const PendingDetail = (props) => {
     return (
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Appointment Record"} diagnosis={diagnosis}/>
+            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Doctor Appointment Record"} diagnosis={diagnosis}/>
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
                     <Button size={"large"} className="pending-detail-button" onClick={accept}>Accept</Button>
