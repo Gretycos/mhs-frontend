@@ -11,7 +11,7 @@ import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
     const {selectors, getData, path, state, practRole, status} = props
-    console.log(selectors[0].options)
+    // console.log(selectors[0].options)
     const navigate = useNavigate()
     // 初始化选择器的键值对
     let optionsIni = {}
@@ -25,7 +25,7 @@ const DataList = (props) => {
             endDate: null
         }
     // 分页和数据状态
-    console.log(optionsIni)
+    // console.log(optionsIni)
     const [dataState, setDataState] = useState({
         currPage: 1,
         pageSize: 5,

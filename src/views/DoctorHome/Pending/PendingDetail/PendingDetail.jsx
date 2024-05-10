@@ -3,7 +3,7 @@
  * time: 16/03/2024 19:37
  */
 import "./PendingDetail.less";
-import {Button, Card, Modal, Select} from 'antd';
+import {App, Button, Card, Modal, Select} from 'antd';
 import {useEffect, useState} from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -17,6 +17,7 @@ import {getPractRole} from "@/service/user/practitioner.js";
 const { Meta } = Card;
 
 const PendingDetail = (props) => {
+    const {message} = App.useApp()
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const time = state.time
@@ -150,9 +151,9 @@ const PendingDetail = (props) => {
 
     }
 
-    const updateData = () => {
-        console.log('update list')
-    }
+    // const updateData = () => {
+    //     console.log('update list')
+    // }
 
     const setStatus = async (value)=>{
         const params = {
@@ -160,8 +161,13 @@ const PendingDetail = (props) => {
             status: value,
             practId: alter,
         }
+        // console.log(params)
         updateStatus(params)
-        navigate(-1, {update: () => updateData()})
+        message.success("succeed", 2)
+        setTimeout(() => {
+            // 等两秒才刷新出来
+            navigate("/doctor/pending", {state: state, replace: true})
+        }, 2000)
     }
 
     const onOptionChange =  (value) => {
