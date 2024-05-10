@@ -39,6 +39,7 @@ const PendingDetail = (props) => {
             reason: "",
         }
     )
+    const [changingStatus, setChangingStatus] = useState(false)
 
     const parseType = (first, second) => {
         let type = ""
@@ -151,11 +152,9 @@ const PendingDetail = (props) => {
 
     }
 
-    // const updateData = () => {
-    //     console.log('update list')
-    // }
 
     const setStatus = async (value)=>{
+        setChangingStatus(true)
         const params = {
             doctorAppointId: id,
             status: value,
@@ -167,6 +166,7 @@ const PendingDetail = (props) => {
         setTimeout(() => {
             // 等两秒才刷新出来
             navigate("/doctor/pending", {state: state, replace: true})
+            setChangingStatus(false)
         }, 2000)
     }
 
@@ -208,18 +208,26 @@ const PendingDetail = (props) => {
     return (
         <div className="pending-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
-            <DetailCard params={params} detailData={detailData} prescription={prescription} result={result} practRole={practRole} title={"Doctor Appointment Record"} diagnosis={diagnosis}/>
+            <DetailCard
+                params={params}
+                detailData={detailData}
+                prescription={prescription}
+                result={result}
+                practRole={practRole}
+                title={"Doctor Appointment Record"}
+                diagnosis={diagnosis}
+            />
             <div className="pending-detail-content-container">
                 <div className="pending-detail-button-container">
-                    <Button size={"large"} className="pending-detail-button" onClick={accept}>Accept</Button>
+                    <Button size={"large"} className="pending-detail-button" onClick={accept} loading={changingStatus}>Accept</Button>
                     {
                         alternatives ?
                             (
-                                <Button size={"large"} className="pending-detail-button" onClick={showModal}>Alter</Button>
+                                <Button size={"large"} className="pending-detail-button" onClick={showModal} loading={changingStatus}>Alter</Button>
                             )
                             :
                             (
-                                <Button size={"large"} className="pending-detail-button" onClick={reject}>Reject</Button>
+                                <Button size={"large"} className="pending-detail-button" onClick={reject} loading={changingStatus}>Reject</Button>
                             )
                     }
                 </div>

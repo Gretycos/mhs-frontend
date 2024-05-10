@@ -108,8 +108,6 @@ const BookAppointment = () => {
       date: record.date,
       time: record.time,
       type: appointType,
-//       location: `SO17 1BJ. University Health Service.
-// Building 48, University of Southampton.`,
       patientId: store.getState()?.globalSlice.userId,
       note: "",
     }
@@ -132,11 +130,6 @@ const BookAppointment = () => {
       dataIndex: "doctor",
       key: "doctor",
     },
-    // {
-    //   title: "Type",
-    //   dataIndex: "type",
-    //   key: "type",
-    // },
     {
       dataIndex: "book",
       key: "book",
@@ -154,31 +147,6 @@ const BookAppointment = () => {
     console.log(e.target.value);
     setConfirm({ ...confirm, note: e.target.value });
   };
-
-  // const onDateChange = (value) => {
-  //   // console.log(value);
-  // };
-
-  // const onDoctorChange = (value) => {
-  //   // switch (value) {
-  //   //   case "male":
-  //   //     form.setFieldsValue({
-  //   //       note: "Hi, man!",
-  //   //     });
-  //   //     break;
-  //   //   case "female":
-  //   //     form.setFieldsValue({
-  //   //       note: "Hi, lady!",
-  //   //     });
-  //   //     break;
-  //   //   case "other":
-  //   //     form.setFieldsValue({
-  //   //       note: "Hi there!",
-  //   //     });
-  //   //     break;
-  //   //   default:
-  //   // }
-  // };
 
   const onFinish = async (values) => {
     // 提交表单
@@ -338,9 +306,6 @@ const BookAppointment = () => {
               {/*  </Select>*/}
               {/*</Form.Item>*/}
 
-              {/* <Form.Item name="note" label="Note">
-                <Input placeholder="What else do you want to say" />
-              </Form.Item> */}
               <Form.Item {...tailLayout} className="btn-group">
                 <Space>
                   <Button htmlType="button" onClick={onReset}>

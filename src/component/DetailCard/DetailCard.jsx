@@ -31,7 +31,7 @@ const DetailCard = (props) => {
                                 <div className="detail-title-info-val">{detailData.ref}</div>
                             </div>
                         </div>
-                        <div className="detail-title-row report-title-row-3">
+                        <div className="detail-title-row detail-title-row-3">
                             <div className="detail-title-info">
                                 <div className="detail-title-info-tag">Name:</div>
                                 <div className="detail-title-info-val">{`${detailData.firstName} ${detailData.lastName}`}</div>
