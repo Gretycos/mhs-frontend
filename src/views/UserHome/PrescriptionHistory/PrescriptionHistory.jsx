@@ -8,6 +8,8 @@ import "./PrescriptionHistory.less";
 import { Table } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
 import { render } from "less";
+import {useEffect, useState} from "react";
+import {getMyPrescriptionList} from "@/service/prescription/prescription.js";
 
 // dataSource and columns for table
 const dataSource = [
@@ -40,15 +42,45 @@ const dataSource = [
 const PrescriptionHistory = () => {
   const location = useLocation();
   const params = useParams();
-
   const navigate = useNavigate();
-
   const { pathname, state } = location;
+  // 分页和数据状态
+  const [dataState, setDataState] = useState({
+    currPage: 1,
+    pageSize: 10,
+    totalCount: 0,
+    dataList: [],
+  })
+
+  useEffect(() => {
+    const params = {
+      page: 1,
+      pageSize: 10
+    }
+    getData(params)
+  }, []);
+
+  const getData = async (params) => {
+    const {data} = await getMyPrescriptionList(params)
+    console.log(data)
+    setDataState({
+      ...dataState,
+      currPage: params.page,
+      pageSize: params.pageSize,
+      totalCount: data.totalCount,
+      dataList: data.list,
+    })
+  }
 
   const columns = [
     {
-      title: "Date and Time",
-      dataIndex: "date",
+      title: "Ref",
+      dataIndex: "prescriId",
+      key: "ref",
+    },
+    {
+      title: "Time",
+      dataIndex: "prescriTime",
       key: "date",
     },
     {
@@ -56,19 +88,19 @@ const PrescriptionHistory = () => {
       dataIndex: "doctor",
       key: "doctor",
     },
-    {
-      title: "Pharmacy",
-      dataIndex: "pharmacy",
-      key: "pharmacy",
-    },
+    // {
+    //   title: "Pharmacy",
+    //   dataIndex: "pharmacy",
+    //   key: "pharmacy",
+    // },
     {
       title: "Total Price",
-      dataIndex: "total_price",
+      dataIndex: "totalPrice",
       key: "price",
     },
     {
       // title: "Look Details",
-      dataIndex: "id",
+      dataIndex: "prescriId",
       key: "id",
       render: (text) => {
         return (
@@ -80,11 +112,32 @@ const PrescriptionHistory = () => {
     },
   ];
 
+  const onPageChange = async (page, pageSize) => {
+    page = page === dataState.currPage ? 1 : page // page相同相当于改了pageSize, 需要返回第一页
+    console.log(`page change: ${page}, ${pageSize}`)
+    const params = {
+      page: page,
+      pageSize: pageSize,
+    }
+    // const data = await getData(params)
+    await getData(params)
+  }
+
   return (
     <div className="prescription-page user-framework-container">
       <div className="user-framework-title">{state.title}</div>
       <ArrowBack className="back-icon" onClick={() => navigate(-1)} />
-      <Table dataSource={dataSource} columns={columns} className="table" />
+      <Table
+          className="prescription-table"
+          dataSource={dataState.dataList}
+          columns={columns}
+          pagination={{
+            current: dataState.currPage,
+            pageSize: dataState.pageSize,
+            total: dataState.totalCount,
+            onChange: onPageChange,
+          }}
+      />
     </div>
   );
 };

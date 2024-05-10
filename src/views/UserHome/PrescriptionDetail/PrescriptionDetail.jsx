@@ -8,6 +8,8 @@ import "./PrescriptionDetail.less";
 import { Table } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
 import { render } from "less";
+import {useEffect, useState} from "react";
+import {getMyPrescriptionDetail} from "@/service/prescription/prescription.js";
 
 // dataSource and columns for table
 const dataSource = [
@@ -43,36 +45,60 @@ const dataSource = [
 const PrescriptionDetail = () => {
   const location = useLocation();
   const params = useParams();
-
   const navigate = useNavigate();
-
   const { pathname, state } = location;
+  const {id} = params
+  const [dataList, setDataList] = useState([])
+
+  useEffect(() => {
+    getData()
+  }, []);
+
+  const getData = async () => {
+    const params = {
+      prescriId: id,
+    }
+    const {data} = await getMyPrescriptionDetail(params)
+    setDataList(data)
+  }
 
   const columns = [
     {
       title: "Medicine Name",
-      dataIndex: "medicine",
+      dataIndex: "bnfName",
       key: "medicine",
     },
     {
-      title: "Total quantity",
-      dataIndex: "total_quantity",
-      key: "total_quantity",
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
     },
-    // {
-    //   title: "Unit",
-    //   dataIndex: "unit",
-    //   key: "unit",
-    // },
+    {
+      title: "Item",
+      dataIndex: "item",
+      key: "item",
+    },
+    {
+      title: "Total Quantity",
+      key: "totalQuantity",
+      render: (text, record) => (
+          record.quantity * record.item
+      )
+    },
     {
       title: "Daily Usage",
-      dataIndex: "daily_usage",
-      key: "daily_usage",
+      dataIndex: "adqusage",
+      key: "adqusage",
     },
     {
-      title: "Total Price",
-      dataIndex: "med_price",
+      title: "Price",
+      dataIndex: "price",
       key: "price",
+    },
+    {
+      title: "Total Item Price",
+      dataIndex: "totalItemPrice",
+      key: "totalPrice",
     },
   ];
 
@@ -80,7 +106,11 @@ const PrescriptionDetail = () => {
     <div className="prescription-page user-framework-container">
       <div className="user-framework-title">Prescription Details</div>
       <ArrowBack className="back-icon" onClick={() => navigate(-1)} />
-      <Table dataSource={dataSource} columns={columns} className="table" />
+      <div className="prescription-detail-container">
+        <div className="prescription-ref">{`Ref: ${id}`}</div>
+        <Table dataSource={dataList} columns={columns} className="table" pagination={false}/>
+      </div>
+
     </div>
   );
 };
