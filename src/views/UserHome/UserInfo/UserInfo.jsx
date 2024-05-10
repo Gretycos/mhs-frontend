@@ -356,13 +356,13 @@ const UserInfo = () => {
                     </Col>
                 </Row>
 
-                <Row>
-                    <Col span={24} className="userinfo-form-reset">
-                        <Button type="primary" danger onClick={() => navigate("/reset/user", {state:{email: form.getFieldValue("email")}})}>
-                            Reset Password
-                        </Button>
-                    </Col>
-                </Row>
+                {/*<Row>*/}
+                {/*    <Col span={24} className="userinfo-form-reset">*/}
+                {/*        <Button type="primary" danger onClick={() => navigate("/reset/patient", {state:{email: form.getFieldValue("email")}})}>*/}
+                {/*            Reset Password*/}
+                {/*        </Button>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
                 <Row>
                     <Col span={24} className="userinfo-form-update">
                         <Button type="primary" htmlType="submit" loading={loading} className="userinfo-form-button">
