@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import {sexList, today, ukCity} from "@/common/js/utils.js"
 import {
     validateAgreement,
-    validateConfirmPassword,
+    validateConfirmPassword, validateMobileNum,
     validatePassword,
     validatePostcode
 } from "@/common/js/formValidator/validator.js";
@@ -119,8 +119,7 @@ const Register = () => {
                 required: false,
             },
             {
-                max: 15,
-                message: 'The input is not valid mobile number'
+                validator: validateMobileNum
             }
         ],
         password: [

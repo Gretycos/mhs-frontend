@@ -44,3 +44,10 @@ export const validateAgreement = async (_, value) => {
     }
     return Promise.reject(new Error('Please accept our privacy policies'))
 }
+
+export const validateMobileNum = async (_, value) => {
+    if (!value || value.match(/^\+\d{2}\s\d{1,11}$/)) {
+        return Promise.resolve()
+    }
+    return Promise.reject(new Error('Please input correct mobile number'))
+}

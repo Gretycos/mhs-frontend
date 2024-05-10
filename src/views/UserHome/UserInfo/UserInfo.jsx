@@ -10,7 +10,7 @@ import {useNavigate} from "react-router-dom";
 import {getPatientInfo, updatePatientInfo} from "@/service/user/patient.js";
 import {useEffect, useState} from "react";
 import {sexList, today, ukCity} from "@/common/js/utils.js";
-import {validatePostcode} from "@/common/js/formValidator/validator.js";
+import {validateMobileNum, validatePostcode} from "@/common/js/formValidator/validator.js";
 import {store} from "@/redux/store.js";
 
 const UserInfo = () => {
@@ -43,7 +43,7 @@ const UserInfo = () => {
             lastName: data.givenName,
             firstName: data.familyName,
             sex: data.sex,
-            dateOfBirth: dayjs(data.dateOfBirth, "YYYY-MM-DD"),
+            dateOfBirth: dayjs(data.dateOfBirth, "DD-MM-YYYY"),
             address1: data.addr1,
             address2: data.addr2,
             city: data.city,
@@ -54,7 +54,7 @@ const UserInfo = () => {
         form.setFieldsValue(values)
         setIniValues({
             ...values,
-            dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD")
+            dateOfBirth: values.dateOfBirth.format("DD-MM-YYYY")
         })
     }
 
@@ -149,8 +149,7 @@ const UserInfo = () => {
                 required: false,
             },
             {
-                max: 15,
-                message: 'The input is not valid mobile number'
+                validator: validateMobileNum
             }
         ],
     }
@@ -158,7 +157,7 @@ const UserInfo = () => {
     const onFinish = async (values) => {
         console.log('Received values of form: ', values);
         console.log(iniValues)
-        values.dateOfBirth = values.dateOfBirth.format("YYYY-MM-DD")
+        values.dateOfBirth = values.dateOfBirth.format("DD-MM-YYYY HH:mm:ss")
         let isChanged = false
         for (let key in values){
             if (values[key] !== iniValues[key]){
@@ -170,23 +169,28 @@ const UserInfo = () => {
         if (!isChanged){
             message.error("No information updated", 2)
         }else{
-            // setLoading(true)
-            // const params = {
-            //     patientId: store.getState()?.globalSlice.userId,
-            //     lastName: values.lastName,
-            //     firstName: values.firstName,
-            //     dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
-            //     address1: values.address1,
-            //     address2: values.address2,
-            //     city: values.city,
-            //     postcode: values.postcode,
-            //     email: values.email,
-            // }
-            // await updateInfo(params)
+            setLoading(true)
+            const params = {
+                patientId: store.getState()?.globalSlice.userId,
+                givenName: values.lastName,
+                familyName: values.firstName,
+                dateOfBirth: values.dateOfBirth,
+                sex: values.sex,
+                addr1: values.address1,
+                addr2: values.address2,
+                city: values.city,
+                postcode: values.postcode,
+                email: values.email,
+                mobileNum: values.mobileNum,
+            }
+            console.log(params)
+            await updatePatientInfo(params)
             message.success('Successfully update your information', 2)
-            // // 回主页
-            // navigate(0)
-            // setLoading(false)
+            // 刷新
+            setTimeout(() => {
+                navigate(0, {replace:true})
+                setLoading(false)
+            }, 2000)
         }
     }
 
@@ -262,7 +266,7 @@ const UserInfo = () => {
                         >
                             <DatePicker
                                 className="userinfo-form-picker"
-                                maxDate={dayjs(today(), "YYYY-MM-DD")}
+                                maxDate={dayjs(today(), "DD-MM-YYYY")}
                             />
                         </Form.Item>
 
