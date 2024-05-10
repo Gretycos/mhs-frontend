@@ -17,7 +17,7 @@ const TopBar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const token = store.getState()?.globalSlice.token
-    const [fullName, setFullName] = useState("full name")
+    const [fullName, setFullName] = useState("")
     const location = useLocation()
 
     const isHome = location.pathname.split("/")[1] === "home"

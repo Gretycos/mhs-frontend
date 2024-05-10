@@ -71,37 +71,6 @@ const MyAppointment = () => {
         const {data} = await getMyAppointments(params)
 
         return data
-        // return {
-        //     code: 200,
-        //     msg: "ok",
-        //     data: {
-        //         page: 1,
-        //         totalSize: 100,
-        //         data: [
-        //             {
-        //                 id: 0,
-        //                 type: "clinic",
-        //                 title: "Meeting with DR.Foo",
-        //                 time: "22-03-2024 15:00",
-        //                 status: 0,
-        //             },
-        //             {
-        //                 id: 1,
-        //                 type: "clinic",
-        //                 title: "Meeting with DR.Foo",
-        //                 time: "22-03-2024 15:00",
-        //                 status: 1,
-        //             },
-        //             {
-        //                 id: 2,
-        //                 type: "clinic",
-        //                 title: "Meeting with DR.Foo",
-        //                 time: "22-03-2024 15:00",
-        //                 status: 2,
-        //             },
-        //         ],
-        //     }
-        // }
     }
 
     return (
@@ -169,14 +138,7 @@ const MyAppointmentDetail = (props) => {
         console.log("onMounted", id, state.type)
         // 用id去查数据
         getDetailData()
-        // setAptData({
-        //     time: "23-03-2024 15:15",
-        //     ref: "C3221982",
-        //     firstName: "Yaocong",
-        //     lastName: "Huang",
-        //     type: "Clinic, face-to-face",
-        //     doctor: "DR. FOO",
-        // })
+
     }, []);
 
     const getDetailData = async () => {

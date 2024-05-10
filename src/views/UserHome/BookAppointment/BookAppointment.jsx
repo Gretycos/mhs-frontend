@@ -3,7 +3,7 @@
  * time: 20/03/2024 18:25
  */
 import "./BookAppointment.less";
-import { Form, Select, Input, Space, Button, DatePicker, Table } from "antd";
+import {Form, Select, Input, Space, Button, DatePicker, Table, App} from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 const { Option } = Select;
@@ -12,6 +12,7 @@ import { ArrowBack } from "@mui/icons-material";
 import "../../../component/UserFramework/UserFramework.less";
 import {createDoctorAppointment, getAbleAppointTime} from "@/service/appointment/doctorAppointment.js";
 import {store} from "@/redux/store.js";
+import dayjs from "dayjs";
 
 // dataSource
 const layout = {
@@ -27,56 +28,56 @@ const tailLayout = {
   },
 };
 
-const doctorOptions = [
-  {
-    value: "John Doe",
-    label: "John Doe",
-  },
-  {
-    value: "Jane Doe",
-    label: "Jane Doe",
-  },
-  {
-    value: "Jim Doe",
-    label: "Jim Doe",
-  },
-];
+// const doctorOptions = [
+//   {
+//     value: "John Doe",
+//     label: "John Doe",
+//   },
+//   {
+//     value: "Jane Doe",
+//     label: "Jane Doe",
+//   },
+//   {
+//     value: "Jim Doe",
+//     label: "Jim Doe",
+//   },
+// ];
 
 const typeOptions = [
   { value: 0, label: "Face to Face" },
   { value: 1, label: "Phone call" },
 ];
 
-const availableTime = [
-  {
-    date: "2024-04-03",
-    time: "10:00",
-    doctor: "John Doe",
-    type: "Face to Face",
-    key: "1",
-  },
-  {
-    date: "2024-04-05",
-    time: "11:00",
-    doctor: "Jane Doe",
-    type: "Face to Face",
-    key: "2",
-  },
-  {
-    date: "2024-04-05",
-    time: "12:00",
-    doctor: "Jim Doe",
-    type: "Face to Face",
-    key: "3",
-  },
-  {
-    date: "2024-04-06",
-    time: "12:00",
-    doctor: "Jim Doe",
-    type: "Face to Face",
-    key: "4",
-  },
-];
+// const availableTime = [
+//   {
+//     date: "2024-04-03",
+//     time: "10:00",
+//     doctor: "John Doe",
+//     type: "Face to Face",
+//     key: "1",
+//   },
+//   {
+//     date: "2024-04-05",
+//     time: "11:00",
+//     doctor: "Jane Doe",
+//     type: "Face to Face",
+//     key: "2",
+//   },
+//   {
+//     date: "2024-04-05",
+//     time: "12:00",
+//     doctor: "Jim Doe",
+//     type: "Face to Face",
+//     key: "3",
+//   },
+//   {
+//     date: "2024-04-06",
+//     time: "12:00",
+//     doctor: "Jim Doe",
+//     type: "Face to Face",
+//     key: "4",
+//   },
+// ];
 
 // const confirmData = {
 //   doctor: "John Doe",
@@ -90,6 +91,8 @@ const availableTime = [
 // };
 
 const BookAppointment = () => {
+
+  const {message} = App.useApp()
   const [form] = Form.useForm();
   const [searchRes, setSearchRes] = useState(false);
   const [confirm, setConfirm] = useState(null);
@@ -200,7 +203,10 @@ const BookAppointment = () => {
     }
     console.log(params)
     const {data} = await createDoctorAppointment(params)
-    navigate("/patient/home")
+    if (data) {
+      message.success('book succeeded', 2)
+      navigate("/patient")
+    }
   };
 
   const onReset = () => {
@@ -218,6 +224,10 @@ const BookAppointment = () => {
   const goBack = () => {
     navigate(-1); // 返回上一页
   };
+
+  const disabledDate = (current) => {
+    return current < dayjs().startOf('day');
+  }
 
   if (confirm) {
     return (
@@ -291,7 +301,9 @@ const BookAppointment = () => {
               className="form"
             >
               <Form.Item name="date" label="Date" rules={[{ required: true }]}>
-                <DatePicker />
+                <DatePicker
+                    disabledDate={disabledDate}
+                />
                 {/* <TimePicker /> */}
               </Form.Item>
               <Form.Item name="type" label="Type" rules={[]}>
@@ -345,7 +357,12 @@ const BookAppointment = () => {
                 className="available-time"
                 dataSource={availableTimeList}
                 columns={columns}
-              ></Table>
+                pagination={{
+                  defaultCurrent: 1,
+                  pageSize: 5,
+                  total: availableTimeList.length,
+                }}
+              />
             )}
           </div>
         </div>

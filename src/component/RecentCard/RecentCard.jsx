@@ -15,29 +15,6 @@ const RecentCard = (props) => {
     useEffect(() => {
         // 获取数据
         getRecentList()
-        // const appointmentList = [
-        //     {
-        //         type: "clinic",
-        //         title: "Meeting with DR.Foo",
-        //         time: "22-03-2024 15:00",
-        //     },
-        //     {
-        //         type: "test",
-        //         title: "Blood Test",
-        //         time: "22-03-2024 16:00",
-        //     },
-        // ]
-        //
-        // const reportList = [
-        //     {
-        //         title: "CT Report",
-        //         time: "22-03-2024 17:00",
-        //     },
-        //     {
-        //         title: "Blood Report",
-        //         time: "22-03-2024 18:00",
-        //     },
-        // ]
 
     }, []);
 
