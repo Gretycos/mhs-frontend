@@ -104,7 +104,7 @@ const MedHisDetail = (props) => {
             doctor: "",
             selfDisc: "",
             diagnosis: "",
-            testId: "",
+            testReportIds: [],
         }
     )
 
@@ -131,7 +131,7 @@ const MedHisDetail = (props) => {
             doctor: data.doctor,
             selfDisc: data.selfDisc === null ? "" : data.selfDisc,
             diagnosis: data.diagnosis === null ? "" : data.diagnosis,
-            testId: data.testId === null ? "" : data.testId,
+            testReportIds: data.testReportIds === null ? [] : data.testReportIds,
         })
         // setMedHisData({
         //     time: "23-03-2024 15:15",
@@ -204,16 +204,16 @@ const MedHisDetail = (props) => {
                             {medHisData.diagnosis}
                         </div>
                     </div>
-                    {medHisData.testId !== "" ? (<Divider/>) : null}
+                    {medHisData.testReportIds.length > 0 ? (<Divider/>) : null}
                     {
-                        medHisData.testId !== "" ?
+                        medHisData.testReportIds.length > 0 ?
                             (
                                 <div className="medhis-content-block-test">
                                     <div className="medhis-content-block-title">
-                                        TestRef:
+                                        Test Report Refs:
                                     </div>
                                     <div className="medhis-content-block-text-test">
-                                        {medHisData.testId}
+                                        {medHisData.testReportIds}
                                     </div>
                                 </div>
                             )
