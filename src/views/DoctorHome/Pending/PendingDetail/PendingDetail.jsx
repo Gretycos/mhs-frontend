@@ -176,7 +176,7 @@ const PendingDetail = (props) => {
     const onOptionChange =  (value) => {
         console.log(`option change: ${value}`)
         setAlter(alternatives[value].practId)
-        setAlter(alternatives[value].label)
+        setAlterName(alternatives[value].label)
     }
 
 
