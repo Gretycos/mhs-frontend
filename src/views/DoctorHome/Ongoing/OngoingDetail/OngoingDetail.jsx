@@ -73,6 +73,8 @@ const OngoingDetail = (props) => {
 
     const [changingStatus, setChangingStatus] = useState(false)
 
+    const [testAppoints, setTestAppoints] = useState(null)
+
 
     const [isDiagModalOpen, setIsDiagModalOpen] = useState(false);
     const [isPrescriModalOpen, setIsPrescriModalOpen] = useState(false);
@@ -177,6 +179,8 @@ const OngoingDetail = (props) => {
         })
 
         setDiagnosis(res1.data.diagnosis)
+        // console.log(res1.data)
+        setTestAppoints(res1.data.testAppointVOs)
     }
 
     const getTestSlot = async () =>{
@@ -196,6 +200,7 @@ const OngoingDetail = (props) => {
         }
         console.log(params)
         const {data} = insertTestAppointments(params)
+        message.success("submit succeed", 2)
     }
 
     const insertDiagnosis = async () =>{
@@ -275,9 +280,9 @@ const OngoingDetail = (props) => {
     };
 
 
-    const handleDiagOk = () => {
+    const handleDiagOk = async () => {
         console.log(diagnosis)
-        insertDiagnosis();
+        await insertDiagnosis();
         setIsDiagModalOpen(false);
     };
 
@@ -296,7 +301,6 @@ const OngoingDetail = (props) => {
 
     const handleTestOk = async () =>{
         await addTestAppoint()
-
         setIsTestModalOpen(false);
     }
 
@@ -625,7 +629,7 @@ const OngoingDetail = (props) => {
                        footer={[
                            <div className="ongoing-detail-button-container">
                                <Button size={"large"} className="ongoing-detail-button"
-                                       onClick={handleTestOk}>Save</Button>
+                                       onClick={handleTestOk}>Submit</Button>
                            </div>
                        ]}>
                     <div className="ongoing-detail-modal-container">
@@ -676,7 +680,7 @@ const OngoingDetail = (props) => {
         <div className="ongoing-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
             <DetailCard params={params} detailData={detailData} result={result}
-                        practRole={practRole} title={title}/>
+                        practRole={practRole} title={title} testAppoints={testAppoints}/>
             <div className="ongoing-detail-content-container">
                 <div className="ongoing-detail-button-container">
                     <Button size={"large"} className="ongoing-detail-button" onClick={showDiagModal}>Diagnosis</Button>

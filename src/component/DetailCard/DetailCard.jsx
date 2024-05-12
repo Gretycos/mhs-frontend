@@ -8,12 +8,9 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
-    const {params, detailData, prescription, result, title, diagnosis} = props
+    const {params, detailData, prescription, result, title, diagnosis, testAppoints} = props
     console.log(detailData, prescription, result)
     const {id} = useParams()
-
-
-
 
     return (
         <div className="detail-container">
@@ -59,7 +56,7 @@ const DetailCard = (props) => {
                     detailData.reason ?
                         <div className="detail-content">
                             <div className="detail-content-info">
-                                <div className="detail-content-info-tag">Description for appointment:</div>
+                                <div className="detail-content-info-tag">Self description:</div>
                                 <div className="detail-content-info-val">{detailData.reason}</div>
                             </div>
                         </div>
@@ -122,6 +119,21 @@ const DetailCard = (props) => {
                                 </div>
                             </div>
                         )
+                        :
+                        null
+                }
+                {
+                    testAppoints && testAppoints.length > 0 ?
+                        testAppoints.map((item, idx) => {
+                            return (
+                                <div className="detail-content" key={idx}>
+                                    <div className="detail-content-info">
+                                        <div className="detail-content-info-tag">{`Test Appointment [${idx + 1}]`}</div>
+                                        <div className="detail-content-info-val">{item.result}</div>
+                                    </div>
+                                </div>
+                            )
+                        })
                         :
                         null
                 }

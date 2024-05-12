@@ -163,7 +163,7 @@ const PendingDetail = (props) => {
             practId: alter,
             practName: alterName,
         }
-        // console.log(params)
+        console.log(params)
         updateStatus(params)
         message.success("succeed", 2)
         setTimeout(() => {
