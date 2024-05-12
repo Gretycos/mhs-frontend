@@ -26,6 +26,7 @@ const PendingDetail = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alternatives, setAlternatives] = useState();
     const [alter, setAlter] = useState();
+    const [alterName, setAlterName] = useState();
     const [detailData, setDetailData] = useState(
         {
             time: "",
@@ -85,8 +86,8 @@ const PendingDetail = (props) => {
         setIsModalOpen(true);
     };
 
-    const handleOk = () => {
-        setStatus(2)
+    const handleOk = async () => {
+        await setStatus(2)
         setIsModalOpen(false);
     };
 
@@ -94,12 +95,12 @@ const PendingDetail = (props) => {
         setIsModalOpen(false);
     };
 
-    const accept = () =>{
-        setStatus(1)
+    const accept = async () =>{
+        await setStatus(1)
     }
 
-    const reject = () =>{
-        setStatus(3)
+    const reject = async() =>{
+        await setStatus(3)
     }
 
     useEffect(() => {
@@ -154,11 +155,13 @@ const PendingDetail = (props) => {
 
 
     const setStatus = async (value)=>{
+
         setChangingStatus(true)
         const params = {
             doctorAppointId: id,
             status: value,
             practId: alter,
+            practName: alterName,
         }
         // console.log(params)
         updateStatus(params)
@@ -173,6 +176,7 @@ const PendingDetail = (props) => {
     const onOptionChange =  (value) => {
         console.log(`option change: ${value}`)
         setAlter(alternatives[value].practId)
+        setAlter(alternatives[value].label)
     }
 
 

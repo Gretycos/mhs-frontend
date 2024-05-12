@@ -65,8 +65,8 @@ const DoctorHome = () => {
         name: "Ongoing Appointment",
         icon: <EventIcon className="menu-icon-style"/>,
         url: "/doctor/ongoing"
-    },
-    /*{
+    }/*,
+    {
         name: "Completed Appointment",
         icon: <EventAvailableIcon className="menu-icon-style"/>,
         url: "/doctor/completed"

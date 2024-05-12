@@ -195,7 +195,7 @@ const OngoingDetail = (props) => {
             testType: testParams.testType
         }
         console.log(params)
-        // const {data} = insertTestAppointments(params)
+        const {data} = insertTestAppointments(params)
     }
 
     const insertDiagnosis = async () =>{
@@ -240,9 +240,9 @@ const OngoingDetail = (props) => {
                 bnfCode: drug.bnfCode,
                 bnfName: drug.bnfName,
                 totalQuantity: drug.quantity * item,
-                price: drug.price * item,
+                totalItemPrice: drug.price * item,
                 item: item,
-                daily: daily,
+                adqusage: daily,
                 action: <button onClick={()=>removeData(drug.bnfCode)}>remove</button>
             })
         }
@@ -297,7 +297,7 @@ const OngoingDetail = (props) => {
     const handleTestOk = async () =>{
         await addTestAppoint()
 
-        // setIsTestModalOpen(false);
+        setIsTestModalOpen(false);
     }
 
     const handleDiagCancel = () => {
@@ -514,9 +514,9 @@ const OngoingDetail = (props) => {
                                 <Column title="BNF_Code" dataIndex="bnfCode" key="BNF_code"/>
                                 <Column title="BNF_Name" dataIndex="bnfName" key="BNF_name"/>
                                 <Column title="TotalQuantity" dataIndex="totalQuantity" key="totalQuantity"/>
-                                <Column title="Price" dataIndex="price" key="price"/>
+                                <Column title="Price" dataIndex="totalPrice" key="totalPrice"/>
                                 <Column title="Item" dataIndex="item" key="item"/>
-                                <Column title="Daily" dataIndex="daily" key="daily"/>
+                                <Column title="Daily" dataIndex="adequasge" key="adequasge"/>
                                 <Column title="Action" dataIndex="action" key="action"/>
                             </Table>
                         </div>
@@ -625,7 +625,7 @@ const OngoingDetail = (props) => {
                        footer={[
                            <div className="ongoing-detail-button-container">
                                <Button size={"large"} className="ongoing-detail-button"
-                                       onClick={handleTestOk}>Submit</Button>
+                                       onClick={handleTestOk}>Save</Button>
                            </div>
                        ]}>
                     <div className="ongoing-detail-modal-container">

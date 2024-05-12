@@ -114,7 +114,7 @@ const CompletedDetail = (props) => {
         <div className="completed-detail-page-container">
             <ArrowBack className="back-icon" onClick={() => navigate(-1)}/>
             <DetailCard params={params} detailData={detailData} prescription={prescription} result={result}
-                        practRole={practRole} title={title}  diagnosis={diagnosis}/>
+                        practRole={practRole} title={title} diagnosis={diagnosis}/>
         </div>
     )
 }
