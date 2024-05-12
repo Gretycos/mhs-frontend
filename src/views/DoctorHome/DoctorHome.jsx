@@ -73,6 +73,7 @@ const DoctorHome = () => {
     }*/)
 
     const onItemClick = (idx, url) => {
+        console.log(practRole)
         navigate(url, {state:{title: menu[idx].name, practRole:practRole}})
         setIsHomepage(false)
     }

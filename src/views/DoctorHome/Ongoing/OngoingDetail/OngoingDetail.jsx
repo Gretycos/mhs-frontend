@@ -3,15 +3,16 @@
  * time: 16/03/2024 19:37
  */
 import "./OngoingDetail.less"
-import {Button, Card, Modal, Input, Select, Table, InputNumber} from 'antd';
+import {Button, Card, Modal, Input, Select, Table, InputNumber, App} from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useEffect, useState} from "react";
 import {ArrowBack} from "@mui/icons-material";
 import DetailCard from "@/component/DetailCard/DetailCard.jsx";
 import {getAppointMedHistory, updateMedHistory} from "@/service/med/medHistory.js";
-import {getpractAppointDetail, getpractAppointDetails} from "@/service/appointment/doctorAppointment.js";
+import {getpractAppointDetail, getpractAppointDetails, updateStatus} from "@/service/appointment/doctorAppointment.js";
 import {
+    getTestAbleAppointTime,
     getTestpractAppointDetail,
     getTestpractAppointDetails,
     insertTestAppointments
@@ -26,9 +27,11 @@ const { Search} = Input
 const { Column } = Table;
 
 const OngoingDetail = (props) => {
+    const {message} = App.useApp()
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const time = state.time
+    console.log(state);
     const {id} = useParams()
     const title = practRole === 0 ? "Doctor Appointment Record" : "Test Appointment Record"
 
@@ -45,10 +48,38 @@ const OngoingDetail = (props) => {
             reason: "",
             medHistoryId:"",
             testId:"",
-            result:""
+            result:"",
+
         }
     )
 
+    const [prescription, setPrescription] = useState()
+
+    const [prescriDrug, setPrescriDrug] = useState()
+
+    const [result, setResult] = useState()
+
+    const [diagnosis, setDiagnosis] = useState()
+
+    const [testSlot, setTestSlot] = useState();
+
+    const [keyword, setKeyword] = useState()
+
+    const [drugList, setDrugList] = useState([])
+
+    const [totalPrice, setTotalPrice] = useState(0)
+
+
+    const [changingStatus, setChangingStatus] = useState(false)
+
+
+    const [isDiagModalOpen, setIsDiagModalOpen] = useState(false);
+    const [isPrescriModalOpen, setIsPrescriModalOpen] = useState(false);
+    const [isDrugModalOpen, setIsDrugModalOpen] = useState(false);
+    const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+    const [drug, setDrug] = useState({})
+    const [item, setItem] = useState(1);
+    const [daily, setDaily] = useState(1);
     const parseType = (first, second) => {
         let type = ""
         if (first === "clinic"){
@@ -83,76 +114,36 @@ const OngoingDetail = (props) => {
         return s
     }
 
-    const [prescription, setPrescription] = useState()
-
-    const [result, setResult] = useState()
-
-    const [diagnosis, setDiagnosis] = useState()
-
-    const [isDiagModalOpen, setIsDiagModalOpen] = useState(false);
-    const [isPrescriModalOpen, setIsPrescriModalOpen] = useState(false);
-    const [isDrugModalOpen, setIsDrugModalOpen] = useState(false);
-    const [isTestModalOpen, setIsTestModalOpen] = useState(false);
-    const [drug, setDrug] = useState({})
-    const [item, setItem] = useState(1);
-    const [daily, setDaily] = useState(1);
-
-
-    const [testSlot, setTestSlot] = useState();
-
-    const [keyword, setKeyword] = useState()
-    const showDiagModal = () => {
-        setIsDiagModalOpen(true);
-    };
-    const showPrescriModal = () => {
-        setIsPrescriModalOpen(true);
-    };
-
-    const [drugList, setDrugList] = useState([])
+    const testType = [
+        {
+            value: 0,
+            label: 'EyeSight',
+        },
+        {
+            value: 1,
+            label: 'Height and Weight',
+        },
+        {
+            value: 2,
+            label: "Blood Pressure"
+        },
+        {
+            value: 3,
+            label: "Blood Sugar"
+        },
+        {
+            value: 4,
+            label: "Audiometry"
+        }
+    ]
 
     useEffect(() => {
         getDetailData();
 
-        setTestSlot([{
-            value: 0,
-            label: "09/05/2024 9:00"
-        },
-            {
-                value: 1,
-                label: "13/05/2024 10:00"
-            }])
+        //getTestSlot()
+        setTestSlot([])
 
-        setDrugList([
-            {
-                index:0,
-                BNF_code: "fwwfwfwfwefweef",
-                BNF_name: "medicine 1",
-                quantity: 12,
-                price: 10,
-                action: <Button onClick={()=>showDrugModal(0)}>select</Button>
-            },
-            {
-                index:1,
-                BNF_code: "fwwfwfwfwefwedf",
-                BNF_name: "medicine 2",
-                quantity: 12,
-                price: 10,
-                action: <Button onClick={()=>showDrugModal(1)}>select</Button>
-            },
-            {
-                index:2,
-                BNF_code: "fwwfwfwfwefweaf",
-                BNF_name: "medicine 3",
-                quantity: 12,
-                price: 10,
-                action: <Button onClick={()=>showDrugModal(2)}>select</Button>
-            }
-        ])
-
-        setTestSlot([{
-            value: 0,
-            label: "29/05/2024 9:00~9:15"
-        }])
+        setDrugList([])
 
         setPrescription([])
 
@@ -181,16 +172,96 @@ const OngoingDetail = (props) => {
             testId:res1.data.testId,
             result:res1.data.result,
             patientId:res1.data.patientId,
-            practId:res1.data.practId
+            practId:res1.data.practId,
         })
 
         setDiagnosis(res1.data.diagnosis)
-
     }
 
-    const showDrugModal = (index) => {
-        setDrug(drugList.find(item => {return item.index === index}));
-        console.log(drugList.find(item => {return item.index === index}))
+    const getTestSlot = async () =>{
+
+        const {data} = getTestAbleAppointTime()
+
+        console.log(data)
+    }
+
+    const addTestAppoint = async () =>{
+        const params = {
+            patientId: detailData.patientId,
+            appointTime:timeSlot[0]
+        }
+        const {data} = insertTestAppointments(params)
+    }
+
+    const insertDiagnosis = async () =>{
+        const params = {
+            testAppointId:id,
+            patientId:detailData.patientId,
+            practId:detailData.practId,
+            testType:state.type,
+            result: diagnosis,
+            diagnosis: diagnosis,
+            medHistoryId: detailData.medHistoryId,
+            totalItemPrice: totalPrice,
+            prescriDrugList: prescription,
+        }
+        console.log(params, prescription.length, diagnosis)
+        practRole === 0 ? (prescription.length === 0 ? await updateMedHistory(params): await addPrescri(params)):await insertTestReport(params);
+        message.success("succeed", 2)
+        setTimeout(() => {
+            // 等两秒才刷新出来
+            navigate("/doctor/ongoing", {state: state, replace: true})
+            setChangingStatus(false)
+        }, 2000)
+    }
+
+    const addPrescriptionList = () => {
+        let data = prescription;
+        let total = totalPrice
+        if(data.find(result => {return result.bnfCode === drug.bnfCode})){
+            total = total - result.price + drug.price * item
+            data.map(result => {
+                if (result.index === drug.index) {
+                    result.item = item;
+                    result.daily = daily;
+                    result.totalQuantity = drug.quantity * item;
+                    result.price = drug.price * item;
+                }
+            })
+        }
+        else{
+            total = total + drug.price * item
+            data.push({
+                bnfCode: drug.bnfCode,
+                bnfName: drug.bnfName,
+                totalQuantity: drug.quantity * item,
+                price: drug.price * item,
+                item: item,
+                daily: daily,
+                action: <button onClick={()=>removeData(drug.bnfCode)}>remove</button>
+            })
+        }
+
+
+        setPrescription([...data])
+        setTotalPrice(total)
+    }
+
+    const showDiagModal = () => {
+        setIsDiagModalOpen(true);
+    };
+    const showPrescriModal = () => {
+        setIsPrescriModalOpen(true);
+    };
+
+    const showDrugModal = (record) => {
+        console.log(record)
+        console.log(drugList)
+        // console.log(e.target.getAttribute("key"))
+        // console.log(idx)
+        // console.log(drugList)
+        setDrug(record)
+        // console.log(index, drugList.find(item => {return item.index === index}))
         setIsDrugModalOpen(true);
 
     };
@@ -200,17 +271,10 @@ const OngoingDetail = (props) => {
 
 
     const handleDiagOk = () => {
-        addTestAppoint()
+        console.log(diagnosis)
+        insertDiagnosis();
         setIsDiagModalOpen(false);
     };
-
-    const addTestAppoint = async () =>{
-        const params = {
-            patientId: detailData.patientId,
-            appointTime:timeSlot[0]
-        }
-        const {data} = insertTestAppointments(params)
-    }
 
     const handlePrescriOk = () => {
         setIsPrescriModalOpen(false);
@@ -226,6 +290,7 @@ const OngoingDetail = (props) => {
     };
 
     const handleTestOk = () =>{
+        addTestAppoint()
         setIsTestModalOpen(false);
     }
 
@@ -245,7 +310,6 @@ const OngoingDetail = (props) => {
         setIsTestModalOpen(false);
     };
 
-
     const handleItemChange = (value) => {
         setItem(value);
     };
@@ -258,80 +322,6 @@ const OngoingDetail = (props) => {
         setDiagnosis(e.target.value)
     }
 
-    const testType = [
-        {
-            value: 0,
-            label: 'EyeSight',
-        },
-        {
-            value: 1,
-            label: 'Height and Weight',
-        },
-        {
-            value: 2,
-            label: "Blood Pressure"
-        },
-        {
-            value: 3,
-            label: "Blood Sugar"
-        },
-        {
-            value: 4,
-            label: "Audiometry"
-        }
-    ]
-
-    const updateData = () => {
-        console.log('update list')
-    }
-
-    const insertDiagnosis = async () =>{
-        const params = {
-            patientId:detailData.patientId,
-            practId:detailData.practId,
-            testType:state.type,
-            result: diagnosis,
-            diagnosis: diagnosis,
-            medHistoryId: detailData.medHistoryId,
-            totalItemPrice: totalItemPrice,
-            prescriDrugList: prescription,
-        }
-        practRole === 0 ? (prescription.length === 0 ? await updateMedHistory(params): await addPrescri(params)):await insertTestReport(params);
-        navigate(-1, {update: () => updateData()})
-    }
-
-    const addPrescriptionList = () => {
-        let data = prescription;
-        if(data.find(result => {return result.index === drug.index})){
-            data.map(result => {
-                if (result.index === drug.index) {
-                    result.item = item;
-                    result.daily = daily;
-                }
-            })
-        }
-        else{
-            data.push({
-                index:drug.index,
-                BNF_code: drug.BNF_code,
-                BNF_name: drug.BNF_name,
-                quantity: drug.quantity,
-                price: drug.price,
-                item: item,
-                daily: daily,
-                action: <button onClick={()=>removeData(drug.index)}>remove</button>
-            })
-        }
-
-
-        setPrescription([...data])
-    }
-
-    const removeData = (index) => {
-        let data = prescription.filter(item => item.index !== index);
-        setPrescription([...data]);
-    }
-
     const onSearchChange = (e) => {
         setKeyword(e.target.value)
     }
@@ -341,8 +331,75 @@ const OngoingDetail = (props) => {
             keyword:keyword
         }
         const {data} = await getDrugs(params)
-        console.log(data)
+        console.log(prescription)
+        //console.log(data)
+        // let drugs = []
+        // var indx = 1;
+        // console.log(indx)
+        // const drugs  = data.map((d, idx) => {
+        //     return {
+        //         index: idx,
+        //         bnf_code: d.bnfCode,
+        //         bnf_name: d.bnfName,
+        //         quantity: d.quantity,
+        //         price: d.price,
+        //         action: <Button key={idx} onClick={() => showDrugModal(idx)}>select</Button>
+        //     }
+        // })
+        //console.log(data)
+        // data.forEach(d => {
+        //     drugs.push({
+        //         index:indx,
+        //         bnf_code: d.bnfCode,
+        //         bnf_name: d.bnfName,
+        //         quantity: d.quantity,
+        //         price: d.price,
+        //         action: <Button key={indx} onClick={indx => showDrugModal(e)}>select</Button>
+        //     })
+        //     console.log(indx, drugs)
+        //     indx += 1
+        // })
+        setDrugList(data)
     }
+
+    const removeData = (bnfCode) => {
+        console.log(bnfCode)
+        let data = prescription.filter(item => item.bnfCode!== bnfCode);
+        setPrescription([...data]);
+    }
+
+    const drugColumns = [
+        {
+            title: "BNF_Code",
+            dataIndex: "bnfCode",
+            key: "BNF_code",
+        },
+        {
+            title: "BNF_Name",
+            dataIndex: "bnfName",
+            key: "BNF_name",
+        },
+        {
+            title: "Quantity",
+            dataIndex: "quantity",
+            key: "quantity",
+        },
+        {
+            title: "Price",
+            dataIndex: "price",
+            key: "price",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (test, record) => (
+                <Button
+                    onClick={() => showDrugModal(record)}>
+                    select
+                </Button>
+            )
+        },
+    ];
     
     const diagModal = () =>{
         return(
@@ -361,13 +418,58 @@ const OngoingDetail = (props) => {
                        ]}>
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-input-container">
-                            <Input.TextArea className="ongoing-detail-input" rows={10} placeholder="please enter diagnosis" onChange={e => handleInputChange(e)}/>
+                            <Input.TextArea className="ongoing-detail-input" rows={10} placeholder="please enter diagnosis" value={diagnosis} onChange={e => handleInputChange(e)}/>
                         </div>
                     </div>
                 </Modal>
             </>
         )
     }
+
+
+
+    // const prescriColumns = [
+    //     {
+    //         title: "BNF_Code",
+    //         dataIndex: "bnfCode",
+    //         key: "BNF_code",
+    //     },
+    //     {
+    //         title: "BNF_Name",
+    //         dataIndex: "bnfName",
+    //         key: "BNF_name",
+    //     },
+    //     {
+    //         title: "TotalQuantity",
+    //         dataIndex: "totalQuantity",
+    //         key: "totalQuantity",
+    //     },
+    //     {
+    //         title: "Price",
+    //         dataIndex: "price",
+    //         key: "price",
+    //     },
+    //     {
+    //         title: "Item",
+    //         dataIndex: "item",
+    //         key: "item",
+    //     },
+    //     {
+    //         title: "Daily",
+    //         dataIndex: "daily",
+    //         key: "daily",
+    //     },
+    //     {
+    //         title: "Action",
+    //         key: "action",
+    //         render: (test, record) => (
+    //             <Button
+    //                 onClick={() => showDrugModal(record)}>
+    //                 select
+    //             </Button>
+    //         )
+    //     },
+    // ];
 
     const prescriModal = () =>{
         return(
@@ -390,19 +492,22 @@ const OngoingDetail = (props) => {
                                     onSearch={e=> onPrescriSearch(e)} enterButton/>
                         </div>
                         <div className="ongoing-detail-list-container" key={1}>
-                            <Table dataSource={drugList} className="ongoing-table-style">
-                                <Column title="BNF_Code" dataIndex="BNF_code" key="BNF_code"/>
-                                <Column title="BNF_Name" dataIndex="BNF_name" key="BNF_name"/>
-                                <Column title="Quantity" dataIndex="quantity" key="quantity"/>
-                                <Column title="Price" dataIndex="price" key="price"/>
-                                <Column title="Action" dataIndex="action" key="action"/>
+                            <Table
+                                columns={drugColumns}
+                                dataSource={drugList}
+                                className="ongoing-table-style">
+                                {/*<Column title="BNF_Code" dataIndex="bnf_code" key="BNF_code"/>*/}
+                                {/*<Column title="BNF_Name" dataIndex="bnf_name" key="BNF_name"/>*/}
+                                {/*<Column title="Quantity" dataIndex="quantity" key="quantity"/>*/}
+                                {/*<Column title="Price" dataIndex="price" key="price"/>*/}
+                                {/*<Column title="Action" dataIndex="action" key="action"/>*/}
                             </Table>
                         </div>
                         <div className="ongoing-detail-list-container" key={2}>
                             <Table dataSource={prescription} className="ongoing-table-style">
-                                <Column title="BNF_Code" dataIndex="BNF_code" key="BNF_code"/>
-                                <Column title="BNF_Name" dataIndex="BNF_name" key="BNF_name"/>
-                                <Column title="Quantity" dataIndex="quantity" key="quantity"/>
+                                <Column title="BNF_Code" dataIndex="bnfCode" key="BNF_code"/>
+                                <Column title="BNF_Name" dataIndex="bnfName" key="BNF_name"/>
+                                <Column title="TotalQuantity" dataIndex="totalQuantity" key="totalQuantity"/>
                                 <Column title="Price" dataIndex="price" key="price"/>
                                 <Column title="Item" dataIndex="item" key="item"/>
                                 <Column title="Daily" dataIndex="daily" key="daily"/>
@@ -416,7 +521,7 @@ const OngoingDetail = (props) => {
     }
 
     const drugModal = () => {
-        console.log(drug, item, daily)
+        //console.log(drug, item, daily)
         return (
             <>
                 <Modal open={isDrugModalOpen}
@@ -424,7 +529,7 @@ const OngoingDetail = (props) => {
                        width={1000}
                        onCancel={handleDrugCancel}
                        title={
-                           <p className="ongoing-detail-card-content-font1">{drug.BNF_name}</p>
+                           <p className="ongoing-detail-card-content-font1">{drug.bnfName}</p>
                        }
                        footer={[
                            <div className="ongoing-detail-button-container">

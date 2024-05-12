@@ -15,7 +15,6 @@ import {getUncompletedAppointments} from "@/service/appointment/doctorAppointmen
 const Pending = (props) => {
     const location = useLocation();
     const params = useParams()
-
     const {pathname, state} = location
     const practRole = state.practRole;
 

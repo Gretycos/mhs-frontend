@@ -11,6 +11,7 @@ import MyDatePicker from "@/component/DatePicker/MyDatePicker.jsx";
 
 const DataList = (props) => {
     const {selectors, getData, path, state, practRole, status} = props
+    console.log(state, practRole)
     // console.log(selectors[0].options)
     const navigate = useNavigate()
     // 初始化选择器的键值对
@@ -44,6 +45,7 @@ const DataList = (props) => {
             status: status
         }
         getListData(params)
+        console.log(dataState.dataList)
     }, []);
 
     const getListData = async (params) => {
@@ -67,7 +69,7 @@ const DataList = (props) => {
             status: status
         }
         const data = await getData(params)
-        console.log(data)
+        //console.log(data)
         setDataState({
             ...dataState,
             currPage: page,
@@ -129,9 +131,9 @@ const DataList = (props) => {
         return <Selector autoFocus={true} key={idx} title={item.title} onChange={ (val) => onOptionChange(val, item.key)} options={item.options}/>
     })
 
-    const onClickItem = (id, type, time, practRole) => {
+    const onClickItem = (id, type, time) => {
         console.log(`${path}/${id}`)
-        navigate(`${path}/${id}`, {state: {...state, type: type, time: time}, practRole:practRole})
+        navigate(`${path}/${id}`, {state: {...state, type: type, time: time, practRole:practRole}})
     }
 
     return (
@@ -152,7 +154,7 @@ const DataList = (props) => {
                         className="data-component-list-item"
                         key={index}
                         title={item.time}
-                        onClick={() => onClickItem(item.id, item.type, item.time, item.practRole)}>
+                        onClick={() => onClickItem(item.id, item.type, item.time)}>
                         <p>{item.title}</p>
                     </Card>
                 )}

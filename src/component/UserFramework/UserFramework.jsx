@@ -10,7 +10,6 @@ import {useEffect} from "react";
 
 const UserFramework = (props) => {
     const {status, practRole, pathname, state, params, selectors, getData, Detail} = props
-    console.log(practRole)
     const hasNoParams = Object.keys(params).length === 0
     const navigate = useNavigate();
 

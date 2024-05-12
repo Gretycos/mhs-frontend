@@ -16,7 +16,7 @@ const Ongoing = () => {
 
     const {pathname, state} = location
     const practRole = state.practRole;
-
+    console.log(state)
     const dateOptions = [
         {
             value: 0,

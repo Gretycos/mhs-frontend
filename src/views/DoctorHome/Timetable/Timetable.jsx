@@ -20,7 +20,9 @@ const Timetable = (props) => {
     const location = useLocation();
     const params = useParams()
 
-    const {pathname, state, practRole} = location
+    const {pathname, state, } = location
+    const practRole = state.practRole
+    console.log(practRole)
     const navigate = useNavigate();
 
     var events = []
@@ -78,7 +80,9 @@ const Timetable = (props) => {
             startDate:start,
             endDate: end
         }
+        console.log(practRole)
         const {data} = practRole === 0 ? await getTimetable(params) : await getTestTimetable(params)
+        console.log(data)
         var dataList = []
         data.map(item=>{
             dataList.push({
