@@ -37,6 +37,6 @@ export const insertTestAppointments = (params) =>{
     return axios.post(PREFIX + '/addTestAppoint', params)
 }
 
-export const getTestAbleAppointTime = () => {
-    return axios.get(PREFIX + '/getAbleAppointTime')
+export const getTestAbleAppointTime = (params) => {
+    return axios.get(PREFIX + '/getAbleAppointTime', {params})
 }

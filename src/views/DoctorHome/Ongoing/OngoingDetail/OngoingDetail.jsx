@@ -3,7 +3,7 @@
  * time: 16/03/2024 19:37
  */
 import "./OngoingDetail.less"
-import {Button, Card, Modal, Input, Select, Table, InputNumber, App} from 'antd';
+import {Button, Card, Modal, Input, Select, Table, InputNumber, App, DatePicker} from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import {useEffect, useState} from "react";
@@ -20,6 +20,7 @@ import {
 import {insertTestReport} from "@/service/med/testReport.js";
 import {addPrescri} from "@/service/prescription/prescription.js";
 import {getDrugs} from "@/service/prescription/drug.js";
+import dayjs from "dayjs";
 
 
 const { Meta } = Card;
@@ -188,9 +189,13 @@ const OngoingDetail = (props) => {
     const addTestAppoint = async () =>{
         const params = {
             patientId: detailData.patientId,
-            appointTime:timeSlot[0]
+            practId: testParams.doctorId,
+            doctorAppointId: id,
+            testAppointTime: `${testParams.testDate} ${testParams.testTime}`,
+            testType: testParams.testType
         }
-        const {data} = insertTestAppointments(params)
+        console.log(params)
+        // const {data} = insertTestAppointments(params)
     }
 
     const insertDiagnosis = async () =>{
@@ -289,9 +294,10 @@ const OngoingDetail = (props) => {
 
     };
 
-    const handleTestOk = () =>{
-        addTestAppoint()
-        setIsTestModalOpen(false);
+    const handleTestOk = async () =>{
+        await addTestAppoint()
+
+        // setIsTestModalOpen(false);
     }
 
     const handleDiagCancel = () => {
@@ -400,7 +406,7 @@ const OngoingDetail = (props) => {
             )
         },
     ];
-    
+
     const diagModal = () =>{
         return(
             <>
@@ -551,7 +557,62 @@ const OngoingDetail = (props) => {
         )
     }
 
+    const [testParams, setTestParams] = useState({
+        testDate: null,
+        testType: null,
+        doctorId: null,
+        testTime: null,
+    })
+
+    const onTestAppointTypeChange = (value) => {
+        // console.log(value)
+        setTestParams({
+            ...testParams,
+            testType: value,
+        })
+    }
+
+    const onTestAppointDateChange = (date) => {
+        // console.log(date)
+        setTestParams({
+            ...testParams,
+            testDate: date.format("DD-MM-YYYY"),
+        })
+    }
+
+    const onTestSlotFocus = async () => {
+        const params = {
+            testDate: testParams.testDate
+        }
+        // console.log(params)
+        const {data} = await getTestAbleAppointTime(params)
+        console.log(data)
+        const options = data.map((item,idx)=>{
+            return {
+                id: idx,
+                value: `${item.doctorId} ${item.time}`,
+                label: `${item.doctor} [${item.time}]`
+            }
+        })
+        setTestSlot(options)
+    }
+
+    const onTestSlotSelected = (value) => {
+        const values = value.split(" ")
+        setTestParams({
+            ...testParams,
+            doctorId: values[0],
+            testTime: values[1],
+        })
+        console.log(testParams)
+    }
+
     const testModal = () => {
+        const disabledDate = (current) => {
+            // Can not select days before today and today
+            return current < dayjs().startOf('day');
+        };
+
         return (
             <>
                 <Modal open={isTestModalOpen}
@@ -564,20 +625,47 @@ const OngoingDetail = (props) => {
                        footer={[
                            <div className="ongoing-detail-button-container">
                                <Button size={"large"} className="ongoing-detail-button"
-                                       onClick={handleTestOk}>Save</Button>
+                                       onClick={handleTestOk}>Submit</Button>
                            </div>
                        ]}>
-                <div className="ongoing-detail-modal-container">
+                    <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-select-container" key={1}>
                             <p className='ongoing-detail-card-content-font1'>Type</p>
-                            <Select defaultValue="--choose test type--" className="ongoing-detail-select-tools" options={testType}
-                                    size={"large"}/>
+                            <Select defaultValue="--choose test type--" className="ongoing-detail-select-tools"
+                                    options={testType}
+                                    onChange={(value) => onTestAppointTypeChange(value)}
+                                    size={"large"}
+                            />
                         </div>
                         <div className="ongoing-detail-select-container" key={2}>
-                            <p className='ongoing-detail-card-content-font1'>Test</p>
-                            <Select defaultValue="--choose test slot--" className="ongoing-detail-select-tools" options={testSlot}
-                                    size={"large"}/>
+                            <p className='ongoing-detail-card-content-font1'>Date</p>
+                            <DatePicker
+                                // defaultValue="--choose test slot--"
+                                className="ongoing-detail-select-tools"
+                                    // options={testSlot}
+                                disabledDate={disabledDate}
+                                size={"large"}
+                                onChange={(date) => onTestAppointDateChange(date)}
+                            />
                         </div>
+                        {
+                            testParams.testType !== null && testParams.testDate !== null ?
+                                (
+                                    <div className="ongoing-detail-select-container" key={3}>
+                                        <p className='ongoing-detail-card-content-font1'>Test</p>
+                                        <Select defaultValue="--choose test slot--"
+                                                className="ongoing-detail-select-tools"
+                                                options={testSlot}
+                                                size={"large"}
+                                                onFocus={onTestSlotFocus}
+                                                onSelect={onTestSlotSelected}
+                                        />
+                                    </div>
+                                )
+                                :
+                                null
+                        }
+
                     </div>
                 </Modal>
             </>
