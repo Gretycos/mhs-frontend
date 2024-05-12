@@ -83,7 +83,7 @@ const OngoingDetail = (props) => {
     const [daily, setDaily] = useState(1);
     const parseType = (first, second) => {
         let type = ""
-        if (first === "clinic"){
+        if (practRole === 0){
             type += "CLINIC - "
             switch (second) {
                 case 0: type += "FACE-TO-FACE"; break;

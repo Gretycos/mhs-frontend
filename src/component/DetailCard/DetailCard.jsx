@@ -12,6 +12,9 @@ const DetailCard = (props) => {
     console.log(detailData, prescription, result)
     const {id} = useParams()
 
+
+
+
     return (
         <div className="detail-container">
             <Card
@@ -19,7 +22,7 @@ const DetailCard = (props) => {
                 title={
                     <div className="detail-title">
                         <div className="detail-title-row detail-title-row-1">
-                            <div className="detail-title-name">{title}</div>
+                            <div className="detail-title-name">{title}({detailData.type})</div>
                         </div>
                         <div className="detail-title-row detail-title-row-2">
                             <div className="detail-title-info">
@@ -52,12 +55,18 @@ const DetailCard = (props) => {
                     </div>
                 }
             >
-                <div className="detail-content">
-                    <div className="detail-content-info">
-                        <div className="detail-content-info-tag">Description for appointment:</div>
-                        <div className="detail-content-info-val">{detailData.reason}</div>
-                    </div>
-                </div>
+                {
+                    detailData.reason ?
+                        <div className="detail-content">
+                            <div className="detail-content-info">
+                                <div className="detail-content-info-tag">Description for appointment:</div>
+                                <div className="detail-content-info-val">{detailData.reason}</div>
+                            </div>
+                        </div>
+                        :
+                        null
+                }
+
                 {
                     prescription ?
                         (
