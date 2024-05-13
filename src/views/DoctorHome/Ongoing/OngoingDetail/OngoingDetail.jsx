@@ -150,6 +150,8 @@ const OngoingDetail = (props) => {
 
         setPrescription([])
 
+        setTestAppoints(null)
+
     }, []);
 
     const getDetailData = async () => {
@@ -160,6 +162,8 @@ const OngoingDetail = (props) => {
 
         const res1 = practRole === 0 ? await getpractAppointDetails(params1) : await getTestpractAppointDetails(params1)
 
+
+        console.log(res1.data.testAppointVOs)
         setDetailData({
             time: time,
             ref: res1.data.appointmentId,
@@ -200,7 +204,7 @@ const OngoingDetail = (props) => {
             testType: testParams.testType
         }
         // console.log(params)
-        const {data} = insertTestAppointments(params)
+        const res = insertTestAppointments(params)
         message.success("submit succeed", 2)
     }
 
@@ -512,8 +516,9 @@ const OngoingDetail = (props) => {
                        ]}>
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-select-container" key={0}>
-                            <Search className="ongoing-detail-search" placeholder="input search text" onChange={e=>onSearchChange(e)}
-                                    onSearch={e=> onPrescriSearch(e)} enterButton/>
+                            <Search className="ongoing-detail-search" placeholder="input search text"
+                                    onChange={e => onSearchChange(e)}
+                                    onSearch={e => onPrescriSearch(e)} enterButton/>
                         </div>
                         <div className="ongoing-detail-list-container" key={1}>
                             <Table
@@ -541,6 +546,7 @@ const OngoingDetail = (props) => {
                                 {/*<Column title="Action" dataIndex="action" key="action"/>*/}
                             </Table>
                         </div>
+                        <div>TotalPrice: {totalPrice}</div>
                     </div>
                 </Modal>
             </>

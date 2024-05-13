@@ -10,7 +10,20 @@ import {useParams} from "react-router-dom";
 const DetailCard = (props) => {
     const {params, detailData, prescription, result, title, diagnosis, testAppoints} = props
     // console.log(detailData, prescription, result)
+
     const {id} = useParams()
+
+    const parseType = (value)=>{
+        let type = ""
+        switch (value) {
+            case 0: type += "EyeSight"; break;
+            case 1: type += "Height and Weight"; break;
+            case 2: type += "Blood Pressure"; break;
+            case 3: type += "Blood Sugar"; break;
+            case 4: type += "Audiometry"; break;
+        }
+        return type
+    }
 
     return (
         <div className="detail-container">
@@ -128,7 +141,7 @@ const DetailCard = (props) => {
                             return (
                                 <div className="detail-content" key={idx}>
                                     <div className="detail-content-info">
-                                        <div className="detail-content-info-tag">{`Test Appointment [${idx + 1}]`}</div>
+                                        <div className="detail-content-info-tag">{`Test Appointment [${idx + 1}]`} ({parseType(item.type)})</div>
                                         <div className="detail-content-info-val">{item.result}</div>
                                     </div>
                                 </div>
