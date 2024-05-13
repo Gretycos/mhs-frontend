@@ -88,7 +88,7 @@ const ForgotPsw = () => {
                     :
                     (
                         <Card bordered={false} className="forgot-card">
-                            <Meta title={`MHS ${role === "user" ? "" : "Doctor"}`} className="forgot-title"></Meta>
+                            <Meta title={`MHS ${role === "patient" ? "" : "Doctor"}`} className="forgot-title"></Meta>
                             <Form
                                 form={form}
                                 name="normal_forgot"

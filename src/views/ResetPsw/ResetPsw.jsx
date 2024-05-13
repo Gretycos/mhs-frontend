@@ -120,7 +120,7 @@ const ResetPsw = () => {
                     :
                     (
                         <Card bordered={false} className="reset-card">
-                            <Meta title={`MHS ${role==="user" ? "" : "Doctor"}`} className="reset-title"></Meta>
+                            <Meta title={`MHS ${role==="patient" ? "" : "Doctor"}`} className="reset-title"></Meta>
                             <Form
                                 form={form}
                                 name="normal_reset"
