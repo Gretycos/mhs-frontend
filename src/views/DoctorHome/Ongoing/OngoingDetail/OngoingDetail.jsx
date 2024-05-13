@@ -354,6 +354,7 @@ const OngoingDetail = (props) => {
   const handleTestOk = async () => {
     await addTestAppoint();
     setIsTestModalOpen(false);
+    navigate(0, {replace: true})
   };
 
   const handleDiagCancel = () => {
