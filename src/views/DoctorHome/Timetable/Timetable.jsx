@@ -22,7 +22,7 @@ const Timetable = (props) => {
 
     const {pathname, state, } = location
     const practRole = state.practRole
-    console.log(practRole)
+    // console.log(practRole)
     const navigate = useNavigate();
 
     var events = []
@@ -51,14 +51,14 @@ const Timetable = (props) => {
         calendarRef.current.control.update({
             startDate: args.day
         });
-        timetableInitial(moment(args.day.value).day(1).format("DD-MM-yyyy"), moment(args.day.value).day(5).format("DD-MM-yyyy"))
+        timetableInitial(moment(args.day.value).startOf('week').format("DD-MM-yyyy"), moment(args.day.value).day(6).format("DD-MM-yyyy"))
     }
 
     useEffect(() => {
         const startDate = currentDate;
         calendarRef.current.control.update({startDate, events});
 
-        timetableInitial(moment(date).day(1).format("DD-MM-yyyy"), moment(date).day(5).format("DD-MM-yyyy"))
+        timetableInitial(moment().startOf('week').format("DD-MM-yyyy"), moment(date).day(6).format("DD-MM-yyyy"))
 
 
         if (state === null){
@@ -75,14 +75,14 @@ const Timetable = (props) => {
     }, []);
 
     const timetableInitial  = async (start, end) => {
-        console.log(start, end)
+        // console.log(start, end)
         const params = {
             startDate:start,
             endDate: end
         }
-        console.log(practRole)
+        // console.log(practRole)
         const {data} = practRole === 0 ? await getTimetable(params) : await getTestTimetable(params)
-        console.log(data)
+        // console.log(data)
         var dataList = []
         data.map(item=>{
             dataList.push({

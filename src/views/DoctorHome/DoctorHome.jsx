@@ -40,7 +40,7 @@ const DoctorHome = () => {
 
     const onInitial  = async () => {
         const {data} = await getPractRole()
-        console.log(data)
+        // console.log(data)
         setPractRole(data.role)
 
     }
@@ -73,7 +73,7 @@ const DoctorHome = () => {
     }*/)
 
     const onItemClick = (idx, url) => {
-        console.log(practRole)
+        // console.log(practRole)
         navigate(url, {state:{title: menu[idx].name, practRole:practRole}})
         setIsHomepage(false)
     }

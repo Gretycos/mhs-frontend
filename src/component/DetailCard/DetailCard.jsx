@@ -9,7 +9,7 @@ import {useParams} from "react-router-dom";
 
 const DetailCard = (props) => {
     const {params, detailData, prescription, result, title, diagnosis, testAppoints} = props
-    console.log(detailData, prescription, result)
+    // console.log(detailData, prescription, result)
     const {id} = useParams()
 
     return (

@@ -32,7 +32,7 @@ const OngoingDetail = (props) => {
     const navigate = useNavigate();
     const {params, state, practRole} = props
     const time = state.time
-    console.log(state);
+    // console.log(state);
     const {id} = useParams()
     const title = practRole === 0 ? "Doctor Appointment Record" : "Test Appointment Record"
 
@@ -181,13 +181,14 @@ const OngoingDetail = (props) => {
         setDiagnosis(res1.data.diagnosis)
         // console.log(res1.data)
         setTestAppoints(res1.data.testAppointVOs)
+        setTotalPrice(0)
     }
 
     const getTestSlot = async () =>{
 
         const {data} = getTestAbleAppointTime()
 
-        console.log(data)
+        // console.log(data)
     }
 
     const addTestAppoint = async () =>{
@@ -198,7 +199,7 @@ const OngoingDetail = (props) => {
             testAppointTime: `${testParams.testDate} ${testParams.testTime}`,
             testType: testParams.testType
         }
-        console.log(params)
+        // console.log(params)
         const {data} = insertTestAppointments(params)
         message.success("submit succeed", 2)
     }
@@ -215,7 +216,7 @@ const OngoingDetail = (props) => {
             totalItemPrice: totalPrice,
             prescriDrugList: prescription,
         }
-        console.log(params, prescription.length, diagnosis)
+        // console.log(params, prescription.length, diagnosis)
         practRole === 0 ? (prescription.length === 0 ? await updateMedHistory(params): await addPrescri(params)):await insertTestReport(params);
         message.success("succeed", 2)
         setTimeout(() => {
@@ -228,16 +229,24 @@ const OngoingDetail = (props) => {
     const addPrescriptionList = () => {
         let data = prescription;
         let total = totalPrice
+        // console.log(total)
+
         if(data.find(result => {return result.bnfCode === drug.bnfCode})){
-            total = total - result.price + drug.price * item
+
             data.map(result => {
-                if (result.index === drug.index) {
+                // console.log(result, drug.price * item, drug)
+                if (result.bnfCode === drug.bnfCode) {
+                    // console.log(total, result.totalItemPrice, drug.price * item, item)
+                    total = total - result.totalItemPrice + drug.price * item
+                    // console.log(total)
                     result.item = item;
-                    result.daily = daily;
+                    result.adqusage = daily;
                     result.totalQuantity = drug.quantity * item;
-                    result.price = drug.price * item;
+                    result.totalItemPrice = drug.price * item;
+
                 }
             })
+
         }
         else{
             total = total + drug.price * item
@@ -248,11 +257,11 @@ const OngoingDetail = (props) => {
                 totalItemPrice: drug.price * item,
                 item: item,
                 adqusage: daily,
-                action: <button onClick={()=>removeData(drug.bnfCode)}>remove</button>
+                // action: <button onClick={()=>removeData(drug.bnfCode)}>remove</button>
             })
         }
 
-
+        // console.log(total)
         setPrescription([...data])
         setTotalPrice(total)
     }
@@ -265,8 +274,8 @@ const OngoingDetail = (props) => {
     };
 
     const showDrugModal = (record) => {
-        console.log(record)
-        console.log(drugList)
+        // console.log(record)
+        // console.log(drugList)
         // console.log(e.target.getAttribute("key"))
         // console.log(idx)
         // console.log(drugList)
@@ -281,7 +290,7 @@ const OngoingDetail = (props) => {
 
 
     const handleDiagOk = async () => {
-        console.log(diagnosis)
+        // console.log(diagnosis)
         await insertDiagnosis();
         setIsDiagModalOpen(false);
     };
@@ -341,8 +350,7 @@ const OngoingDetail = (props) => {
             keyword:keyword
         }
         const {data} = await getDrugs(params)
-        console.log(prescription)
-        //console.log(data)
+        // console.log(prescription)
         // let drugs = []
         // var indx = 1;
         // console.log(indx)
@@ -356,7 +364,7 @@ const OngoingDetail = (props) => {
         //         action: <Button key={idx} onClick={() => showDrugModal(idx)}>select</Button>
         //     }
         // })
-        //console.log(data)
+        // console.log(data)
         // data.forEach(d => {
         //     drugs.push({
         //         index:indx,
@@ -372,10 +380,16 @@ const OngoingDetail = (props) => {
         setDrugList(data)
     }
 
-    const removeData = (bnfCode) => {
-        console.log(bnfCode)
-        let data = prescription.filter(item => item.bnfCode!== bnfCode);
+    const removeData = (record) => {
+        // console.log(record, prescription, totalPrice)
+        const total = totalPrice - record.totalItemPrice;
+        const data = prescription.filter(item => item.bnfCode!== record.bnfCode);
+        //prescription.filter(item => item.bnfCode===bnfCode).price;
+        //let data = prescription.filter(item => item.bnfCode!== bnfCode);
+        // console.log(data, total, prescription)
+
         setPrescription([...data]);
+        setTotalPrice(total)
     }
 
     const drugColumns = [
@@ -438,48 +452,48 @@ const OngoingDetail = (props) => {
 
 
 
-    // const prescriColumns = [
-    //     {
-    //         title: "BNF_Code",
-    //         dataIndex: "bnfCode",
-    //         key: "BNF_code",
-    //     },
-    //     {
-    //         title: "BNF_Name",
-    //         dataIndex: "bnfName",
-    //         key: "BNF_name",
-    //     },
-    //     {
-    //         title: "TotalQuantity",
-    //         dataIndex: "totalQuantity",
-    //         key: "totalQuantity",
-    //     },
-    //     {
-    //         title: "Price",
-    //         dataIndex: "price",
-    //         key: "price",
-    //     },
-    //     {
-    //         title: "Item",
-    //         dataIndex: "item",
-    //         key: "item",
-    //     },
-    //     {
-    //         title: "Daily",
-    //         dataIndex: "daily",
-    //         key: "daily",
-    //     },
-    //     {
-    //         title: "Action",
-    //         key: "action",
-    //         render: (test, record) => (
-    //             <Button
-    //                 onClick={() => showDrugModal(record)}>
-    //                 select
-    //             </Button>
-    //         )
-    //     },
-    // ];
+    const prescriColumns = [
+        {
+            title: "BNF_Code",
+            dataIndex: "bnfCode",
+            key: "BNF_code",
+        },
+        {
+            title: "BNF_Name",
+            dataIndex: "bnfName",
+            key: "BNF_name",
+        },
+        {
+            title: "TotalQuantity",
+            dataIndex: "totalQuantity",
+            key: "totalQuantity",
+        },
+        {
+            title: "Price",
+            dataIndex: "totalItemPrice",
+            key: "totalItemPrice",
+        },
+        {
+            title: "Item",
+            dataIndex: "item",
+            key: "item",
+        },
+        {
+            title: "Daily Dose",
+            dataIndex: "adqusage",
+            key: "adqusage",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (test, record) => (
+                <Button
+                    onClick={() => removeData(record)}>
+                    remove
+                </Button>
+            )
+        },
+    ];
 
     const prescriModal = () =>{
         return(
@@ -514,14 +528,17 @@ const OngoingDetail = (props) => {
                             </Table>
                         </div>
                         <div className="ongoing-detail-list-container" key={2}>
-                            <Table dataSource={prescription} className="ongoing-table-style">
-                                <Column title="BNF_Code" dataIndex="bnfCode" key="BNF_code"/>
-                                <Column title="BNF_Name" dataIndex="bnfName" key="BNF_name"/>
-                                <Column title="TotalQuantity" dataIndex="totalQuantity" key="totalQuantity"/>
-                                <Column title="Price" dataIndex="totalPrice" key="totalPrice"/>
-                                <Column title="Item" dataIndex="item" key="item"/>
-                                <Column title="Daily" dataIndex="adequasge" key="adequasge"/>
-                                <Column title="Action" dataIndex="action" key="action"/>
+                            <Table
+                                columns={prescriColumns}
+                                dataSource={prescription}
+                                className="ongoing-table-style">
+                                {/*<Column title="BNF_Code" dataIndex="bnfCode" key="BNF_code"/>*/}
+                                {/*<Column title="BNF_Name" dataIndex="bnfName" key="BNF_name"/>*/}
+                                {/*<Column title="TotalQuantity" dataIndex="totalQuantity" key="totalQuantity"/>*/}
+                                {/*<Column title="Price" dataIndex="totalItemPrice" key="totalItemPrice"/>*/}
+                                {/*<Column title="Item" dataIndex="item" key="item"/>*/}
+                                {/*<Column title="Daily" dataIndex="adqusage" key="adqusage"/>*/}
+                                {/*<Column title="Action" dataIndex="action" key="action"/>*/}
                             </Table>
                         </div>
                     </div>
@@ -548,11 +565,11 @@ const OngoingDetail = (props) => {
                        ]}>
                     <div className="ongoing-detail-modal-container">
                         <div className="ongoing-detail-select-container" key={1}>
-                            <p className='ongoing-detail-card-content-font1'>Item</p>
+                            <p className='ongoing-detail-card-content-font1'>Drug Items</p>
                             <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={item} value={item} changeOnWheel onChange={handleItemChange}/>
                         </div>
                         <div className="ongoing-detail-select-container" key={2}>
-                            <p className='ongoing-detail-card-content-font1'>Daily usage</p>
+                            <p className='ongoing-detail-card-content-font1'>Daily Dose</p>
                             <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={daily} value={daily} changeOnWheel onChange={handleDailyChange}/>
                         </div>
                     </div>
@@ -590,7 +607,7 @@ const OngoingDetail = (props) => {
         }
         // console.log(params)
         const {data} = await getTestAbleAppointTime(params)
-        console.log(data)
+        // console.log(data)
         const options = data.map((item,idx)=>{
             return {
                 id: idx,
@@ -608,7 +625,7 @@ const OngoingDetail = (props) => {
             doctorId: values[0],
             testTime: values[1],
         })
-        console.log(testParams)
+        // console.log(testParams)
     }
 
     const testModal = () => {

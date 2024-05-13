@@ -16,7 +16,7 @@ const Ongoing = () => {
 
     const {pathname, state} = location
     const practRole = state.practRole;
-    console.log(state)
+    // console.log(state)
     const dateOptions = [
         {
             value: 0,
@@ -45,7 +45,7 @@ const Ongoing = () => {
     ]
 
     const getData = async (params) => {
-        console.log("sending request:", params)
+        // console.log("sending request:", params)
         const {data} = practRole === 0?await getUncompletedAppointments(params) :await getTestUncompletedAppointments(params)
 
         return data

@@ -46,7 +46,7 @@ const Pending = (props) => {
     ]
 
     const getData = async (params) => {
-        console.log("sending request:", params)
+        // console.log("sending request:", params)
         const {data} = await getUncompletedAppointments(params)
 
         return data

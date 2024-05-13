@@ -117,8 +117,8 @@ const PendingDetail = (props) => {
         const params2 = {
             appointTime: time
         }
-        console.log(params1)
-        console.log(params2)
+        // console.log(params1)
+        // console.log(params2)
         const res1 = await getpractAppointDetail(params1)
         const res2 = await getPractitionerList(params2)
 
@@ -137,7 +137,7 @@ const PendingDetail = (props) => {
 
         var alterList = [];
         var key = 0;
-        console.log(res2.data)
+        // console.log(res2.data)
         res2.data.forEach(d => {
             alterList.push({
                 value: key,
@@ -163,7 +163,7 @@ const PendingDetail = (props) => {
             practId: alter,
             practName: alterName,
         }
-        console.log(params)
+        // console.log(params)
         updateStatus(params)
         message.success("succeed", 2)
         setTimeout(() => {
@@ -174,7 +174,7 @@ const PendingDetail = (props) => {
     }
 
     const onOptionChange =  (value) => {
-        console.log(`option change: ${value}`)
+        // console.log(`option change: ${value}`)
         setAlter(alternatives[value].practId)
         setAlterName(alternatives[value].label)
     }
