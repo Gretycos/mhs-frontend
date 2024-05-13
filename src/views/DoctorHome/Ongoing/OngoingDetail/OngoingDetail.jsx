@@ -353,8 +353,10 @@ const OngoingDetail = (props) => {
 
   const handleTestOk = async () => {
     await addTestAppoint();
-    setIsTestModalOpen(false);
-    navigate(0, {replace: true})
+    setTimeout(() => {
+      setIsTestModalOpen(false);
+      navigate(0, {replace: true})
+    }, 2000)
   };
 
   const handleDiagCancel = () => {
@@ -561,7 +563,7 @@ const OngoingDetail = (props) => {
                 className="ongoing-detail-button"
                 onClick={handlePrescriOk}
               >
-                Submit
+                Save
               </Button>
             </div>,
           ]}
