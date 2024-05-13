@@ -423,7 +423,7 @@ const OngoingDetail = (props) => {
                        }
                        footer={[
                            <div className="ongoing-detail-button-container">
-                               <Button size={"large"} className="ongoing-detail-button" onClick={handleDiagOk}>Save</Button>
+                               <Button size={"large"} className="ongoing-detail-button" onClick={handleDiagOk}>Submit</Button>
                            </div>
                        ]}>
                     <div className="ongoing-detail-modal-container">
@@ -493,7 +493,7 @@ const OngoingDetail = (props) => {
                        }
                        footer={[
                            <div className="ongoing-detail-button-container">
-                               <Button size={"large"} className="ongoing-detail-button" onClick={handlePrescriOk}>Save</Button>
+                               <Button size={"large"} className="ongoing-detail-button" onClick={handlePrescriOk}>Submit</Button>
                            </div>
                        ]}>
                     <div className="ongoing-detail-modal-container">
@@ -543,7 +543,7 @@ const OngoingDetail = (props) => {
                        }
                        footer={[
                            <div className="ongoing-detail-button-container">
-                               <Button size={"large"} className="ongoing-detail-button" onClick={handleDrugOk}>Save</Button>
+                               <Button size={"large"} className="ongoing-detail-button" onClick={handleDrugOk}>Confirm</Button>
                            </div>
                        ]}>
                     <div className="ongoing-detail-modal-container">
@@ -552,7 +552,7 @@ const OngoingDetail = (props) => {
                             <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={item} value={item} changeOnWheel onChange={handleItemChange}/>
                         </div>
                         <div className="ongoing-detail-select-container" key={2}>
-                            <p className='ongoing-detail-card-content-font1'>Daily</p>
+                            <p className='ongoing-detail-card-content-font1'>Daily usage</p>
                             <InputNumber className="ongoing-detail-select-tools" min={1} max={99} defaultValue={daily} value={daily} changeOnWheel onChange={handleDailyChange}/>
                         </div>
                     </div>
