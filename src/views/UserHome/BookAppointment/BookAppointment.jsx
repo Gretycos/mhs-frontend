@@ -155,7 +155,10 @@ const BookAppointment = () => {
       date: values.date.format("DD-MM-YYYY"),
     }
     const {data} = await getAbleAppointTime(params)
-    console.log(data)
+    data.sort((a, b) => {
+      return dayjs(a.time, "HH:mm").isAfter(dayjs(b.time, "HH:mm")) ? 1 : -1
+    })
+    // let datalist = data.sort()
     setAvailableTimeList(data)
     setSearchRes(true);
   };
