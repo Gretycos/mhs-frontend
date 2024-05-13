@@ -614,6 +614,9 @@ const OngoingDetail = (props) => {
         }
         // console.log(params)
         const {data} = await getTestAbleAppointTime(params)
+        data.sort((a, b) => {
+            return dayjs(a.time, "HH:mm").isAfter(dayjs(b.time, "HH:mm")) ? 1 : -1
+        })
         // console.log(data)
         const options = data.map((item,idx)=>{
             return {
