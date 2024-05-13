@@ -160,12 +160,18 @@ const Register = () => {
             dateOfBirth: values.dateOfBirth.format("YYYY-MM-DD"),
             password: md5(values.password)
         }
-        console.log(params)
-        const {data} = await register(params)
-        message.success('Successfully sending register request', 2)
-        // 回主页
-        navigate('/', {replace: true})
-        setLoading(false)
+        // console.log(params)
+        try{
+            await register(params)
+            message.success('Successfully sending register request', 2)
+            // 回主页
+            navigate('/', {replace: true})
+        }catch (e) {
+
+        }finally {
+            setLoading(false)
+        }
+
     }
 
     // 勾选同意条款
@@ -254,7 +260,7 @@ const Register = () => {
                             lg: 32,
                         }}
                     >
-                        <Col span={8}>
+                        <Col span={10}>
                             <Form.Item
                                 className="register-form-item"
                                 name="sex"
@@ -269,7 +275,7 @@ const Register = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={16}>
+                        <Col span={14}>
                             <Form.Item
                                 className="register-form-item"
                                 name="dateOfBirth"
