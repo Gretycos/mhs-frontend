@@ -184,6 +184,7 @@ const OngoingDetail = (props) => {
 
         setDiagnosis(res1.data.diagnosis)
         // console.log(res1.data)
+        console.log(res1.data)
         setTestAppoints(res1.data.testAppointVOs)
         setTotalPrice(0)
     }
