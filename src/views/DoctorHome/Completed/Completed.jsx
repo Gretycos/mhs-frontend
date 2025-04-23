@@ -14,7 +14,9 @@ const Completed = () => {
     const location = useLocation();
     const params = useParams()
 
-    const {pathname, state, practRole} = location
+    const {pathname, state} = location
+
+    const practRole = state.practRole;
 
     const selectors = [
         {
