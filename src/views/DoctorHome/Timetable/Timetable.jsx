@@ -74,6 +74,16 @@ const Timetable = (props) => {
         calendarRef.current.control.update({startDate, events});
     }, []);
 
+    const timeYYYYMMDD = (dateTime) => {
+        const datetimeList = dateTime.split(' ')
+        const date = datetimeList[0].split('-')
+        const time = datetimeList[1] + ":00"
+        const year = date[2]
+        const mon = date[1]
+        const day = date[0]
+        return `${year}-${mon}-${day}T${time}`
+    }
+
     const timetableInitial  = async (start, end) => {
         // console.log(start, end)
         const params = {
@@ -88,8 +98,8 @@ const Timetable = (props) => {
             dataList.push({
                 id: id,
                 text:item.text,
-                start: item.startTime,
-                end: item.endTime,
+                start: timeYYYYMMDD(item.startTime), // 需要YYYY-MM-DDTHH:mm:ss 格式
+                end: timeYYYYMMDD(item.endTime), // 需要YYYY-MM-DDTHH:mm:ss 格式
                 backColor: item.color,
                 clickDisabled: true,
                 resizeDisabled: true,

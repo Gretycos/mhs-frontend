@@ -37,7 +37,7 @@ const DataList = (props) => {
     const [options, setOptions] = useState(optionsIni)
 
     useEffect(() => {
-        console.log("on mounted")
+        // console.log("on mounted")
         const params = {
             ...options,
             page: dataState.currPage,
@@ -45,7 +45,7 @@ const DataList = (props) => {
             status: status
         }
         getListData(params)
-        console.log(dataState.dataList)
+        // console.log(dataState.dataList)
     }, []);
 
     const getListData = async (params) => {
@@ -61,7 +61,7 @@ const DataList = (props) => {
     const onPageChange = async (page, pageSize) => {
         page = page === dataState.currPage ? 1 : page // page相同相当于改了pageSize, 需要返回第一页
 
-        console.log(`page change: ${page}, ${pageSize}`)
+        // console.log(`page change: ${page}, ${pageSize}`)
         const params = {
             ...options,
             page: page,
@@ -80,7 +80,7 @@ const DataList = (props) => {
     }
 
     const onOptionChange = async (value, key) => {
-        console.log(`option change: ${key}: ${value}`)
+        // console.log(`option change: ${key}: ${value}`)
         setOptions({
             ...options,
             [key]: value,
@@ -93,7 +93,7 @@ const DataList = (props) => {
             status: status
         }
         const data = await getData(params)
-        console.log(data)
+        // console.log(data)
         setDataState({
             ...dataState,
             currPage: 1,
@@ -103,7 +103,7 @@ const DataList = (props) => {
     }
 
     const onDateOptionChange = async (value, key) => {
-        console.log(`option change: ${key}`)
+        // console.log(`option change: ${key}`)
         setOptions({
             ...options,
             startDate: key[0],
@@ -118,7 +118,7 @@ const DataList = (props) => {
             status: status
         }
         const data = await getData(params)
-        console.log(data)
+        // console.log(data)
         setDataState({
             ...dataState,
             currPage: 1,
@@ -132,8 +132,21 @@ const DataList = (props) => {
     })
 
     const onClickItem = (id, type, time) => {
-        console.log(`${path}/${id}`)
+        // console.log(`${path}/${id}`)
         navigate(`${path}/${id}`, {state: {...state, type: type, time: time, practRole:practRole}})
+    }
+
+    const parseStatus = (status) => {
+        let s
+        switch (status){
+            case 0: s = "Unfulfilled"; break;
+            case 1: s = "Accepted"; break;
+            case 2: s = "Transferred"; break;
+            case 3: s = "Rejected"; break;
+            case 4: s = "Completed"; break;
+            default: s = "Unfulfilled"; break;
+        }
+        return s
     }
 
     return (
@@ -153,7 +166,7 @@ const DataList = (props) => {
                     <Card
                         className="data-component-list-item"
                         key={index}
-                        title={item.time}
+                        title={item.status != null ? (item.time + `【${parseStatus(item.status)}】`) : item.time}
                         onClick={() => onClickItem(item.id, item.type, item.time)}>
                         <p>{item.title}</p>
                     </Card>

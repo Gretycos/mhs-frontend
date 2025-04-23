@@ -256,15 +256,15 @@ const OngoingDetail = (props) => {
       result: diagnosis,
       diagnosis: diagnosis,
       medHistoryId: detailData.medHistoryId,
-      totalItemPrice: totalPrice,
+      totalPrice: totalPrice,
       prescriDrugList: prescription,
     };
     // console.log(params, prescription.length, diagnosis)
-    practRole === 0
-      ? prescription.length === 0
+    practRole === 0 // 是医生
+      ? prescription.length === 0 // 没开处方
         ? await updateMedHistory(params)
-        : await addPrescri(params)
-      : await insertTestReport(params);
+        : await addPrescri(params) // 开了处方
+      : await insertTestReport(params); // 是查体的
     message.success("succeed", 2);
     setTimeout(() => {
       // 等两秒才刷新出来

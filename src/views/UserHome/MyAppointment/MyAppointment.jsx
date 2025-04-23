@@ -67,7 +67,7 @@ const MyAppointment = () => {
     ]
 
     const getData = async (params) => {
-        console.log("sending request:", params)
+        // console.log("sending request:", params)
         const {data} = await getMyAppointments(params)
 
         return data
@@ -124,18 +124,18 @@ const MyAppointmentDetail = (props) => {
     const parseStatus = (status) => {
         let s
         switch (status){
-            case 0: s = "unfulfilled"; break;
-            case 1: s = "accepted"; break;
-            case 2: s = "transferred"; break;
-            case 3: s = "rejected"; break;
-            case 4: s = "completed"; break;
-            default: s = "unfulfilled"; break;
+            case 0: s = "Unfulfilled"; break;
+            case 1: s = "Accepted"; break;
+            case 2: s = "Transferred"; break;
+            case 3: s = "Rejected"; break;
+            case 4: s = "Completed"; break;
+            default: s = "Unfulfilled"; break;
         }
         return s
     }
 
     useEffect( () => {
-        console.log("onMounted", id, state.type)
+        // console.log("onMounted", id, state.type)
         // 用id去查数据
         getDetailData()
 
