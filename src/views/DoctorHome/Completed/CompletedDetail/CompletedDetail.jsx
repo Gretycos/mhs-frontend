@@ -63,12 +63,12 @@ const CompletedDetail = (props) => {
     const parseStatus = (status) => {
         let s
         switch (status){
-            case 0: s = "unfulfilled"; break;
-            case 1: s = "accepted"; break;
-            case 2: s = "transferred"; break;
-            case 3: s = "rejected"; break;
-            case 4: s = "completed"; break;
-            default: s = "unfulfilled"; break;
+            case 0: s = "Unfulfilled"; break;
+            case 1: s = "Accepted"; break;
+            case 2: s = "Transferred"; break;
+            case 3: s = "Rejected"; break;
+            case 4: s = "Completed"; break;
+            default: s = "Unfulfilled"; break;
         }
         return s
     }
@@ -90,7 +90,7 @@ const CompletedDetail = (props) => {
         }
 
 
-        console.log(params2)
+        // console.log(params2)
         const res1 = practRole === 0 ? await getpractAppointDetail(params1) : await getTestpractAppointDetail(params1)
 
         setDetailData({

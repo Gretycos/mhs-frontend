@@ -25,7 +25,7 @@ const Completed = () => {
     ]
 
     const getData = async (params) => {
-        console.log("sending request:", params)
+        // console.log("sending request:", params)
         const {data} = practRole === 0?await getCompletedAppointments(params) :await getTestCompletedAppointments(params)
 
         return data
